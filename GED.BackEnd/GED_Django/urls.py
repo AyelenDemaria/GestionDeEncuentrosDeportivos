@@ -20,4 +20,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls')),
     path('deportes/', include('deportes.urls')),
+    path('canchas/', include('canchas.urls')),
+    path('tipos_partidos/', include('tipos_partidos.urls')),
+    path('vouchers/', include('vouchers.urls')),
+    path('partidos/', include('partidos.urls')),
+    path('usuarios/', include('usuarios.urls')),
 ]

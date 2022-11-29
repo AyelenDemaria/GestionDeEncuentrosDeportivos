@@ -39,6 +39,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'deportes.apps.DeportesConfig',
+    'canchas.apps.CanchasConfig',
+    'tipos_partidos.apps.TiposPartidosConfig',
+    'usuarios.apps.UsuariosConfig',
+    'vouchers.apps.VouchersConfig',
+    'partidos.apps.PartidosConfig',
+    'inscripciones.apps.InscripcionesConfig',
+
 ]
 
 MIDDLEWARE = [
