@@ -1,0 +1,67 @@
+<ion-content>
+  <form [formGroup]="form" (ngSubmit)="login()">
+    <ion-slide class="back">
+      <div class="container-login">
+        <ion-grid>
+          <ion-row>
+            <ion-col class="ion-text-start" >
+              <h1>Login</h1>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <ion-list>
+                <ion-item>                
+                <ion-input name="user" type="text" formControlName="email" required placeholder="Ingrese email">
+                </ion-input>
+                </ion-item>
+                <div class="alert alert-danger" *ngIf="email.invalid && (email.dirty || email.touched)">
+                  <div class="container-error-message" *ngIf="email.errors.required">
+                    Este campo es obligatorio.
+                  </div>
+                  <div class="container-error-message" *ngIf="(email.dirty || email.touched) && email.invalid
+                   && email.errors.pattern">
+                    El email debe tener una dirección válida.
+                  </div>
+                </div>
+                <br />
+                <ion-item>
+                  <ion-input name="password" type="password" formControlName="psw" required placeholder="Ingrese contraseña">
+                  </ion-input>
+                </ion-item>
+                <div class="alert alert-danger" *ngIf="psw.invalid && (psw.dirty || psw.touched)">
+                  <div class="container-error-message" *ngIf="psw.errors.required">
+                    Este campo es obligatorio.
+                  </div>
+                </div>
+              </ion-list>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <ion-button type="submit" class="boton" color="success" expand="full" [disabled]="!form.valid" >
+                Entrar
+              </ion-button>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <ion-button class="boton" color="success" expand="full" [routerLink]="['/register']">
+                Registrarse
+              </ion-button>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <ion-label>
+                <a>
+                  <h3 class="link">¿Olvidaste tu contraseña?</h3>
+                </a>
+              </ion-label>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </div>
+    </ion-slide>
+  </form>
+</ion-content>
