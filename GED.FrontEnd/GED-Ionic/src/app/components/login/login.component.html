@@ -1,13 +1,15 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="light">
+    <ion-title class="text-center">
+      Login
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
 <ion-content>
   <form [formGroup]="form" (ngSubmit)="login()">
     <ion-slide class="back">
       <div class="container-login">
-        <ion-grid>
-          <ion-row>
-            <ion-col class="ion-text-start" >
-              <h1>Login</h1>
-            </ion-col>
-          </ion-row>
+        <ion-grid>     
           <ion-row>
             <ion-col>
               <ion-list>
@@ -65,3 +67,5 @@
     </ion-slide>
   </form>
 </ion-content>
+
+

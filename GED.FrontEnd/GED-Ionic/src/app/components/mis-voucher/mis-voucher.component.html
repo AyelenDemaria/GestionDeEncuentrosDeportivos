@@ -1,57 +1,70 @@
-<ion-header [translucent]="true">
-  <ion-toolbar class="color">
-    <ion-title class="text-center">
-      HOME
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
+<!-- HEADER Y MENU -->
+
+<ion-menu contentId="main-content">
+  <ion-header>
+    <ion-toolbar color="success">
+      <ion-title style="font-weight: 500; font-size: large;">MENU</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-list>
+      <ion-item [routerLink]="['/nuevoPartido']"> Nuevo Partido </ion-item>
+      <ion-item [routerLink]=""> Unirme a un partido </ion-item>
+      <ion-item [routerLink]="['/register']"> Mis partidos </ion-item>              
+      <ion-item [routerLink]=""> Invitaciones </ion-item>
+      <ion-item [routerLink]=""> Canjear puntos </ion-item>
+      <ion-item [routerLink]="['/misVoucher']"> Mis voucher </ion-item>  
+    </ion-list>
+  </ion-content>
+</ion-menu>
+
+
+<div class="ion-page" id="main-content">
+  <ion-header [translucent]="true">
+    <ion-toolbar color="light">
+      <ion-buttons slot="end">
+        <ion-menu-button></ion-menu-button>          
+      </ion-buttons>
+      <ion-buttons slot="start" style= "margin-left: 1rem;  font-size: x-large;" [routerLink]="['/home']">
+        <ion-icon name="home-outline"></ion-icon>
+      </ion-buttons>        
+      <ion-title>Mis voucher</ion-title>
+    </ion-toolbar>
+  </ion-header>
 
 <ion-content [fullscreen]="true" class="text-center">
-  <h2 class="text">¿A dónde querés viajar?</h2>
-  <div>
-    <ion-searchbar placeholder="Ingresar destino o fecha del viaje" 
-    ></ion-searchbar>
-  </div>
-  <h5 class="text">PRÓXIMOS VIAJES</h5>
   
   <ion-refresher slot="fixed" >
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
   <div class="content boton">
-    <!-- <div *ngFor="let travel of AllTravels"> -->
+    <div *ngFor="let voucher of vouchers">
       <ion-card class="col-md-6">
         <ion-card-content>
           <ion-list style="margin: 5% 0%">
-            <ion-item>
-              <ion-icon name="airplane-outline" class="icon"></ion-icon>
-              <!-- <ion-text>{{travel.destino}}</ion-text> -->
+            <ion-item>              
+              <ion-text>{{voucher.nombre}}</ion-text>
             </ion-item>
-            <ion-item>
-              <ion-icon name="calendar-outline" class="icon"></ion-icon>
-              <!-- <ion-text>{{travel.fecha}}</ion-text> -->
+            <ion-item>              
+              <ion-text>{{voucher.direccion}}</ion-text>
             </ion-item>
-            <ion-item>
-              <ion-icon name="star-outline" class="icon"></ion-icon>
-              <!-- <ion-text>{{travel.motivo}}</ion-text> -->
+            <ion-item>              
+              <ion-text>{{voucher.deporte}}</ion-text>
             </ion-item>
-            <ion-item>
-              <ion-icon name="person-outline" class="icon"></ion-icon>
-              <!-- <ion-text>{{travel.nombre}}</ion-text> -->
+            <ion-item>              
+              <ion-text>{{voucher.fechaEmision}}</ion-text>
+            </ion-item>
+            <ion-item>              
+              <ion-text>{{voucher.fechaVenc}}</ion-text>
             </ion-item>
           </ion-list>
-          <ion-button expand="block" [routerLink]="['/tabs/chat-list']"><strong>ABRIR CHAT</strong></ion-button>
-        </ion-card-content>
+      </ion-card-content>
       </ion-card>
-      <br>
-      <!-- <div *ngIf="empty">
-      <h1>No hay viajes cargados aún</h1>
+      <!-- <br>
+      <div *ngIf="empty">
+      <h1>No hay vouchers</h1>
       </div> -->
     </div>
-    <ion-fab horizontal="center">
-      <ion-fab-button >
-        <ion-icon name="add-outline" size="large"></ion-icon>
-      </ion-fab-button>
-    </ion-fab>
 
-</ion-content>
+

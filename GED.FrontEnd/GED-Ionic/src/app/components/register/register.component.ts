@@ -9,9 +9,9 @@ import { Router} from '@angular/router';
 })
 export class RegisterComponent implements OnInit {
   private emailPattern: any = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  private router: Router
-
-  constructor(private fb: FormBuilder) { }  
+  
+  constructor(private fb: FormBuilder, 
+              private router: Router) { }  
 
   public form: FormGroup = this.fb.group({
     nombre: ['', Validators.required],
