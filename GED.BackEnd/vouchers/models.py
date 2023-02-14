@@ -5,7 +5,7 @@ from usuarios.models import Perfil
 
 # Create your models here.
 class Voucher(models.Model):
-    fecha_canje = models.DateField(null=False)
+    fecha_canje = models.DateField(null=True)
     fecha_emision = models.DateField(null=False)
     fecha_vencimiento = models.DateField(null=False)
     jugador = models.ForeignKey(Perfil, on_delete=models.CASCADE)

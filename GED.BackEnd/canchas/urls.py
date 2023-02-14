@@ -5,6 +5,6 @@ from .views import (
 )
 
 urlpatterns = [
-    path('api', CanchaListApiView.as_view()),
+    path('api/', CanchaListApiView.as_view()),
 
 ]
