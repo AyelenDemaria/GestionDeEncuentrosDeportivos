@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router} from '@angular/router';
+import { CanchaService} from 'src/app/services/cancha.service';
 
 @Component({
   selector: 'app-register',
@@ -11,7 +12,8 @@ export class RegisterComponent implements OnInit {
   private emailPattern: any = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   
   constructor(private fb: FormBuilder, 
-              private router: Router) { }  
+              private router: Router,
+              private canchaService: CanchaService) { }  
 
   public form: FormGroup = this.fb.group({
     nombre: ['', Validators.required],
@@ -26,7 +28,13 @@ export class RegisterComponent implements OnInit {
   })
  
  
-  ngOnInit() {}
+  ngOnInit() { 
+    this.getListadoCanchas();
+  }
+
+  getListadoCanchas(){
+    this.canchaService.getCanchas().subscribe(res=>console.log(res))
+  }
 
   cancel() {
     this.router.navigateByUrl('login')
@@ -59,4 +67,5 @@ export class RegisterComponent implements OnInit {
   get dni() {
     return this.form.get('dni');
   }
+
 }

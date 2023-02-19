@@ -10,10 +10,10 @@
     <ion-list>
       <ion-item [routerLink]="['/nuevoPartido']"> Nuevo Partido </ion-item>
       <ion-item [routerLink]=""> Unirme a un partido </ion-item>
-      <ion-item [routerLink]="['/register']"> Mis partidos </ion-item>              
+      <ion-item [routerLink]="['/register']"> Mis partidos </ion-item>
       <ion-item [routerLink]=""> Invitaciones </ion-item>
       <ion-item [routerLink]=""> Canjear puntos </ion-item>
-      <ion-item [routerLink]="['/misVoucher']"> Mis voucher </ion-item>  
+      <ion-item [routerLink]="['/misVoucher']"> Mis voucher </ion-item>
     </ion-list>
   </ion-content>
 </ion-menu>
@@ -23,48 +23,39 @@
   <ion-header [translucent]="true">
     <ion-toolbar color="light">
       <ion-buttons slot="end">
-        <ion-menu-button></ion-menu-button>          
+        <ion-menu-button></ion-menu-button>
       </ion-buttons>
-      <ion-buttons slot="start" style= "margin-left: 1rem;  font-size: x-large;" [routerLink]="['/home']">
+      <ion-buttons slot="start" style="margin-left: 1rem;  font-size: x-large;" [routerLink]="['/home']">
         <ion-icon name="home-outline"></ion-icon>
-      </ion-buttons>        
+      </ion-buttons>
       <ion-title>Mis voucher</ion-title>
     </ion-toolbar>
   </ion-header>
 
-<ion-content [fullscreen]="true" class="text-center">
-  
-  <ion-refresher slot="fixed" >
-    <ion-refresher-content></ion-refresher-content>
-  </ion-refresher>
+  <ion-content [fullscreen]="true" class="text-center">
 
-  <div class="content boton">
-    <div *ngFor="let voucher of vouchers">
-      <ion-card class="col-md-6">
-        <ion-card-content>
-          <ion-list style="margin: 5% 0%">
-            <ion-item>              
-              <ion-text>{{voucher.nombre}}</ion-text>
-            </ion-item>
-            <ion-item>              
-              <ion-text>{{voucher.direccion}}</ion-text>
-            </ion-item>
-            <ion-item>              
-              <ion-text>{{voucher.deporte}}</ion-text>
-            </ion-item>
-            <ion-item>              
-              <ion-text>{{voucher.fechaEmision}}</ion-text>
-            </ion-item>
-            <ion-item>              
-              <ion-text>{{voucher.fechaVenc}}</ion-text>
-            </ion-item>
-          </ion-list>
-      </ion-card-content>
-      </ion-card>
-      <!-- <br>
-      <div *ngIf="empty">
-      <h1>No hay vouchers</h1>
-      </div> -->
-    </div>
+    <div class="content boton">
+      <div *ngFor="let voucher of vouchers">
 
-
+        <ion-card>
+          <ion-card-header style="padding-bottom: 0;">
+            <div style="display: flex; justify-content: space-between;">
+              <ion-card-title>{{voucher.nombre}}</ion-card-title> <button>USAR</button>
+            </div>
+            <ion-card-subtitle>{{voucher.deporte}}</ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-list>
+              <ion-item>
+                <ion-text>Dirección:</ion-text> {{voucher.direccion}}
+              </ion-item>
+              <ion-item>
+                <ion-text>Fecha emisión:</ion-text> {{voucher.fechaEmision}}
+              </ion-item>
+              <ion-item>
+                <ion-text>Fecha vencimiento:</ion-text> {{voucher.fechaVenc}}
+              </ion-item>
+            </ion-list>
+          </ion-card-content>
+        </ion-card>
+      </div>

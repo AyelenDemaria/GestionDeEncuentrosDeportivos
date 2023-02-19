@@ -16,9 +16,15 @@ vouchers: any[] = [
 
    {nombre: 'Cancha 5',
    direccion:'Rioja 683',
-   deporte: 'Futbol',
+   deporte: 'Fútbol',
    fechaEmision:'15-01-23',
    fechaVenc:'30-05-23' },
+
+   {nombre: 'Cancha Tito',
+   direccion:'Mitre 1900',
+   deporte: 'Paddel',
+   fechaEmision:'12-02-23',
+   fechaVenc:'30-06-23' },
 ] ;
 
 
