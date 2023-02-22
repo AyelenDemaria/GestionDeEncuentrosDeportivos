@@ -44,6 +44,12 @@ class PartidoListApiView(APIView):
             if cant_insc < j.cant_jugadores:
                 partidos_disp.append(j)
         serializer = PartidoSerializer(partidos_disp, many=True)
+        print(serializer)
+        """partidos_insc = []
+        for j in partidos_disp:
+            inscrip = Inscripcion.objects.filter(partido_id=j.id, fecha_hora_baja__isnull=True)
+            cant_inscripciones = inscrip.count()
+            partidos_insc.append([j,cant_inscripciones])"""
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request, *args, **kwargs):
@@ -63,6 +69,7 @@ class PartidoListApiView(APIView):
         }
 
         serializer = PartidoSerializer(data=data)
+
         if serializer.is_valid():
             serializer.save()
             perfil.puntos_acum += 10

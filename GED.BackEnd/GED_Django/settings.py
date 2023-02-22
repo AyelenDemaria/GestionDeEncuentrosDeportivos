@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'vouchers.apps.VouchersConfig',
     'partidos.apps.PartidosConfig',
     'inscripciones.apps.InscripcionesConfig',
+    'invitaciones.apps.InvitacionesConfig',
 
 ]
 

@@ -3,28 +3,80 @@ from django.shortcuts import render
 # Create your views here.
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework.decorators import action
+from rest_framework import status, viewsets
 from rest_framework import permissions
 from .models import Perfil
-from .serializers import PerfilSerializer
+from partidos.models import Partido
+from inscripciones.models import Inscripcion
+from django.contrib.auth.models import User
+from rest_framework import serializers
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+from .serializers import PerfilSerializer,  UserSerializer, UserLoginSerializer
+from django.utils import timezone
+from django.shortcuts import get_object_or_404
+from django.db.models import Q
+
 
 class PerfilListApiView(APIView):
     # add permission to check if user is authenticated
-    permission_classes = [permissions.IsAuthenticated]
+    #permission_classes = [permissions.IsAuthenticated]
 
     # 1. List all
     def get(self, request, *args, **kwargs):
         '''
         Lista de todos los usuarios
         '''
+        permission_classes = [permissions.IsAuthenticated]
         usuarios = Perfil.objects.all()
         serializer = PerfilSerializer(usuarios, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request, *args, **kwargs):
+        '''
+        Registro usuario
+        '''
+        nombre_usuario = request.data.get('username')
+        data_usuario = {
+            'username': nombre_usuario,
+            'password': request.data.get('password'),
+            'first_name': request.data.get('nombre'),
+            'last_name': request.data.get('apellido'),
+            'is_staff': 0
+        }
+        serializer = UserSerializer(data=data_usuario)
+        print('serializer user:',serializer)
+        if serializer.is_valid():
+            serializer.save()
+            usuario = get_object_or_404(User, username=nombre_usuario)
+            #user = User.objects.get(username=nombre_usuario)
+            print('usuario:',usuario.id)
+            data_perfil = {
+                'documento': request.data.get('documento'),
+                'telefono': request.data.get('telefono'),
+                'fecha_nacimiento': request.data.get('fecha_nacimiento'),
+                'sexo': request.data.get('sexo'),
+                'puntos_acum': 0,
+                'user_id': int(usuario.id)
+            }
+
+            serializer = PerfilSerializer(data=data_perfil)
+            print('serializer perfil:',serializer)
+            if serializer.is_valid():
+                print('hola')
+                serializer.save()
+                print('hola 2')
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    """def post(self, request, *args, **kwargs):
 
 
-        if request.method == "POST":
+           if request.method == "POST":
             permission_classes = [permissions.AllowAny]
             form = AuthenticationForm(request, data=request.POST)
             if form.is_valid():
@@ -33,9 +85,120 @@ class PerfilListApiView(APIView):
                 user = authenticate(username=username, password=password)
                 if user is not None:
                     login(request,user)
-                    return redirect('/')
+                    print("hola")
                 else:
                     messages.error(request, "Invalido username o clave")
             else:
                     messages.error(request, "Invalido username o password")
-                    form = AuthenticationForm()
+                    form = AuthenticationForm()"""
+
+"""class UserLoginApiView(viewsets.GenericViewSet):
+    queryset = User.objects.filter(is_active=True)
+    serializer_class = UserSerializer
+    @action(detail=False, methods=['post'])
+    def login(self, request):
+        #User sign in.
+        serializer = UserLoginSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.save()
+        data = {
+                #'username': request.data.get('username'),
+                'username': UserSerializer(serializer).data['username'],
+                'password': UserSerializer(serializer).data['password'],
+                #'password':  request.data.get('password'),
+        }
+        return Response(data, status=status.HTTP_201_CREATED)"""
+
+"""class UserLoginApiView(APIView):
+    serializer_class = UserSerializer
+    def post(self,request, *args, **kwargs):
+        serializer = UserLoginSerializer(data=request.data)
+
+        if serializer.is_valid():
+            #user = serializer.save()
+            #serializer.save()
+            user = serializer.save()
+            data = {
+                'username' : UserSerializer(user).data['username'],
+                'password' : UserSerializer(user).data['password'],
+            }
+
+            return Response(data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)"""
+
+class UserLoginApiView(APIView):
+    def post(self, request, *args, **kwargs):
+        #permission_classes = [permissions.AllowAny]
+        username =  request.data.get('username')
+        password = request.data.get('password')
+        data = {
+            'username': username,
+            'password': password,
+        }
+
+        serializer = UserSerializer(data=data)
+        if serializer.is_valid():
+            print(serializer)
+            user = authenticate(username=data['username'], password=data['password'])
+            if user is not None:
+                print("hola")
+                login(request,user)
+            else:
+                raise serializers.ValidationError('Las credenciales no son válidas')
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class ReporteByUserApiView(APIView):
+    # add permission to check if user is authenticated
+    permission_classes = [permissions.IsAuthenticated]
+
+    # 1. List all
+    def get(self, request, *args, **kwargs):
+        id_user = User.objects.get(username = request.user)
+        perfil = Perfil.objects.get(user_id=id_user)
+
+        #partidos creados: busca los partidos donde creado_id sea el del usuario logueado
+        partidos_creados = Partido.objects.filter(creador_id = perfil.id)
+        #print("partidos creados:", partidos_creados)
+        if partidos_creados:
+            cant_partidos_creados = partidos_creados.count()
+        else:
+            print("no tiene partidos creados")
+            cant_partidos_creados = 0
+
+        #partidos a los que se unio: busca inscripciones donde el creado_id del partido NO sea el del usuario logueado
+        inscripciones = Inscripcion.objects.filter(jugador_id = perfil.id)
+        #print("inscripciones:", inscripciones)
+        if inscripciones:
+            if partidos_creados:
+                part_no_creados = []
+                for i in inscripciones:
+                    for j in partidos_creados:
+                        if i.partido_id != j.id:
+                            part_no_creados.append(j)
+                #print("partidos no credos:",part_no_creados)
+                if part_no_creados:
+                    cant_unidos =  part_no_creados.count()
+                else:
+                     cant_unidos = 0
+            else:
+                cant_unidos = inscripciones.count()
+        else:
+            cant_unidos = 0
+
+        #partidos jugados: busca inscripciones con fecha y hora de baja que NO esten en null en partidos ya pasados
+        fecha_hora_actual =  timezone.localtime(timezone.now())
+        jugados = Inscripcion.objects.filter(jugador_id = perfil.id, fecha_hora_baja__isnull=True, partido__fecha_hora__lt=fecha_hora_actual)
+        if jugados:
+            cant_jugados = jugados.count()
+        else:
+            cant_jugados = 0
+
+        #partidos no jugados: busca inscripciones con fecha y hora de baja en null en partidos ya pasados
+        no_jugados = Inscripcion.objects.filter(jugador_id = perfil.id, fecha_hora_baja__isnull=False, partido__fecha_hora__lt=fecha_hora_actual)
+        if no_jugados:
+            cant_no_jugados = no_jugados.count()
+        else:
+            cant_no_jugados = 0
+        return Response([cant_partidos_creados, cant_unidos,cant_jugados,cant_no_jugados], status=status.HTTP_200_OK)
