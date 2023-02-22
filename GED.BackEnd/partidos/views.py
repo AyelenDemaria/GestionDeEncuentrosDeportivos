@@ -8,6 +8,7 @@ from rest_framework import permissions
 from .models import Partido
 from inscripciones.models import Inscripcion
 from .serializers import PartidoSerializer
+from inscripciones.serializers import InscripcionSerializer
 from django.utils import timezone
 from datetime import datetime
 from django.contrib.auth.models import User
@@ -67,14 +68,24 @@ class PartidoListApiView(APIView):
             'cancha': request.data.get('cancha'),
             'creador': perfil.id
         }
-
-        serializer = PartidoSerializer(data=data)
-
-        if serializer.is_valid():
-            serializer.save()
+        serializer_partido = PartidoSerializer(data=data)
+        if serializer_partido.is_valid():
+            serializer_partido.save()
             perfil.puntos_acum += 10
             perfil.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            partido_creado = Partido.objects.get(fecha_hora=request.data.get('fecha_hora'),
+                                                cancha=request.data.get('cancha'),
+                                                creador=perfil.id)
+            data_inscripcion = {
+                    'jugador': perfil.id,
+                    'fecha_hora_inscripcion': timezone.localtime(timezone.now()),
+                    'partido': partido_creado.id
+
+                }
+            serializer_inscripcion = InscripcionSerializer(data=data_inscripcion)
+            if serializer_inscripcion.is_valid():
+                    serializer_inscripcion.save()
+            return Response(serializer_partido.data, status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
