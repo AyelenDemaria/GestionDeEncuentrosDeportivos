@@ -59,18 +59,8 @@
             Este campo es obligatorio.
           </div>
         </div>
-        <ion-list>
-          
-          <ion-item>
-            <ion-select interface="popover" placeholder="Select fruit">
-              <ion-select-option value="apples">Apples</ion-select-option>
-              <ion-select-option value="oranges">Oranges</ion-select-option>
-              <ion-select-option value="bananas">Bananas</ion-select-option>
-            </ion-select>
-          </ion-item>
-        </ion-list>
-        
-
+        <ion-list> 
+         
         <ion-item lines="full">
           <ion-label position="floating">Apellido</ion-label>
           <ion-input required type="text" formControlName="apellido"></ion-input>
@@ -120,10 +110,23 @@
           </div>
         </div>
 
-        <ion-item lines="full">
-          <ion-label position="floating">Sexo</ion-label>
+        <!-- <ion-item lines="full"> -->
+          <!-- <ion-label position="floating">Sexo</ion-label>
           <ion-input required type="text" formControlName="sexo"></ion-input>
+        </ion-item> -->
+
+        
+        <ion-item>
+          <ion-label position="floating"> Sexo</ion-label>
+          <ion-select interface="popover">
+            <ion-select-option value="fem">F</ion-select-option>
+            <ion-select-option value="male">M</ion-select-option>            
+          </ion-select>
         </ion-item>
+      </ion-list>
+
+
+
         <div class="alert alert-danger" *ngIf="sexo.invalid && (sexo.dirty || sexo.touched)">
           <div class="container-error-message" *ngIf="sexo.errors.required">
             Este campo es obligatorio.
