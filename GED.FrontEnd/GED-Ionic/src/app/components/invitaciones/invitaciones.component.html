@@ -1,3 +1,73 @@
-<p>
-  invitaciones works!
-</p>
+<!-- HEADER Y MENU -->
+
+<ion-menu contentId="main-content">
+  <ion-header>
+    <ion-toolbar color="success">
+      <ion-title style="font-weight: 500; font-size: large;">MENU</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-list>
+      <ion-item [routerLink]="['/nuevoPartido']"> Nuevo Partido </ion-item>
+      <ion-item [routerLink]=""> Unirme a un partido </ion-item>
+      <ion-item [routerLink]="['/register']"> Mis partidos </ion-item>
+      <ion-item [routerLink]="['/invitaciones']"> Invitaciones </ion-item>
+      <ion-item [routerLink]=""> Canjear puntos </ion-item>
+      <ion-item [routerLink]="['/misVoucher']"> Mis voucher </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+
+
+<div class="ion-page" id="main-content">
+  <ion-header [translucent]="true">
+    <ion-toolbar color="light">
+      <ion-buttons slot="end">
+        <ion-menu-button></ion-menu-button>
+      </ion-buttons>
+      <ion-buttons slot="start" style="margin-left: 1rem;  font-size: x-large;" [routerLink]="['/home']">
+        <ion-icon name="home-outline"></ion-icon>
+      </ion-buttons>
+      <ion-title>Invitaciones</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content [fullscreen]="true" class="text-center">
+
+    <div class="content boton">
+      <div *ngFor="let inv of invitaciones">
+
+        <ion-card>
+          <ion-card-header style="padding-bottom: 0;">
+            <div style="display: flex; justify-content: space-between;">
+              <ion-card-title>Partido de {{inv.deporte}}</ion-card-title>
+              <button class="yes">
+                <ion-icon slot="icon-only" name="checkmark-sharp"></ion-icon>
+              </button>
+              <button class="no">
+                <ion-icon slot="icon-only" name="close-sharp"></ion-icon>
+              </button>
+            </div>
+            <ion-card-subtitle>{{inv.cantInscriptos}} inscriptos</ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-list>
+              <ion-item>
+                <ion-text>Fecha y hora:</ion-text> {{inv.fechaHora}}
+              </ion-item>
+              <ion-item>
+                <ion-text>Cantidad jugadores:</ion-text> {{inv.cantJugadores}}
+              </ion-item>
+              <ion-item>
+                <ion-text>Cancha:</ion-text> {{inv.cancha}}
+              </ion-item>
+              <ion-item>
+                <ion-text>Tipo de partido:</ion-text> {{inv.tipoPartido}}
+              </ion-item>
+
+              <ion-text class="invitado">Invitado por: {{inv.invitadoPor}}</ion-text>
+
+            </ion-list>
+          </ion-card-content>
+        </ion-card>
+      </div>

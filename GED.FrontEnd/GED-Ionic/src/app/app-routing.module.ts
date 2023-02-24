@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
+import { InvitacionesComponent } from './components/invitaciones/invitaciones.component';
 import { LoginComponent } from './components/login/login.component';
 import { MisVoucherComponent } from './components/mis-voucher/mis-voucher.component';
 import { ProfileComponent } from './components/profile/profile.component';
@@ -13,7 +14,8 @@ const routes: Routes = [
   {path: 'register', component: RegisterComponent},
   {path: 'profile', component: ProfileComponent},
   {path: 'home', component: HomeComponent},
-  {path: 'misVoucher', component: MisVoucherComponent}
+  {path: 'misVoucher', component: MisVoucherComponent},
+  {path: 'invitaciones', component: InvitacionesComponent}
 ];
 
 @NgModule({

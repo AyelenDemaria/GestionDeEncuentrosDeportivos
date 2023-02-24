@@ -13,9 +13,10 @@ import { LoginComponent } from './components/login/login.component';
 import { MisVoucherComponent } from './components/mis-voucher/mis-voucher.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { RegisterComponent } from './components/register/register.component';
+import { InvitacionesComponent } from './components/invitaciones/invitaciones.component';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, RegisterComponent, ProfileComponent, HomeComponent, MisVoucherComponent],
+  declarations: [AppComponent, LoginComponent, RegisterComponent, ProfileComponent, HomeComponent, MisVoucherComponent, InvitacionesComponent],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, FormsModule, ReactiveFormsModule, HttpClientModule],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],
