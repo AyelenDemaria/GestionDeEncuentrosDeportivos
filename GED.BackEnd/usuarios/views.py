@@ -19,6 +19,7 @@ from .serializers import PerfilSerializer,  UserSerializer, UserLoginSerializer
 from django.utils import timezone
 from django.shortcuts import get_object_or_404
 from django.db.models import Q
+from django.contrib.auth.hashers import make_password
 
 
 class PerfilListApiView(APIView):
@@ -39,79 +40,50 @@ class PerfilListApiView(APIView):
         '''
         Registro usuario
         '''
-        nombre_usuario = request.data.get('username')
-        data_usuario = {
-            'username': nombre_usuario,
-            'password': request.data.get('password'),
-            'first_name': request.data.get('nombre'),
-            'last_name': request.data.get('apellido'),
-            'is_staff': 0
+        data_perfil = {
+            'user': {
+                'username': request.data.get('username'),
+                'password': make_password(request.data.get('password')),
+                'first_name': request.data.get('nombre'),
+                'last_name': request.data.get('apellido'),
+                'is_staff': 0
+            },
+            'documento': request.data.get('documento'),
+            'telefono': request.data.get('telefono'),
+            'fecha_nacimiento': request.data.get('fecha_nacimiento'),
+            'sexo': request.data.get('sexo'),
+            'puntos_acum': 0
         }
-        serializer = UserSerializer(data=data_usuario)
-        print('serializer user:',serializer)
+
+        serializer_perfil = PerfilSerializer(data=data_perfil)
+        print('serializer perfil:',serializer_perfil)
+        if serializer_perfil.is_valid():
+            print('hola')
+            serializer_perfil.save()
+            print('hola 2')
+            return Response(serializer_perfil.data, status=status.HTTP_201_CREATED)
+
+        return Response(serializer_perfil.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def put(self, request, *args, **kwargs):
+        '''
+        Updates the perfil with given perfil if exists
+        '''
+        permission_classes = [permissions.IsAuthenticated]
+
+        id_user = User.objects.get(username = request.user) #recupero usuario logueada
+        perfil = Perfil.objects.get(user_id=id_user) #busco el perfil de ese usuario
+
+        serializer = PerfilSerializer(instance=perfil, data=request.data, partial = True)
         if serializer.is_valid():
             serializer.save()
-            usuario = get_object_or_404(User, username=nombre_usuario)
-            #user = User.objects.get(username=nombre_usuario)
-            print('usuario:',usuario.id)
-            data_perfil = {
-                'documento': request.data.get('documento'),
-                'telefono': request.data.get('telefono'),
-                'fecha_nacimiento': request.data.get('fecha_nacimiento'),
-                'sexo': request.data.get('sexo'),
-                'puntos_acum': 0,
-                'user_id': int(usuario.id)
-            }
-
-            serializer = PerfilSerializer(data=data_perfil)
-            print('serializer perfil:',serializer)
-            if serializer.is_valid():
-                print('hola')
-                serializer.save()
-                print('hola 2')
-                return Response(serializer.data, status=status.HTTP_201_CREATED)
-
+            return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    """def post(self, request, *args, **kwargs):
-
-
-           if request.method == "POST":
-            permission_classes = [permissions.AllowAny]
-            form = AuthenticationForm(request, data=request.POST)
-            if form.is_valid():
-                username = form.cleaned_data.get('username')
-                password = form.cleaned_data.get('password')
-                user = authenticate(username=username, password=password)
-                if user is not None:
-                    login(request,user)
-                    print("hola")
-                else:
-                    messages.error(request, "Invalido username o clave")
-            else:
-                    messages.error(request, "Invalido username o password")
-                    form = AuthenticationForm()"""
-
-"""class UserLoginApiView(viewsets.GenericViewSet):
-    queryset = User.objects.filter(is_active=True)
-    serializer_class = UserSerializer
-    @action(detail=False, methods=['post'])
-    def login(self, request):
-        #User sign in.
-        serializer = UserLoginSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        user = serializer.save()
-        data = {
-                #'username': request.data.get('username'),
-                'username': UserSerializer(serializer).data['username'],
-                'password': UserSerializer(serializer).data['password'],
-                #'password':  request.data.get('password'),
-        }
-        return Response(data, status=status.HTTP_201_CREATED)"""
-
-"""class UserLoginApiView(APIView):
+class UserLoginApiView(APIView):
     serializer_class = UserSerializer
     def post(self,request, *args, **kwargs):
+        print("*", request.data)
         serializer = UserLoginSerializer(data=request.data)
 
         if serializer.is_valid():
@@ -124,29 +96,8 @@ class PerfilListApiView(APIView):
             }
 
             return Response(data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)"""
-
-class UserLoginApiView(APIView):
-    def post(self, request, *args, **kwargs):
-        #permission_classes = [permissions.AllowAny]
-        username =  request.data.get('username')
-        password = request.data.get('password')
-        data = {
-            'username': username,
-            'password': password,
-        }
-
-        serializer = UserSerializer(data=data)
-        if serializer.is_valid():
-            print(serializer)
-            user = authenticate(username=data['username'], password=data['password'])
-            if user is not None:
-                print("hola")
-                login(request,user)
-            else:
-                raise serializers.ValidationError('Las credenciales no son válidas')
-            return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 
 class ReporteByUserApiView(APIView):

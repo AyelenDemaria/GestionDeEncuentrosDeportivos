@@ -14,3 +14,10 @@ class Partido(models.Model):
 
     def __str__(self):
         return str(self.fecha_hora) + '-' + str(self.cancha) + str(self.tipo_partido)
+
+class InscriptosPartido(models.Model):
+    partido = models.ForeignKey(Partido, on_delete=models.CASCADE)
+    cant_insc = models.BigIntegerField()
+
+    def __str__(self):
+        return str(self.partido) + '-' + str(self.cant_insc)

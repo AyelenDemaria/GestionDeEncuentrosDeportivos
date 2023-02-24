@@ -3,7 +3,6 @@ from django.conf import settings
 from partidos.models import Partido
 from usuarios.models import Perfil
 
-
 # Create your models here.
 class Inscripcion(models.Model):
     jugador = models.ForeignKey(Perfil, on_delete=models.CASCADE)
