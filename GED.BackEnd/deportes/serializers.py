@@ -4,4 +4,4 @@ from .models import Deporte
 class DeporteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Deporte
-        fields = ["descripcion"]
+        fields = ["id","descripcion"]

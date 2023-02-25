@@ -13,6 +13,7 @@ from django.shortcuts import get_object_or_404
 from partidos.models import Partido
 from django.utils import timezone
 from datetime import datetime
+from rest_framework import serializers
 
 
 class InscripcionListApiView(APIView):
@@ -40,25 +41,34 @@ class InscripcionListApiView(APIView):
         #print(request.data)
         #pk = self.kwargs.get('pk')
         partido = get_object_or_404(Partido, pk=pk)
+        fecha_hora_partido = partido.fecha_hora
         fecha_partido = partido.fecha_hora.date()
+        #busco si ya esta el usuario inscripto a ese partido:
+        user_inscripto = Inscripcion.objects.filter(jugador_id=perfil.id, partido_id=pk)
+        if not user_inscripto:
+            #busco si ya esta el usuario inscripto a otro partido en esa fecha y hora:
+            partido_inscripto = Inscripcion.objects.filter(partido__fecha_hora=fecha_hora_partido, jugador_id=perfil.id)
+            if not partido_inscripto:
+                #print(fecha_partido)
+                data = {
+                    'jugador': perfil.id,
+                    'fecha_hora_inscripcion': timezone.localtime(timezone.now()),
+                    'partido': pk
 
-        #print(fecha_partido)
-        data = {
-            'jugador': perfil.id,
-            'fecha_hora_inscripcion': timezone.localtime(timezone.now()),
-            'partido': pk
-
-        }
-        serializer = InscripcionSerializer(data=data)
-        if serializer.is_valid():
-            #print(serializer)
-            serializer.save()
-            perfil.puntos_acum += 5
-            perfil.save()
-            print(perfil.puntos_acum)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+                }
+                serializer = InscripcionSerializer(data=data)
+                if serializer.is_valid():
+                    #print(serializer)
+                    serializer.save()
+                    perfil.puntos_acum += 5
+                    perfil.save()
+                    print(perfil.puntos_acum)
+                    return Response(serializer.data, status=status.HTTP_201_CREATED)
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            else:
+                raise serializers.ValidationError('Ya estas inscripto a otro partido en esa fecha y hora')
+        else:
+            raise serializers.ValidationError('Ya estas inscripto al partido')
 
     def put(self, request, *args, **kwargs):
         '''
