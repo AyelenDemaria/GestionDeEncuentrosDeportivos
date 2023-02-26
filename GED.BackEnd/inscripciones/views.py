@@ -130,6 +130,22 @@ class InscripcionByUserApiView(APIView):
         perfil = Perfil.objects.get(user_id=id_user)
 
         #pk = self.kwargs.get('pk')
-        inscripciones = Inscripcion.objects.filter(jugador_id = perfil.id)
+        inscripciones = Inscripcion.objects.filter(jugador_id = perfil.id).order_by("-partido__fecha_hora")
+        serializer = InscripcionSerializer(inscripciones, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+class RecordatorioPartidosApiView(APIView):
+    # add permission to check if user is authenticated
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request, *args, **kwargs):
+        '''
+        Lista de todas las inscripciones de un usuario logueado
+        '''
+        id_user = User.objects.get(username = request.user)
+        perfil = Perfil.objects.get(user_id=id_user)
+        fecha_hora_actual = timezone.localtime(timezone.now())
+        #pk = self.kwargs.get('pk')
+        inscripciones = Inscripcion.objects.filter(jugador_id = perfil.id, fecha_hora_baja__isnull=True).order_by("partido__fecha_hora")
         serializer = InscripcionSerializer(inscripciones, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)

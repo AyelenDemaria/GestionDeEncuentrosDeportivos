@@ -9,6 +9,7 @@ from rest_framework import permissions
 from .models import Perfil
 from partidos.models import Partido
 from inscripciones.models import Inscripcion
+from vouchers.models import Voucher
 from django.contrib.auth.models import User
 from rest_framework import serializers
 from django.contrib.auth.forms import AuthenticationForm
@@ -125,9 +126,11 @@ class ReporteByUserApiView(APIView):
             if partidos_creados:
                 part_no_creados = []
                 for i in inscripciones:
-                    for j in partidos_creados:
+                    if not i.partido in partidos_creados:
+                        part_no_creados.append(i.partido)
+                    """for j in partidos_creados:
                         if i.partido_id != j.id:
-                            part_no_creados.append(j)
+                            part_no_creados.append(j)"""
                 #print("partidos no credos:",part_no_creados)
                 if part_no_creados:
                     cant_unidos =  part_no_creados.count()
@@ -153,3 +156,74 @@ class ReporteByUserApiView(APIView):
         else:
             cant_no_jugados = 0
         return Response([cant_partidos_creados, cant_unidos,cant_jugados,cant_no_jugados], status=status.HTTP_200_OK)
+
+
+class PuntosUsertApiView(APIView):
+    # add permission to check if user is authenticated
+    #permission_classes = [permissions.IsAuthenticated]
+
+    # 1. List all
+    def get(self, request, *args, **kwargs):
+        '''
+        Puntos del usuario logueado
+        '''
+        permission_classes = [permissions.IsAuthenticated]
+        id_user = User.objects.get(username = request.user)
+        perfil = Perfil.objects.get(user_id=id_user)
+
+        return Response(perfil.puntos_acum, status=status.HTTP_200_OK)
+
+
+def reporte_usuarios(request):
+
+    usuarios = Perfil.objects.all()
+    resultado = []
+    for k in usuarios:
+        #partidos creados: busca los partidos donde creado_id sea el del usuario logueado
+        partidos_creados = Partido.objects.filter(creador_id = k.id)
+        #print("partidos creados:", partidos_creados)
+        if partidos_creados:
+            cant_partidos_creados = partidos_creados.count()
+        else:
+            cant_partidos_creados = 0
+        #partidos a los que se unio: busca inscripciones donde el creado_id del partido NO sea el del usuario logueado
+        inscripciones = Inscripcion.objects.filter(jugador_id = k.id)
+        #print("inscripciones:", inscripciones)
+        if inscripciones:
+            if partidos_creados:
+                part_no_creados = []
+                for i in inscripciones:
+                    if not i.partido in partidos_creados:
+                        part_no_creados.append(i.partido)
+                    """for j in partidos_creados:
+                        if i.partido_id != j.id:
+                            print(j.id)
+                            part_no_creados.append(j)"""
+                #print("partidos no credos:",part_no_creados)
+                if part_no_creados:
+                    cant_unidos =  len(part_no_creados)
+                else:
+                     cant_unidos = 0
+            else:
+                cant_unidos = inscripciones.count()
+        else:
+            cant_unidos = 0
+        #partidos jugados: busca inscripciones con fecha y hora de baja que NO esten en null en partidos ya pasados
+        fecha_hora_actual =  timezone.localtime(timezone.now())
+        jugados = Inscripcion.objects.filter(jugador_id = k.id, fecha_hora_baja__isnull=True, partido__fecha_hora__lt=fecha_hora_actual)
+        if jugados:
+            cant_jugados = jugados.count()
+        else:
+            cant_jugados = 0
+        #partidos no jugados: busca inscripciones con fecha y hora de baja en null en partidos ya pasados
+        no_jugados = Inscripcion.objects.filter(jugador_id = k.id, fecha_hora_baja__isnull=False, partido__fecha_hora__lt=fecha_hora_actual)
+        if no_jugados:
+            cant_no_jugados = no_jugados.count()
+        else:
+            cant_no_jugados = 0
+        vouchers = Voucher.objects.filter(jugador_id = k.id)
+        cant_vouchers = vouchers.count()
+        resultado.append([k,k.puntos_acum,cant_partidos_creados, cant_unidos,cant_jugados,cant_no_jugados,cant_vouchers])
+
+    resultado.sort(key = lambda resultado: resultado[1], reverse=True)
+    return render(request, 'usuarios/reporte_usuarios.html', {'resultado': resultado})
