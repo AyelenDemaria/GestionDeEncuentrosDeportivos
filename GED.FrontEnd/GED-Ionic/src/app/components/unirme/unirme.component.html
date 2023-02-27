@@ -1,0 +1,100 @@
+<ion-menu contentId="main-content">
+  <ion-header>
+    <ion-toolbar color="success">
+      <ion-title style="font-weight: 500; font-size: large;">MENU</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-list>
+      <ion-item [routerLink]="['/nuevoPartido']"> Nuevo Partido </ion-item>
+      <ion-item [routerLink]=""> Unirme a un partido </ion-item>
+      <ion-item [routerLink]="['/register']"> Mis partidos </ion-item>
+      <ion-item [routerLink]="['/invitaciones']"> Invitaciones </ion-item>
+      <ion-item [routerLink]=""> Canjear puntos </ion-item>
+      <ion-item [routerLink]="['/misVoucher']"> Mis voucher </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+
+<div class="ion-page" id="main-content">
+
+  <ion-header [translucent]="true">
+    <ion-toolbar color="light">
+      <ion-buttons slot="end">
+        <ion-menu-button></ion-menu-button>
+      </ion-buttons>
+      <ion-buttons slot="start" style="margin-left: 1rem;  font-size: x-large;" [routerLink]="['/home']">
+        <ion-icon name="home-outline"></ion-icon>
+      </ion-buttons>
+      <ion-title>Unirme a un partido</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content  [fullscreen]="true" class="text-center">
+    <div>
+      <ion-item lines="full">
+        <ion-label position="floating">Fecha</ion-label>
+        <ion-input placeholder="Seleccionar fecha" type="text"></ion-input>
+      </ion-item>      
+    </div>
+    <ion-item>
+      <ion-label position="floating"> Deporte</ion-label>
+      <ion-select interface="popover">
+        <ion-select-option *ngFor="let dep of deportes" [value]="dep">{{ dep }}</ion-select-option>         
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating"> Cancha</ion-label>
+      <ion-select interface="popover">
+        <ion-select-option *ngFor="let can of canchas" [value]="can">{{ can }}</ion-select-option>         
+      </ion-select>
+    </ion-item>
+    
+
+      <div class="content boton">
+        <div *ngFor="let part of partidos">
+
+          <ion-card>
+            <ion-card-header style="padding-bottom: 0;">
+              <div style="display: flex; justify-content: space-between;">
+                <ion-card-title>Partido de {{part.deporte}}</ion-card-title><button>UNIRME</button>              
+              </div>
+              <ion-card-subtitle>{{part.cantInscriptos}} inscriptos</ion-card-subtitle>
+            </ion-card-header>
+            <ion-card-content>
+              <ion-list>
+                <ion-item>
+                  <ion-text>Fecha y hora:</ion-text> {{part.fechaHora}}
+                </ion-item>
+                <ion-item>
+                  <ion-text>Cantidad jugadores:</ion-text> {{part.cantJugadores}}
+                </ion-item>
+                <ion-item>
+                  <ion-text>Cancha:</ion-text> {{part.cancha}}
+                </ion-item>
+                <ion-item>
+                  <ion-text>Tipo de partido:</ion-text> {{part.tipoPartido}}
+                </ion-item>              
+              </ion-list>
+            </ion-card-content>
+          </ion-card>
+        </div>
+      </div>
+    </ion-content>
+
+
+
+
+
+
+  <!-- <ion-item>
+    <ion-icon icon="calendar-outline"></ion-icon>
+    <ion-label position="floating">Fecha</ion-label>
+    <ion-text > </ion-text>    
+  </ion-item> -->
+  <!-- <ion-modal>
+    <ion-content>
+      <div>
+        <ion-datetime></ion-datetime>
+      </div>
+    </ion-content>
+  </ion-modal> -->

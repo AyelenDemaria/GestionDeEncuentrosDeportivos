@@ -14,9 +14,25 @@ import { MisVoucherComponent } from './components/mis-voucher/mis-voucher.compon
 import { ProfileComponent } from './components/profile/profile.component';
 import { RegisterComponent } from './components/register/register.component';
 import { InvitacionesComponent } from './components/invitaciones/invitaciones.component';
+import { MisPartidosComponent } from './components/mis-partidos/mis-partidos.component';
+import { NuevoPartidoComponent } from './components/nuevo-partido/nuevo-partido.component';
+import { ReporteComponent } from './components/reporte/reporte.component';
+import { UnirmeComponent } from './components/unirme/unirme.component';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, RegisterComponent, ProfileComponent, HomeComponent, MisVoucherComponent, InvitacionesComponent],
+  declarations: [
+    AppComponent,
+    LoginComponent,
+    RegisterComponent,
+    ProfileComponent,
+    HomeComponent, 
+    MisVoucherComponent, 
+    InvitacionesComponent,
+    MisPartidosComponent,
+    NuevoPartidoComponent,
+    ReporteComponent,
+    UnirmeComponent
+    ],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, FormsModule, ReactiveFormsModule, HttpClientModule],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],

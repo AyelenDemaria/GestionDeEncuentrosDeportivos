@@ -6,9 +6,10 @@
     </ion-header>
     <ion-content>
       <ion-list>
+        <ion-item [routerLink]="['/profile']"> Mi perfil </ion-item>
         <ion-item [routerLink]="['/nuevoPartido']"> Nuevo Partido </ion-item>
-        <ion-item [routerLink]=""> Unirme a un partido </ion-item>
-        <ion-item [routerLink]="['/register']"> Mis partidos </ion-item>              
+        <ion-item [routerLink]="['/unirme']"> Unirme a un partido </ion-item>
+        <ion-item [routerLink]="['/misPartidos']"> Mis partidos </ion-item>              
         <ion-item [routerLink]="['/invitaciones']"> Invitaciones </ion-item>
         <ion-item [routerLink]=""> Canjear puntos </ion-item>
         <ion-item [routerLink]="['/misVoucher']"> Mis voucher </ion-item>  
@@ -30,15 +31,15 @@
 
 <ion-content>
   <div class="content">
-    <button class="buttonHome" [routerLink]="['/register']">
+    <button class="buttonHome" [routerLink]="['/nuevoPartido']">
       Nuevo partido
     </button> 
 
-    <button class="buttonHome" [routerLink]="['/register']">
+    <button class="buttonHome" [routerLink]="['/unirme']">
       Unirme a un partido
     </button> 
 
-    <button class="buttonHome" [routerLink]="['/register']">
+    <button class="buttonHome" [routerLink]="['/misPartidos']">
       Mis partidos
     </button> 
 

@@ -8,6 +8,7 @@
   </ion-header>
   <ion-content>
     <ion-list>
+      <ion-item [routerLink]="['/profile']"> Mi perfil </ion-item>
       <ion-item [routerLink]="['/nuevoPartido']"> Nuevo Partido </ion-item>
       <ion-item [routerLink]=""> Unirme a un partido </ion-item>
       <ion-item [routerLink]="['/register']"> Mis partidos </ion-item>
@@ -64,10 +65,10 @@
               <ion-item>
                 <ion-text>Tipo de partido:</ion-text> {{inv.tipoPartido}}
               </ion-item>
-
               <ion-text class="invitado">Invitado por: {{inv.invitadoPor}}</ion-text>
-
             </ion-list>
           </ion-card-content>
         </ion-card>
       </div>
+    </div>
+  </ion-content>

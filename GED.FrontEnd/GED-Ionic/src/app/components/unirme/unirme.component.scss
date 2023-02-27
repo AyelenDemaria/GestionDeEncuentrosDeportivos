@@ -1,0 +1,35 @@
+ion-text {
+    font-weight: 600;
+}
+
+ion-card-title {
+    font-weight: 700;
+    font-size: x-large;
+    font-family: system-ui;
+}
+
+ion-card-subtitle {
+    font-size: 1rem;
+    font-family: system-ui;
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-left: 0.80rem;
+    background-color: #DAF7A6;;
+}
+
+ion-text {
+    color: darkslategray;
+    font-weight: 700;
+    font-family: system-ui;
+    margin-right: 0.75rem;
+}
+
+button {
+    color: white;
+    background-color: rgb(72, 185, 44);
+    font-size: 1rem;
+    height: 1.8rem;
+    width: 5rem;
+    border-radius: 0.5rem;
+    
+}
