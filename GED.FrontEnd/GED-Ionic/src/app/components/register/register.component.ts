@@ -10,7 +10,7 @@ import { CanchaService} from 'src/app/services/cancha.service';
 })
 export class RegisterComponent implements OnInit {
   private emailPattern: any = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  
+
   constructor(private fb: FormBuilder, 
               private router: Router,
               private canchaService: CanchaService) { }  
@@ -22,7 +22,7 @@ export class RegisterComponent implements OnInit {
     telefono: ['', [Validators.required, Validators.minLength(7), Validators.min(0)]],
     fecha: ['', Validators.required],
     sexo: ['', Validators.required],
-    dni: ['', Validators.required],
+    dni: ['', [Validators.required, Validators.pattern("^[0-9]*$")]],
     email: ['', [Validators.required, Validators.pattern(this.emailPattern)]],
     psw: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(15)]],
   })

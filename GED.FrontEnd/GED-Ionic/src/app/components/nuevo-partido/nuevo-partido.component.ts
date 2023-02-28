@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router} from '@angular/router';
+import { CanchaService} from 'src/app/services/cancha.service';
 
 @Component({
   selector: 'app-nuevo-partido',
@@ -7,8 +10,52 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NuevoPartidoComponent implements OnInit {
 
-  constructor() { }
+  deportes: any[] = ['Tenis', 'Futbol', 'Voley', 'Paddel'];
+  canchas: any[] = ['Cancha SRL', 'Cancha Tito', 'Cancha 5'];
+  tipos: any[] = ['Femenino', 'Masculino', 'Mixto']
 
-  ngOnInit() {}
+  constructor(private fb: FormBuilder, 
+    private router: Router,
+    private canchaService: CanchaService) { }  
 
+public form: FormGroup = this.fb.group({
+deporte: ['', Validators.required],
+tipoPart:['', Validators.required],
+cancha: ['', Validators.required],
+fecha: ['', Validators.required],  
+cantJugadores: ['', [Validators.required, Validators.min(1), Validators.max(20), Validators.pattern("^[0-9]*$")]],
+})
+
+
+ngOnInit() { 
+this.getListadoCanchas();
+}
+
+getListadoCanchas(){
+this.canchaService.getCanchas().subscribe(res=>console.log(res))
+}
+
+cancel() {
+this.router.navigateByUrl('home')
+}
+
+get fecha() {
+  return this.form.get('fecha');
+}
+
+get deporte() {
+  return this.form.get('deporte');
+}
+
+get tipoPart() {
+  return this.form.get('tipoPart');
+}
+
+get cantJugadores() {
+  return this.form.get('cantJugadores');
+}
+
+get cancha() {
+  return this.form.get('cancha');
+}
 }

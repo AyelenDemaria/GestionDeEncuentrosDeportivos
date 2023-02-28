@@ -1,173 +1,175 @@
-  <!-- HEADER Y MENU -->
-   <ion-menu contentId="main-content">
-     <ion-header>
-       <ion-toolbar color="success">
-         <ion-title style="font-weight: 500; font-size: large;">MENU</ion-title>
-       </ion-toolbar>
-     </ion-header>
-     <ion-content>
-       <ion-list>
-         <ion-item [routerLink]="['/nuevoPartido']"> Nuevo Partido </ion-item>
-         <ion-item [routerLink]=""> Unirme a un partido </ion-item>
-         <ion-item [routerLink]="['/register']"> Mis partidos </ion-item>              
-         <ion-item [routerLink]="['/invitaciones']"> Invitaciones </ion-item>
-         <ion-item [routerLink]=""> Canjear puntos </ion-item>
-         <ion-item [routerLink]="['/misVoucher']"> Mis voucher </ion-item>  
-       </ion-list>
-     </ion-content>
-   </ion-menu>
- 
-  <div class="ion-page" id="main-content">
- 
-     <ion-header [translucent]="true">
-       <ion-toolbar color="light">
-         <ion-buttons slot="end">
-           <ion-menu-button></ion-menu-button>          
-         </ion-buttons>
-         <ion-buttons slot="start" style= "margin-left: 1rem;  font-size: x-large;" [routerLink]="['/home']">
-           <ion-icon name="home-outline"></ion-icon>
-         </ion-buttons>        
-         <ion-title>Registro</ion-title>
-       </ion-toolbar>
-     </ion-header>
+<!-- HEADER Y MENU -->
+<ion-menu contentId="main-content">
+  <ion-header>
+    <ion-toolbar color="success">
+      <ion-title style="font-weight: 500; font-size: large;">MENU</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-list>
+      <ion-item [routerLink]="['/nuevoPartido']"> Nuevo Partido </ion-item>
+      <ion-item [routerLink]=""> Unirme a un partido </ion-item>
+      <ion-item [routerLink]="['/register']"> Mis partidos </ion-item>
+      <ion-item [routerLink]="['/invitaciones']"> Invitaciones </ion-item>
+      <ion-item [routerLink]=""> Canjear puntos </ion-item>
+      <ion-item [routerLink]="['/misVoucher']"> Mis voucher </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-menu>
 
-<ion-content color="light" class="justify-content-center">
-  <ion-card class="card-for-login">
-    <ion-card-content> 
-      <form [formGroup]="form">
+<div class="ion-page" id="main-content">
 
-        <ion-item lines="full">
-          <ion-label position="floating">Email</ion-label>
-          <ion-input type="text" formControlName="email"></ion-input>
-        </ion-item>
-        <div class="alert alert-danger" *ngIf="email.invalid && (email.dirty || email.touched)">
-          <div class="container-error-message" *ngIf="email.errors.required">
-            Este campo es obligatorio.
-          </div>
-          <div class="container-error-message" *ngIf="(email.dirty || email.touched) && email.invalid
+  <ion-header [translucent]="true">
+    <ion-toolbar color="light">
+      <ion-buttons slot="end">
+        <ion-menu-button></ion-menu-button>
+      </ion-buttons>
+      <ion-buttons slot="start" style="margin-left: 1rem;  font-size: x-large;" [routerLink]="['/home']">
+        <ion-icon name="home-outline"></ion-icon>
+      </ion-buttons>
+      <ion-title>Registro</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content color="light" class="justify-content-center">
+    <ion-card class="card-for-login">
+      <ion-card-content>
+        <form [formGroup]="form">
+          <ion-item lines="full">
+            <ion-label position="floating">Email</ion-label>
+            <ion-input type="text" formControlName="email"></ion-input>
+          </ion-item>
+          <div class="alert alert-danger" *ngIf="email.invalid && (email.dirty || email.touched)">
+            <div class="container-error-message" *ngIf="email.errors.required">
+              Este campo es obligatorio.
+            </div>
+            <div class="container-error-message" *ngIf="(email.dirty || email.touched) && email.invalid
            && email.errors.pattern">
-            El email debe tener una dirección válida.
+              El email debe tener una dirección válida.
+            </div>
           </div>
-        </div>
 
-        <ion-item lines="full">
-          <ion-label position="floating">Nombre</ion-label>
-          <ion-input required type="text" formControlName="nombre"></ion-input>
-        </ion-item>
-        <div class="alert alert-danger" *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)">
-          <div class="container-error-message" *ngIf="nombre.errors.required">
-            Este campo es obligatorio.
+          <ion-item lines="full">
+            <ion-label position="floating">Nombre</ion-label>
+            <ion-input required type="text" formControlName="nombre"></ion-input>
+          </ion-item>
+          <div class="alert alert-danger" *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)">
+            <div class="container-error-message" *ngIf="nombre.errors.required">
+              Este campo es obligatorio.
+            </div>
           </div>
-        </div>
-        <ion-list> 
-         
-        <ion-item lines="full">
-          <ion-label position="floating">Apellido</ion-label>
-          <ion-input required type="text" formControlName="apellido"></ion-input>
-        </ion-item>
-        <div class="alert alert-danger" *ngIf="apellido.invalid && (apellido.dirty || apellido.touched)">
-          <div class="container-error-message" *ngIf="apellido.errors.required">
-            Este campo es obligatorio.
-          </div>
-        </div>
-        
-        <ion-item lines="full">
-          <ion-label position="floating">Edad</ion-label>
-          <ion-input required type="number" formControlName="edad"></ion-input>
-        </ion-item>
-        <div class="alert alert-danger" *ngIf="edad.invalid && (edad.dirty || edad.touched)">
-          <div class="container-error-message" *ngIf="edad.errors.required">
-            Este campo es obligatorio.
-          </div>
-          <div class="container-error-message" *ngIf="edad.errors.min">
-            No se permiten números negativos.
-          </div>
-        </div>
-           
-        <ion-item lines="full">
-          <ion-label position="floating">Teléfono</ion-label>
-          <ion-input required type="number" formControlName="telefono"></ion-input>
-        </ion-item>
-        <div class="alert alert-danger" *ngIf="telefono.invalid && (telefono.dirty || telefono.touched)">
-          <div class="container-error-message" *ngIf="telefono.errors.required">
-            Este campo es obligatorio.
-          </div>
-          <div class="container-error-message" *ngIf="telefono.errors.minlength">
-           El teléfono debe tener como mínimo 7 caracteres.
-          </div>
-          <div class="container-error-message" *ngIf="telefono.errors.min">
-            No se permiten números negativos.
-          </div>
-        </div>
+          <ion-list>
 
-        <ion-item lines="full">
-          <ion-label position="floating">Fecha de nacimiento</ion-label>
-          <ion-input required type="text" formControlName="fecha"></ion-input>
-        </ion-item>
-        <div class="alert alert-danger" *ngIf="fecha.invalid && (fecha.dirty || fecha.touched)">
-          <div class="container-error-message" *ngIf="fecha.errors.required">
-            Este campo es obligatorio.
-          </div>
-        </div>
+            <ion-item lines="full">
+              <ion-label position="floating">Apellido</ion-label>
+              <ion-input required type="text" formControlName="apellido"></ion-input>
+            </ion-item>
+            <div class="alert alert-danger" *ngIf="apellido.invalid && (apellido.dirty || apellido.touched)">
+              <div class="container-error-message" *ngIf="apellido.errors.required">
+                Este campo es obligatorio.
+              </div>
+            </div>
 
-        <!-- <ion-item lines="full"> -->
-          <!-- <ion-label position="floating">Sexo</ion-label>
+            <ion-item lines="full">
+              <ion-label position="floating">Edad</ion-label>
+              <ion-input required type="number" formControlName="edad"></ion-input>
+            </ion-item>
+            <div class="alert alert-danger" *ngIf="edad.invalid && (edad.dirty || edad.touched)">
+              <div class="container-error-message" *ngIf="edad.errors.required">
+                Este campo es obligatorio.
+              </div>
+              <div class="container-error-message" *ngIf="edad.errors.min">
+                No se permiten números negativos.
+              </div>
+            </div>
+
+            <ion-item lines="full">
+              <ion-label position="floating">Teléfono</ion-label>
+              <ion-input required type="number" formControlName="telefono"></ion-input>
+            </ion-item>
+            <div class="alert alert-danger" *ngIf="telefono.invalid && (telefono.dirty || telefono.touched)">
+              <div class="container-error-message" *ngIf="telefono.errors.required">
+                Este campo es obligatorio.
+              </div>
+              <div class="container-error-message" *ngIf="telefono.errors.minlength">
+                El teléfono debe tener como mínimo 7 caracteres.
+              </div>
+              <div class="container-error-message" *ngIf="telefono.errors.min">
+                No se permiten números negativos.
+              </div>
+            </div>
+
+            <ion-item lines="full">
+              <ion-label position="floating">Fecha de nacimiento</ion-label>
+              <ion-input required type="text" formControlName="fecha"></ion-input>
+            </ion-item>
+            <div class="alert alert-danger" *ngIf="fecha.invalid && (fecha.dirty || fecha.touched)">
+              <div class="container-error-message" *ngIf="fecha.errors.required">
+                Este campo es obligatorio.
+              </div>
+            </div>
+
+            <!-- <ion-item lines="full"> -->
+            <!-- <ion-label position="floating">Sexo</ion-label>
           <ion-input required type="text" formControlName="sexo"></ion-input>
         </ion-item> -->
 
-        
-        <ion-item>
-          <ion-label position="floating"> Sexo</ion-label>
-          <ion-select interface="popover">
-            <ion-select-option value="fem">F</ion-select-option>
-            <ion-select-option value="male">M</ion-select-option>            
-          </ion-select>
-        </ion-item>
-      </ion-list>
 
+            <ion-item>
+              <ion-label position="floating"> Sexo</ion-label>
+              <ion-select interface="popover" required formControlName="sexo">
+                <ion-select-option value="fem">F</ion-select-option>
+                <ion-select-option value="male">M</ion-select-option>
+              </ion-select>
+            </ion-item>
+          </ion-list>
+          <div class="alert alert-danger" *ngIf="sexo.invalid && (sexo.dirty || sexo.touched)">
+            <div class="container-error-message" *ngIf="sexo.errors.required">
+              Este campo es obligatorio.
+            </div>
+          </div>
 
+          <ion-item lines="full">
+            <ion-label position="floating">DNI</ion-label>
+            <ion-input required type="text" formControlName="dni"></ion-input>
+          </ion-item>
+          <div class="alert alert-danger" *ngIf="dni.invalid && (dni.dirty || dni.touched)">
+            <div class="container-error-message" *ngIf="dni.errors.required">
+              Este campo es obligatorio.
+            </div>
+            <div class="container-error-message" *ngIf="(dni.dirty || dni.touched) && dni.invalid
+           && dni.errors.pattern">
+              Ingreso de DNI inválido.
+            </div>
+          </div>
 
-        <div class="alert alert-danger" *ngIf="sexo.invalid && (sexo.dirty || sexo.touched)">
-          <div class="container-error-message" *ngIf="sexo.errors.required">
-            Este campo es obligatorio.
+          <ion-item lines="full">
+            <ion-label position="floating">Contraseña</ion-label>
+            <ion-input type="password" formControlName="psw"></ion-input>
+          </ion-item>
+          <div class="alert alert-danger" *ngIf="psw.invalid && (psw.dirty || psw.touched)">
+            <div class="container-error-message" *ngIf="psw.errors.required">
+              Este campo es obligatorio.
+            </div>
+            <div class="container-error-message" *ngIf="psw.errors.minlength">
+              La contraseña debe tener como mínimo 6 caracteres.
+            </div>
+            <div class="container-error-message" *ngIf="psw.errors.maxlength">
+              La contraseña debe tener como máximo 15 caracteres.
+            </div>
           </div>
-        </div>
 
-        <ion-item lines="full">
-          <ion-label position="floating">DNI</ion-label>
-          <ion-input required type="text" formControlName="dni"></ion-input>
-        </ion-item>
-        <div class="alert alert-danger" *ngIf="dni.invalid && (dni.dirty || dni.touched)">
-          <div class="container-error-message" *ngIf="dni.errors.required">
-            Este campo es obligatorio.
-          </div>
-        </div>
-           
-        <ion-item lines="full">
-          <ion-label position="floating">Contraseña</ion-label>
-          <ion-input type="password" formControlName="psw"></ion-input>
-        </ion-item>
-        <div class="alert alert-danger" *ngIf="psw.invalid && (psw.dirty || psw.touched)">
-          <div class="container-error-message" *ngIf="psw.errors.required">
-            Este campo es obligatorio.
-          </div>
-          <div class="container-error-message" *ngIf="psw.errors.minlength">
-            La contraseña debe tener como mínimo 6 caracteres.
-          </div>
-          <div class="container-error-message" *ngIf="psw.errors.maxlength">
-            La contraseña debe tener como máximo 15 caracteres.
-          </div>
-        </div>
-
-        <ion-row class="mt-3">
+          <ion-row class="mt-3">
+            <ion-col>
+              <ion-button type="submit" class="boton" color="success" expand="full" [disabled]="!form.valid"
+                strong>Registrarse</ion-button>
+            </ion-col>
+          </ion-row>
           <ion-col>
-            <ion-button type="submit" class="boton" color="success" expand="full"  [disabled]="!form.valid" strong>Registrarse</ion-button>
+            <ion-button type="submit" class="boton" color="success" expand="full" strong
+              (click)="cancel()">Cancelar</ion-button>
           </ion-col>
-        </ion-row>
-        <ion-col>
-          <ion-button type="submit" class="boton" color="success" expand="full" strong (click)="cancel()">Cancelar</ion-button>
-        </ion-col>
-      </form>
-    </ion-card-content>
-  </ion-card>
-</ion-content>
+        </form>
+      </ion-card-content>
+    </ion-card>
+  </ion-content>
