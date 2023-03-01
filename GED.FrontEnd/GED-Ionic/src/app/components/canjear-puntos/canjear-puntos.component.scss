@@ -1,0 +1,22 @@
+ion-card-title {
+    font-family: system-ui;
+    justify-content: center;
+    display: flex;
+}
+
+ion-card-content{
+    font-size: 1.5rem;
+    color: black;
+    font-weight: 700;
+    padding: 0rem;
+    margin:auto;
+}
+
+.mensaje{
+    font-size: 1.75rem;
+    color: red;
+    font-weight: bolder;
+    font-family: system-ui;
+    display: flex;
+    text-align: center;
+}

@@ -1,0 +1,85 @@
+<ion-menu contentId="main-content">
+  <ion-header>
+    <ion-toolbar color="success">
+      <ion-title style="font-weight: 500; font-size: large;">MENU</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-list>
+      <ion-item [routerLink]="['/nuevoPartido']"> Nuevo Partido </ion-item>
+      <ion-item [routerLink]=""> Unirme a un partido </ion-item>
+      <ion-item [routerLink]="['/register']"> Mis partidos </ion-item>
+      <ion-item [routerLink]="['/invitaciones']"> Invitaciones </ion-item>
+      <ion-item [routerLink]=""> Canjear puntos </ion-item>
+      <ion-item [routerLink]="['/misVoucher']"> Mis voucher </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+
+<div class="ion-page" id="main-content">
+
+  <ion-header [translucent]="true">
+    <ion-toolbar color="light">
+      <ion-buttons slot="end">
+        <ion-menu-button></ion-menu-button>
+      </ion-buttons>
+      <ion-buttons slot="start" style="margin-left: 1rem;  font-size: x-large;" [routerLink]="['/home']">
+        <ion-icon name="home-outline"></ion-icon>
+      </ion-buttons>
+      <ion-title>Invitar jugadores</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    
+    <ion-searchbar placeholder="Ingrese nombre o DNI"></ion-searchbar>
+    
+    <div class="content boton">
+      <div *ngFor="let jug of jugadores">
+
+        <ion-card>
+          <ion-card-header style="padding-bottom: 0;">
+            <div style="display: flex; justify-content: space-between;">
+              <ion-card-title>{{jug.nombre}}</ion-card-title>             
+              <ion-buttons style="font-size: x-large;">
+                <ion-icon  class="yes" name="person-add"></ion-icon>
+              </ion-buttons>              
+            </div>
+            <ion-card-subtitle>DNI: {{jug.dni}}</ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-list>
+              <ion-item>
+                <ion-text>Sexo:</ion-text> {{jug.sexo}}
+              </ion-item>
+              <ion-item>
+                <ion-text>Mail:</ion-text> {{jug.mail}}
+              </ion-item>
+              <ion-item>
+                <ion-text>Celular:</ion-text> {{jug.telefono}}
+              </ion-item>
+              <ion-item>
+                <ion-text>Fecha de nacimiento:</ion-text> {{jug.fechaNac}}
+              </ion-item>              
+            </ion-list>
+          </ion-card-content>
+        </ion-card>
+      </div>
+    </div>
+  </ion-content>
+
+
+
+
+
+  <!-- <ion-item>
+    <ion-icon icon="calendar-outline"></ion-icon>
+    <ion-label position="floating">Fecha</ion-label>
+    <ion-text > </ion-text>    
+  </ion-item> -->
+  <!-- <ion-modal>
+    <ion-content>
+      <div>
+        <ion-datetime></ion-datetime>
+      </div>
+    </ion-content>
+  </ion-modal> -->

@@ -1,8 +1,10 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { AppComponent } from './app.component';
+import { CanjearPuntosComponent } from './components/canjear-puntos/canjear-puntos.component';
 import { HomeComponent } from './components/home/home.component';
 import { InvitacionesComponent } from './components/invitaciones/invitaciones.component';
+import { InvitarComponent } from './components/invitar/invitar.component';
 import { LoginComponent } from './components/login/login.component';
 import { MisPartidosComponent } from './components/mis-partidos/mis-partidos.component';
 import { MisVoucherComponent } from './components/mis-voucher/mis-voucher.component';
@@ -11,6 +13,7 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { RegisterComponent } from './components/register/register.component';
 import { ReporteComponent } from './components/reporte/reporte.component';
 import { UnirmeComponent } from './components/unirme/unirme.component';
+import { VoucherComponent } from './components/voucher/voucher.component';
 
 const routes: Routes = [
   // {path: 'home' , component: AppComponent},
@@ -23,7 +26,10 @@ const routes: Routes = [
   {path: 'misPartidos', component: MisPartidosComponent},
   {path: 'reporte', component: ReporteComponent},
   {path: 'unirme', component: UnirmeComponent},
-  {path: 'nuevoPartido', component: NuevoPartidoComponent}
+  {path: 'nuevoPartido', component: NuevoPartidoComponent},
+  {path: 'invitar', component: InvitarComponent},
+  {path: 'canjear', component:CanjearPuntosComponent},
+  {path: 'voucher', component:VoucherComponent}
 ];
 
 @NgModule({

@@ -18,6 +18,9 @@ import { MisPartidosComponent } from './components/mis-partidos/mis-partidos.com
 import { NuevoPartidoComponent } from './components/nuevo-partido/nuevo-partido.component';
 import { ReporteComponent } from './components/reporte/reporte.component';
 import { UnirmeComponent } from './components/unirme/unirme.component';
+import { InvitarComponent } from './components/invitar/invitar.component';
+import { CanjearPuntosComponent } from './components/canjear-puntos/canjear-puntos.component';
+import { VoucherComponent } from './components/voucher/voucher.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +34,10 @@ import { UnirmeComponent } from './components/unirme/unirme.component';
     MisPartidosComponent,
     NuevoPartidoComponent,
     ReporteComponent,
-    UnirmeComponent
+    UnirmeComponent,
+    InvitarComponent,
+    CanjearPuntosComponent,
+    VoucherComponent,
     ],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, FormsModule, ReactiveFormsModule, HttpClientModule],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],

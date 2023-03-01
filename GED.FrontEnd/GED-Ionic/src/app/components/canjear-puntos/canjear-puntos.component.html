@@ -1,0 +1,105 @@
+<ion-menu contentId="main-content">
+  <ion-header>
+    <ion-toolbar color="success">
+      <ion-title style="font-weight: 500; font-size: large;">MENU</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-list>
+      <ion-item [routerLink]="['/nuevoPartido']"> Nuevo Partido </ion-item>
+      <ion-item [routerLink]=""> Unirme a un partido </ion-item>
+      <ion-item [routerLink]="['/register']"> Mis partidos </ion-item>
+      <ion-item [routerLink]="['/invitaciones']"> Invitaciones </ion-item>
+      <ion-item [routerLink]=""> Canjear puntos </ion-item>
+      <ion-item [routerLink]="['/misVoucher']"> Mis voucher </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+
+<div class="ion-page" id="main-content">
+
+  <ion-header [translucent]="true">
+    <ion-toolbar color="light">
+      <ion-buttons slot="end">
+        <ion-menu-button></ion-menu-button>
+      </ion-buttons>
+      <ion-buttons slot="start" style="margin-left: 1rem;  font-size: x-large;" [routerLink]="['/home']">
+        <ion-icon name="home-outline"></ion-icon>
+      </ion-buttons>
+      <ion-title>Canjear puntos</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content *ngIf="puntos>=30; then ifBlock else elseBlock"> </ion-content>
+
+  <ng-template #ifBlock>
+    <ion-card style="background-color: rgb(255, 232, 128); height: 5rem; width: 15rem; margin-inline: auto;">
+      <ion-card-header>
+        <ion-card-title>Puntos acumulados</ion-card-title>
+        <div style="display: flex; justify-content: center;">
+          <ion-icon style=" font-size: xx-large; color: rgb(248, 142, 4);" name="star"></ion-icon>
+          <ion-card-content>
+            {{puntos}}
+          </ion-card-content>
+        </div>
+      </ion-card-header>
+    </ion-card>
+
+    <div>
+      <ion-item>
+        <ion-label position="floating"> Deporte</ion-label>
+        <ion-select interface="popover">
+          <ion-select-option *ngFor="let dep of deportes" [value]="dep">{{ dep }}</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-item style="margin-top: 2rem;">
+        <ion-label position="floating"> Cancha</ion-label>
+        <ion-select interface="popover">
+          <ion-select-option *ngFor="let can of canchas" [value]="can">{{ can }}</ion-select-option>
+        </ion-select>
+      </ion-item>
+    </div>
+
+    <div style="margin-bottom: 4rem; display: flex;">
+
+      <ion-col>
+        <ion-button type="submit" class="boton" style="background-color: gray; width: 10rem;" expand="full" strong
+          (click)="cancel()">Cancelar</ion-button>
+      </ion-col>
+      <ion-col>
+        <ion-button type="submit" class="boton" color="success" style="width: 10rem;" expand="full"
+          strong>Canjear</ion-button>
+      </ion-col>
+    </div>
+  </ng-template>
+
+  <ng-template #elseBlock>
+    <ion-card style="background-color: rgb(187, 187, 187); height: 5rem; width: 15rem; margin-inline: auto;">
+      <ion-card-header>
+        <ion-card-title>Puntos acumulados</ion-card-title>
+        <div style="display: flex; justify-content: center;">
+          <ion-icon style=" font-size: xx-large; color: rgb(99, 97, 96);" name="star"></ion-icon>
+          <ion-card-content>
+            {{puntos}}
+          </ion-card-content>
+        </div>
+      </ion-card-header>
+    </ion-card>
+
+    <div>
+      <ion-text class="mensaje">
+        No cuentas con puntos suficientes para canjear
+      </ion-text>           
+    </div>
+    <div>
+      <ion-text>Cantidad de puntos acumulados:{{puntos}}</ion-text>
+      <ion-text>Cantidad de puntos necesarios: 30 </ion-text>
+    </div> 
+
+    <div style="margin-bottom: 4rem; display: flex;">
+      <ion-col>
+        <ion-button type="submit" class="boton" style="background-color: gray; width: 10rem;" expand="full" strong
+          (click)="cancel()">Volver</ion-button>
+      </ion-col>      
+    </div>
+  </ng-template>
