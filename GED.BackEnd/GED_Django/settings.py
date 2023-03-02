@@ -28,8 +28,28 @@ SECRET_KEY = 'django-insecure-xh=n$!slh7r87k$f_bo)=l4g)w-a-$$&$8^w6fn%r^&c-1wtan
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+CORS_ORIGIN_ALLOW_ALL = True
+
 ALLOWED_HOSTS = ['127.0.0.1', '.pythonanywhere.com']
 
+CORS_ALLOWED_ORIGINS = [
+    "http://127.0.0.1",
+    "http://pythonanywhere.com",
+]
+
+CORS_ORIGIN_WHITELIST = [
+    "http://127.0.0.1",
+    "http://pythonanywhere.com",
+]
+
+CORS_ALLOW_METHODS = [
+    'DELETE',
+    'GET',
+    'PATCH',
+    'POST',
+    'PUT',
+]
+CORS_ALLOW_CREDENTIALS = False
 
 # Application definition
 
@@ -44,6 +64,7 @@ INSTALLED_APPS = [
     'adminplus',
     'bootstrap5',
     'rest_framework',
+    "corsheaders",
     'deportes.apps.DeportesConfig',
     'canchas.apps.CanchasConfig',
     'tipos_partidos.apps.TiposPartidosConfig',
@@ -58,6 +79,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
