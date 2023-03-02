@@ -10,7 +10,7 @@ export class CanjearPuntosComponent implements OnInit {
 
   deportes: any[] = ['Tenis', 'Futbol', 'Voley', 'Paddel'];
   canchas: any[] = ['Cancha SRL', 'Cancha Tito', 'Cancha 5'];
-  puntos: number = 30;
+  puntos: number = 10;
     
   constructor(
     private router: Router,

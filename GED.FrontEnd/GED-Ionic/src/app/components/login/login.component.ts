@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -8,17 +9,22 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class LoginComponent implements OnInit {
   
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder, private authService: AuthService) { }
   
   form: FormGroup = this.fb.group({
-    email: ['',Validators.required],
-    psw: ['',Validators.required],
+    email: ['Julieta',Validators.required],
+    psw: ['Proyecto2022',Validators.required],
   })
 
-  ngOnInit() {}
-
-  async login() {
+  ngOnInit() {
+    this.login();
   }
+
+  login() {
+    this.authService.login();
+    }
+
+
 
   get email() {
     return this.form.get('email');

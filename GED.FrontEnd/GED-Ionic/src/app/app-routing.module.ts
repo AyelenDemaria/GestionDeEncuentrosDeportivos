@@ -17,6 +17,7 @@ import { VoucherComponent } from './components/voucher/voucher.component';
 
 const routes: Routes = [
   // {path: 'home' , component: AppComponent},
+  {path: '',   redirectTo: '/login', pathMatch: 'full' },
   {path: 'login' , component: LoginComponent},
   {path: 'register', component: RegisterComponent},
   {path: 'profile', component: ProfileComponent},
@@ -29,7 +30,7 @@ const routes: Routes = [
   {path: 'nuevoPartido', component: NuevoPartidoComponent},
   {path: 'invitar', component: InvitarComponent},
   {path: 'canjear', component:CanjearPuntosComponent},
-  {path: 'voucher', component:VoucherComponent}
+  {path: 'voucher', component:VoucherComponent},
 ];
 
 @NgModule({

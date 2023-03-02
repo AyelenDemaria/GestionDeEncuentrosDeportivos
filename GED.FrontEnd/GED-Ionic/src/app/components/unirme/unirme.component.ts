@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { PartidoService } from 'src/app/services/partido.service';
 
 @Component({
   selector: 'app-unirme',
@@ -6,6 +7,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./unirme.component.scss'],
 })
 export class UnirmeComponent implements OnInit {
+
+
+
 
   partidos: any[] = [
     {deporte: 'Voley',
@@ -39,8 +43,17 @@ export class UnirmeComponent implements OnInit {
   
 
 
-  constructor() { }
+  constructor(
+    private partidoService: PartidoService
+  ) { 
 
-  ngOnInit() {}
+  }
+
+  ngOnInit() {
+  }
 
 }
+
+// getCanchas(): Observable<any> {
+//   return this.httpClient.get<any>('https://ayelend.pythonanywhere.com/canchas/api')
+// }
