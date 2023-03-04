@@ -41,19 +41,9 @@ export class UnirmeComponent implements OnInit {
   canchas: any[] = ['Cancha SRL', 'Cancha Tito', 'Cancha 5']
     
   
-
-
-  constructor(
-    private partidoService: PartidoService
-  ) { 
-
-  }
+  constructor(private partidoService: PartidoService) { }
 
   ngOnInit() {
+    this.partidoService.getPartidos().subscribe(x => console.log(x))
   }
-
 }
-
-// getCanchas(): Observable<any> {
-//   return this.httpClient.get<any>('https://ayelend.pythonanywhere.com/canchas/api')
-// }

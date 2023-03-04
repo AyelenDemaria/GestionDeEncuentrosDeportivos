@@ -13,23 +13,20 @@ export class PartidoService {
     private http: HttpClient,
   ) { }
 
-  
-  getPartidos(){
+  getPartidos() {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': 'Basic ' + btoa('Julieta:Proyecto2022')
     });
-   
     return this.http.get<any>('https://ayelend.pythonanywhere.com/partidos/api', { headers: headers })
   }
 
-postPartido(){
-  const body = {
-    fechaHora: '',
-    cantJugadores: '',
-    tipoPartido: '',
-    cancha: ''
+  postPartido() {
+    const body = {
+      fechaHora: '',
+      cantJugadores: '',
+      tipoPartido: '',
+      cancha: ''
+    }
   }
-  this.http.post(`{apirlUr}/partidos/api`,body)
-}
 }
