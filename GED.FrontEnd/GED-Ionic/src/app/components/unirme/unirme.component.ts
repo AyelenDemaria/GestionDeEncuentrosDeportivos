@@ -7,10 +7,6 @@ import { PartidoService } from 'src/app/services/partido.service';
   styleUrls: ['./unirme.component.scss'],
 })
 export class UnirmeComponent implements OnInit {
-
-
-
-
   partidos: any[] = [
     {deporte: 'Voley',
      cantInscriptos:'8',
@@ -44,6 +40,6 @@ export class UnirmeComponent implements OnInit {
   constructor(private partidoService: PartidoService) { }
 
   ngOnInit() {
-    this.partidoService.getPartidos().subscribe(x => console.log(x))
+    this.partidoService.getPartidos().subscribe(x => console.log(x), err => console.log(err))
   }
 }

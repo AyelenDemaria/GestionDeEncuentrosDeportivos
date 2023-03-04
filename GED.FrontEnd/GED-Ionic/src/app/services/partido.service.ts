@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -13,12 +14,12 @@ export class PartidoService {
     private http: HttpClient,
   ) { }
 
-  getPartidos() {
+  getPartidos(username: string = 'Julieta', password: string = 'Proyecto2022'): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      'Authorization': 'Basic ' + btoa('Julieta:Proyecto2022')
+      'Authorization': 'Basic ' + btoa(username + ':' + password)
     });
-    return this.http.get<any>('https://ayelend.pythonanywhere.com/partidos/api', { headers: headers })
+    return this.http.get<any>('https://ayelend.pythonanywhere.com/partidos/api', { headers });
   }
 
   postPartido() {
@@ -28,5 +29,6 @@ export class PartidoService {
       tipoPartido: '',
       cancha: ''
     }
+    this.http.post(`{apirlUr}/partidos/api`, body)
   }
 }
