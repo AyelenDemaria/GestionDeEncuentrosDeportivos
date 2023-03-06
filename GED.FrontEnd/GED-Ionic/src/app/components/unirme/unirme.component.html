@@ -29,72 +29,62 @@
       <ion-title>Unirme a un partido</ion-title>
     </ion-toolbar>
   </ion-header>
-  <ion-content  [fullscreen]="true" class="text-center">
-    <div>
-      <ion-item lines="full">
-        <ion-label position="floating">Fecha</ion-label>
-        <ion-input placeholder="Seleccionar fecha" type="text"></ion-input>
-      </ion-item>      
-    </div>
+  <ion-content [fullscreen]="true" class="text-center">
+
+    <ion-item lines="full">
+      <ion-label position="floating">Fecha</ion-label>
+      <ion-input (click)="abrirCalendario()" value="{{fecha | date:'yyyy-MM-dd HH:mm'}}" readonly="true"></ion-input>
+      <ion-icon name="calendar" slot="end" (click)="ocultarCalendario = true" ></ion-icon>
+      <ion-datetime displayFormat="YYYY-MM-DD HH:mm" pickerFormat="YYYY MMM DD HH:mm" [(ngModel)]="fecha"
+        *ngIf="!ocultarCalendario" (ionChange)="seleccionarFechaHora($event)"></ion-datetime>
+    </ion-item>
+
     <ion-item>
       <ion-label position="floating"> Deporte</ion-label>
       <ion-select interface="popover">
-        <ion-select-option *ngFor="let dep of deportes" [value]="dep">{{ dep }}</ion-select-option>         
+        <ion-select-option *ngFor="let dep of deportes" [value]="dep">{{ dep }}</ion-select-option>
       </ion-select>
     </ion-item>
     <ion-item>
       <ion-label position="floating"> Cancha</ion-label>
       <ion-select interface="popover">
-        <ion-select-option *ngFor="let can of canchas" [value]="can">{{ can }}</ion-select-option>         
+        <ion-select-option *ngFor="let can of canchas" [value]="can">{{ can }}</ion-select-option>
       </ion-select>
     </ion-item>
-    
+    <div>
+      <button (click)="filtrar()">
+        Filtrar
+      </button>
+    </div>
 
-      <div class="content boton">
-        <div *ngFor="let part of partidos">
 
-          <ion-card>
-            <ion-card-header style="padding-bottom: 0;">
-              <div style="display: flex; justify-content: space-between;">
-                <ion-card-title>Partido de {{part.deporte}}</ion-card-title><button>UNIRME</button>              
-              </div>
-              <ion-card-subtitle>{{part.cantInscriptos}} inscriptos</ion-card-subtitle>
-            </ion-card-header>
-            <ion-card-content>
-              <ion-list>
-                <ion-item>
-                  <ion-text>Fecha y hora:</ion-text> {{part.fechaHora}}
-                </ion-item>
-                <ion-item>
-                  <ion-text>Cantidad jugadores:</ion-text> {{part.cantJugadores}}
-                </ion-item>
-                <ion-item>
-                  <ion-text>Cancha:</ion-text> {{part.cancha}}
-                </ion-item>
-                <ion-item>
-                  <ion-text>Tipo de partido:</ion-text> {{part.tipoPartido}}
-                </ion-item>              
-              </ion-list>
-            </ion-card-content>
-          </ion-card>
-        </div>
+    <div class="content boton">
+      <div *ngFor="let part of partidos">
+
+        <ion-card>
+          <ion-card-header style="padding-bottom: 0;">
+            <div style="display: flex; justify-content: space-between;">
+              <ion-card-title>Partido de {{part.deporte}}</ion-card-title><button>UNIRME</button>
+            </div>
+            <ion-card-subtitle>{{part.cantInscriptos}} inscriptos</ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-list>
+              <ion-item>
+                <ion-text>Fecha y hora:</ion-text> {{part.fechaHora}}
+              </ion-item>
+              <ion-item>
+                <ion-text>Cantidad jugadores:</ion-text> {{part.cantJugadores}}
+              </ion-item>
+              <ion-item>
+                <ion-text>Cancha:</ion-text> {{part.cancha}}
+              </ion-item>
+              <ion-item>
+                <ion-text>Tipo de partido:</ion-text> {{part.tipoPartido}}
+              </ion-item>
+            </ion-list>
+          </ion-card-content>
+        </ion-card>
       </div>
-    </ion-content>
-
-
-
-
-
-
-  <!-- <ion-item>
-    <ion-icon icon="calendar-outline"></ion-icon>
-    <ion-label position="floating">Fecha</ion-label>
-    <ion-text > </ion-text>    
-  </ion-item> -->
-  <!-- <ion-modal>
-    <ion-content>
-      <div>
-        <ion-datetime></ion-datetime>
-      </div>
-    </ion-content>
-  </ion-modal> -->
+    </div>
+  </ion-content>
