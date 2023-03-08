@@ -1,32 +1,10 @@
 <!-- HEADER Y MENU -->
-<ion-menu contentId="main-content">
-  <ion-header>
-    <ion-toolbar color="success">
-      <ion-title style="font-weight: 500; font-size: large;">MENU</ion-title>
-    </ion-toolbar>
-  </ion-header>
-  <ion-content>
-    <ion-list>
-      <ion-item [routerLink]="['/nuevoPartido']"> Nuevo Partido </ion-item>
-      <ion-item [routerLink]=""> Unirme a un partido </ion-item>
-      <ion-item [routerLink]="['/register']"> Mis partidos </ion-item>
-      <ion-item [routerLink]="['/invitaciones']"> Invitaciones </ion-item>
-      <ion-item [routerLink]=""> Canjear puntos </ion-item>
-      <ion-item [routerLink]="['/misVoucher']"> Mis voucher </ion-item>
-    </ion-list>
-  </ion-content>
-</ion-menu>
 
 <div class="ion-page" id="main-content">
 
   <ion-header [translucent]="true">
     <ion-toolbar color="light">
-      <ion-buttons slot="end">
-        <ion-menu-button></ion-menu-button>
-      </ion-buttons>
-      <ion-buttons slot="start" style="margin-left: 1rem;  font-size: x-large;" [routerLink]="['/home']">
-        <ion-icon name="home-outline"></ion-icon>
-      </ion-buttons>
+      
       <ion-title>Registro</ion-title>
     </ion-toolbar>
   </ion-header>

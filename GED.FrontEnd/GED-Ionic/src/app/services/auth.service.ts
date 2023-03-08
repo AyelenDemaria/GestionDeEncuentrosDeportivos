@@ -22,4 +22,6 @@ export class AuthService {
   }
 }
 
-
+export interface ResponseAuthenticate {
+  
+}

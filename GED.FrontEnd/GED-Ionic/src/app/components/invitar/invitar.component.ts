@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { UsuarioService } from 'src/app/services/usuario.service';
 
 @Component({
   selector: 'app-invitar',
@@ -7,34 +8,28 @@ import { Component, OnInit } from '@angular/core';
 })
 export class InvitarComponent implements OnInit {
 
-  jugadores: any[] = [
-    {dni: '38654792',
-     nombre: 'Marta Perez',
-     sexo: 'Femenino',
-     mail: 'marta@gmail.com',
-     telefono:'3416985230',
-     fechaNac: '15/03/95'
-     },
+  jugadores:any[] = [];
   
-     {dni: '35769841',
-     nombre: 'Juan Navarro',
-     sexo: 'Masculino',
-     mail: 'juanava@gmail.com',
-     telefono:'3415320147',
-     fechaNac: '25/05/91'
-     },
+  constructor(
+    private usuarioService: UsuarioService,
+  ) { }
+
+  ngOnInit() {
+    
+
+    this.usuarioService.getUsuarios().subscribe(
+      (data: any[]) => {
+        this.jugadores = data;
+        console.log(this.jugadores);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+
+
+
+  } 
   
-     {dni: '40589231',
-     nombre: 'Renata Acuario',
-     sexo: 'Femenino',
-     mail: 'renacuario@gmail.com',
-     telefono:'34156320148',
-     fechaNac: '08/06/99'
-     },
-  ] ;
-
-  constructor() { }
-
-  ngOnInit() {}
 
 }

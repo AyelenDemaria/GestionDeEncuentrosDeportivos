@@ -7,12 +7,14 @@
   </ion-header>
   <ion-content>
     <ion-list>
-      <ion-item [routerLink]="['/nuevoPartido']"> Nuevo Partido </ion-item>
-      <ion-item [routerLink]=""> Unirme a un partido </ion-item>
-      <ion-item [routerLink]="['/register']"> Mis partidos </ion-item>
-      <ion-item [routerLink]="['/invitaciones']"> Invitaciones </ion-item>
-      <ion-item [routerLink]=""> Canjear puntos </ion-item>
+      <ion-item [routerLink]="['/profile']"> Mi perfil </ion-item>
+      <!-- <ion-item [routerLink]="['/nuevoPartido']"> Nuevo Partido </ion-item> -->
+      <ion-item [routerLink]="['/unirme']"> Unirme a un partido </ion-item>
+      <ion-item [routerLink]="['/misPartidos']"> Mis partidos </ion-item> 
+      <ion-item [routerLink]="['/invitaciones']"> Invitaciones </ion-item> 
+      <ion-item [routerLink]="['/canjear']"> Canjear puntos </ion-item>
       <ion-item [routerLink]="['/misVoucher']"> Mis voucher </ion-item>
+      <ion-item [routerLink]="['/reporte']">Reporte de partidos</ion-item>
     </ion-list>
   </ion-content>
 </ion-menu>
@@ -103,7 +105,7 @@
           <div style="margin-top: 4rem;">
             <ion-col>
               <ion-button type="submit" class="boton" color="success" expand="full" [disabled]="!form.valid"
-                strong>Crear partido</ion-button>
+                strong (click)="crearPartido()">Crear partido</ion-button>
             </ion-col>
           
           <ion-col>

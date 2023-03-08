@@ -6,12 +6,14 @@
   </ion-header>
   <ion-content>
     <ion-list>
+      <ion-item [routerLink]="['/profile']"> Mi perfil </ion-item>
       <ion-item [routerLink]="['/nuevoPartido']"> Nuevo Partido </ion-item>
-      <ion-item [routerLink]=""> Unirme a un partido </ion-item>
-      <ion-item [routerLink]="['/register']"> Mis partidos </ion-item>
+      <ion-item [routerLink]="['/unirme']"> Unirme a un partido </ion-item>
+      <ion-item [routerLink]="['/misPartidos']"> Mis partidos </ion-item>
       <ion-item [routerLink]="['/invitaciones']"> Invitaciones </ion-item>
-      <ion-item [routerLink]=""> Canjear puntos </ion-item>
+      <ion-item [routerLink]="['/canjear']"> Canjear puntos </ion-item>
       <ion-item [routerLink]="['/misVoucher']"> Mis voucher </ion-item>
+      <ion-item [routerLink]="['/reporte']">Reporte de partidos</ion-item>
     </ion-list>
   </ion-content>
 </ion-menu>
@@ -39,12 +41,12 @@
         <ion-card>
           <ion-card-header style="padding-bottom: 0;">
             <div style="display: flex; justify-content: space-between;">
-              <ion-card-title>{{jug.nombre}}</ion-card-title>             
+              <ion-card-title>{{jug.user.first_name}} {{jug.user.last_name}}</ion-card-title>             
               <ion-buttons style="font-size: x-large;">
                 <ion-icon  class="yes" name="person-add"></ion-icon>
               </ion-buttons>              
             </div>
-            <ion-card-subtitle>DNI: {{jug.dni}}</ion-card-subtitle>
+            <ion-card-subtitle>DNI: {{jug.documento}}</ion-card-subtitle>
           </ion-card-header>
           <ion-card-content>
             <ion-list>
@@ -52,13 +54,13 @@
                 <ion-text>Sexo:</ion-text> {{jug.sexo}}
               </ion-item>
               <ion-item>
-                <ion-text>Mail:</ion-text> {{jug.mail}}
+                <ion-text>Usuario:</ion-text> {{jug.user.username}}
               </ion-item>
               <ion-item>
                 <ion-text>Celular:</ion-text> {{jug.telefono}}
               </ion-item>
               <ion-item>
-                <ion-text>Fecha de nacimiento:</ion-text> {{jug.fechaNac}}
+                <ion-text>Fecha de nacimiento:</ion-text> {{jug.fecha_nacimiento}}
               </ion-item>              
             </ion-list>
           </ion-card-content>

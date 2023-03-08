@@ -3,24 +3,24 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
+
 @Injectable({
   providedIn: 'root'
 })
-export class CanchaService {
-
+export class UsuarioService {
   apiUrl = environment.baseURL
 
   constructor(
-    private httpClient: HttpClient
+    private http: HttpClient,
   ) { }
 
-  
-  getCanchas(username: string = 'Julieta', password: string = 'Proyecto2022'): Observable<any> {
+  getUsuarios(username: string = 'Julieta', password: string = 'Proyecto2022'): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': 'Basic ' + btoa(username + ':' + password)
     });
-    return this.httpClient.get<any>('https://ayelend.pythonanywhere.com/canchas/api', { headers });
+    return this.http.get<any>('https://ayelend.pythonanywhere.com/usuarios/api', { headers });
   }
-}
 
+ 
+}
