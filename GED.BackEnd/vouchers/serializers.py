@@ -1,7 +1,12 @@
 from rest_framework import serializers
 from .models import Voucher
+from canchas.serializers import CanchaSerializer
+from usuarios.serializers import PerfilSerializer
+
 
 class VoucherSerializer(serializers.ModelSerializer):
+    cancha = CanchaSerializer(many=False)
+    jugador = PerfilSerializer(many=False)
     class Meta:
         model = Voucher
         fields = ["id","fecha_canje", "fecha_emision", "fecha_vencimiento", "jugador", "cancha"]
