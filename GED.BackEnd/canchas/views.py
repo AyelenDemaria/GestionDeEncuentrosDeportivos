@@ -20,3 +20,17 @@ class CanchaListApiView(APIView):
         canchas = Cancha.objects.all()
         serializer = CanchaSerializer(canchas, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+class CanchaByDeporteListApiView(APIView):
+    # add permission to check if user is authenticated
+    permission_classes = [permissions.IsAuthenticated]
+
+    # 1. List all
+    def get(self, request, *args, **kwargs):
+        '''
+        Lista de todas las canchas de un deporte
+        '''
+        pk = int(request.data["deporte_id"])
+        canchas = Cancha.objects.filter(deporte_id=pk)
+        serializer = CanchaSerializer(canchas, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
