@@ -10,10 +10,13 @@ import { CanchaService} from 'src/app/services/cancha.service';
 })
 export class RegisterComponent implements OnInit {
   private emailPattern: any = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
+  
+  fecha: string = new Date().toISOString();
+  ocultarCalendario = true;
+  
   constructor(private fb: FormBuilder, 
               private router: Router,
-              private canchaService: CanchaService) { }  
+             ) { }  
 
   public form: FormGroup = this.fb.group({
     nombre: ['', Validators.required],
@@ -29,13 +32,10 @@ export class RegisterComponent implements OnInit {
  
  
   ngOnInit() { 
-    this.getListadoCanchas();
+    
   }
 
-  getListadoCanchas(){
-    this.canchaService.getCanchas().subscribe(res=>console.log(res))
-  }
-
+  
   cancel() {
     this.router.navigateByUrl('login')
   }
@@ -58,14 +58,25 @@ export class RegisterComponent implements OnInit {
   get apellido() {
     return this.form.get('apellido');
   }
-  get fecha() {
-    return this.form.get('fecha');
-  }
+  // get fecha() {
+  //   return this.form.get('fecha');
+  // }
   get sexo() {
     return this.form.get('sexo');
   }
   get dni() {
     return this.form.get('dni');
   }
+
+  abrirCalendario() {
+    this.ocultarCalendario = false;
+ 
+  }
+  seleccionarFechaHora(evento: any) {
+    this.fecha = evento.detail.value;
+    console.log(this.fecha); 
+  } 
+
+
 
 }

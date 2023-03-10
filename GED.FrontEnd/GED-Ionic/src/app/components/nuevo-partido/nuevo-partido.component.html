@@ -40,8 +40,8 @@
           <div>
             <ion-item>
               <ion-label position="floating"> Deporte</ion-label>
-              <ion-select interface="popover" required formControlName="deporte">
-                <ion-select-option *ngFor="let dep of deportes" [value]="dep">{{ dep }} </ion-select-option>
+              <ion-select interface="popover" required formControlName="deporte" (ionChange)="seleccionarDeporte($event)">
+                <ion-select-option *ngFor="let deporte of deportes" [value]="deporte.id">{{ deporte.descripcion }} </ion-select-option>
               </ion-select>
             </ion-item>
             <div class="alert alert-danger" *ngIf="deporte.invalid && (deporte.dirty || deporte.touched)">
@@ -52,7 +52,7 @@
             <ion-item>
               <ion-label position="floating"> Tipo de partido</ion-label>
               <ion-select interface="popover" required formControlName="tipoPart">
-                <ion-select-option *ngFor="let tipo of tipos" [value]="tipo">{{ tipo }}</ion-select-option>
+                <ion-select-option *ngFor="let tipo of tiposPartidos" [value]="tipo.id">{{ tipo.descripcion }}</ion-select-option>
               </ion-select>
             </ion-item>
             <div class="alert alert-danger" *ngIf="tipoPart.invalid && (tipoPart.dirty || tipoPart.touched)">
@@ -62,7 +62,7 @@
             </div>
             <ion-item>
               <ion-label position="floating"> Cancha</ion-label>
-              <ion-select interface="popover" required formControlName="cancha">
+              <ion-select interface="popover" required formControlName="cancha"  (ionChange)="seleccionarCancha($event)">
                 <ion-select-option *ngFor="let can of canchas" [value]="can">{{ can }}</ion-select-option>
               </ion-select>
             </ion-item>

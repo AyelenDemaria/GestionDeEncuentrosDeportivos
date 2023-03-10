@@ -21,6 +21,4 @@ export class UsuarioService {
     });
     return this.http.get<any>('https://ayelend.pythonanywhere.com/usuarios/api', { headers });
   }
-
- 
 }
