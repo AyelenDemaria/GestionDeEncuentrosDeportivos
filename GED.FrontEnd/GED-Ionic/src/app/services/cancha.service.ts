@@ -27,10 +27,10 @@ export class CanchaService {
       'Content-Type': 'application/json',
       'Authorization': 'Basic ' + btoa(username + ':' + password)
     });
-    const url = `https://ayelend.pythonanywhere.com/canchas/api/cancha_deporte/${deporte_id}`;
-    return this.httpClient.get<any>(url, { headers });
+    const url = `https://ayelend.pythonanywhere.com/canchas/api/cancha_deporte?deporte_id=${deporte_id}`;
+    console.log(url)
 
-    
+    return this.httpClient.get<any>(url, { headers });
     // return this.httpClient.get<any>('https://ayelend.pythonanywhere.com/canchas/api/cancha_deporte/',{ headers });
   }
 }
