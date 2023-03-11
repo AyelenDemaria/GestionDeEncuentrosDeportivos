@@ -3,10 +3,10 @@ from .models import Cancha
 from deportes.models import Deporte
 from deportes.serializers import DeporteSerializer
 
-class DeporteSerializer(serializers.ModelSerializer):
+"""class DeporteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Deporte
-        fields = ["descripcion"]
+        fields = ["descripcion"]"""
 
 class CanchaSerializer(serializers.ModelSerializer):
     deporte = DeporteSerializer(many=False)

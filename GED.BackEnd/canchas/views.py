@@ -34,7 +34,7 @@ class CanchaByDeporteListApiView(APIView):
         '''
         Lista de todas las canchas de un deporte
         '''
-        pk = int(request.data["deporte_id"])
+        pk = int(request.data['deporte_id'])
         canchas = Cancha.objects.filter(deporte_id=pk)
         serializer = CanchaSerializer(canchas, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)

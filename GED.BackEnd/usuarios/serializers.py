@@ -16,9 +16,9 @@ class PerfilSerializer(serializers.ModelSerializer):
         fields = ["user","documento","fecha_nacimiento","telefono","sexo","puntos_acum" ]
 
     def create(self, validated_data):
-        print("---------------")
-        print(validated_data)
-        print("---------------")
+        #print("---------------")
+        #print(validated_data)
+        #print("---------------")
         user_data = validated_data.pop('user')
         user_instance = User.objects.create(
             username=user_data['username'],
@@ -40,7 +40,7 @@ class UserLoginSerializer(serializers.Serializer):
     # Campos que vamos a requerir
     username = serializers.CharField()
     password = serializers.CharField()
-    print("username and password:", username, password)
+    #print("username and password:", username, password)
     # Primero validamos los datos
     def validate(self, data):
         print("validate", data)

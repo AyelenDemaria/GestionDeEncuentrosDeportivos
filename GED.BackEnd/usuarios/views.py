@@ -77,16 +77,36 @@ class PerfilListApiView(APIView):
 
         serializer = PerfilSerializer(instance=perfil, data=request.data, partial = True)
         if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_200_OK)
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_200_OK)
+
+
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class CambioClaveAPIVIew(APIView):
+    def put(self, request, *args, **kwargs):
+        permission_classes = [permissions.IsAuthenticated]
+        print(request.data.get('password_1'))
+        print(request.data.get('password_2'))
+        if not (request.data.get('password_1') == None or request.data.get('password_2')== None):
+            if request.data.get('password_1') == request.data.get('password_2'):
+                usuario = User.objects.get(username = request.user)
+                #usuario = User.objects.get(id=id_user)
+                print("-------user:",usuario)
+                usuario.password = make_password(request.data.get('password_1'))
+                usuario.save()
+                return Response("Clave actualizada con exito", status=status.HTTP_200_OK)
+            else:
+                raise serializers.ValidationError('Las contraseñas no coinciden')
+        else:
+            raise serializers.ValidationError('Debe completar todos los campos')
+
 
 class UserLoginApiView(APIView):
     serializer_class = UserSerializer
     def post(self,request, *args, **kwargs):
         print("*", request.data)
         serializer = UserLoginSerializer(data=request.data)
-
         if serializer.is_valid():
             #user = serializer.save()
             #serializer.save()
@@ -99,7 +119,22 @@ class UserLoginApiView(APIView):
             return Response(data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+class UserDataAPIView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+    def get(self, request, *args, **kwargs):
+        id_user = User.objects.get(username = request.user)
+        perfil = Perfil.objects.get(user_id=id_user)
+        usuario = Perfil.objects.get(id=perfil.id)
+        serializer = PerfilSerializer(usuario, many=False)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
+class UserLogoutApiView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+    def get(self, request, *args, **kwargs):
+        print("usuario logueado:",request.user)
+        logout(request)
+        print("luego del logout:", request.user)
+        return Response('Se ha cerrado sesión', status=status.HTTP_200_OK)
 
 class ReporteByUserApiView(APIView):
     # add permission to check if user is authenticated
@@ -161,8 +196,6 @@ class ReporteByUserApiView(APIView):
 class PuntosUsertApiView(APIView):
     # add permission to check if user is authenticated
     #permission_classes = [permissions.IsAuthenticated]
-
-    # 1. List all
     def get(self, request, *args, **kwargs):
         '''
         Puntos del usuario logueado
@@ -175,13 +208,11 @@ class PuntosUsertApiView(APIView):
 
 
 def reporte_usuarios(request):
-
     usuarios = Perfil.objects.all()
     resultado = []
     for k in usuarios:
         #partidos creados: busca los partidos donde creado_id sea el del usuario logueado
         partidos_creados = Partido.objects.filter(creador_id = k.id)
-        #print("partidos creados:", partidos_creados)
         if partidos_creados:
             cant_partidos_creados = partidos_creados.count()
         else:
@@ -199,7 +230,6 @@ def reporte_usuarios(request):
                         if i.partido_id != j.id:
                             print(j.id)
                             part_no_creados.append(j)"""
-                #print("partidos no credos:",part_no_creados)
                 if part_no_creados:
                     cant_unidos =  len(part_no_creados)
                 else:
@@ -224,6 +254,5 @@ def reporte_usuarios(request):
         vouchers = Voucher.objects.filter(jugador_id = k.id)
         cant_vouchers = vouchers.count()
         resultado.append([k,k.puntos_acum,cant_partidos_creados, cant_unidos,cant_jugados,cant_no_jugados,cant_vouchers])
-
     resultado.sort(key = lambda resultado: resultado[1], reverse=True)
     return render(request, 'usuarios/reporte_usuarios.html', {'resultado': resultado})
