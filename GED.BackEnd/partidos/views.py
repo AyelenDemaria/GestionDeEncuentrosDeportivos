@@ -7,7 +7,7 @@ from rest_framework import status
 from rest_framework import permissions
 from .models import Partido
 from inscripciones.models import Inscripcion
-from .serializers import PartidoSerializer, InscriptosPartidoSerializer
+from .serializers import PartidoSerializer, PartidoGetSerializer, InscriptosPartidoSerializer
 from inscripciones.serializers import InscripcionSerializer
 from django.utils import timezone
 from datetime import datetime
@@ -41,7 +41,7 @@ class PartidoListApiView(APIView):
             cant_insc = insc.count()
             if cant_insc < j.cant_jugadores:
                 partidos_disp.append(j)
-        serializer = PartidoSerializer(partidos_disp, many=True)
+        serializer = PartidoGetSerializer(partidos_disp, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request, *args, **kwargs):
@@ -83,7 +83,7 @@ class PartidoListApiView(APIView):
                     if serializer_inscripcion.is_valid():
                             serializer_inscripcion.save()
                     return Response(serializer_partido.data, status=status.HTTP_201_CREATED)
-                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+                return Response(serializer_partido.errors, status=status.HTTP_400_BAD_REQUEST)
             else:
                 raise serializers.ValidationError('Ya estas inscripto a otro partido en esa fecha y hora')
         else:
@@ -103,7 +103,7 @@ class PartidoByUserApiView(APIView):
 
         #pk = self.kwargs.get('pk')
         partidos = Partido.objects.filter(creador_id = perfil.id)
-        serializer = PartidoSerializer(partidos, many=True)
+        serializer = PartidoGetSerializer(partidos, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 class InscritosByPartidoApiView(APIView):
