@@ -106,6 +106,34 @@ class PartidoByUserApiView(APIView):
         serializer = PartidoGetSerializer(partidos, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+class PartidoSemanaApiView(APIView):
+    # add permission to check if user is authenticated
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request, *args, **kwargs):
+        '''
+        Valida si el usuario tiene partidos en los próximos 5 días
+        '''
+        id_user = User.objects.get(username = request.user)
+        perfil = Perfil.objects.get(user_id=id_user)
+        fecha_hora_actual = timezone.localtime(timezone.now())
+        fecha_actual = fecha_hora_actual.date()
+        partidos = Inscripcion.objects.filter(jugador_id = perfil.id, fecha_hora_baja__isnull=True, partido__fecha_hora__gt=fecha_hora_actual)
+        if partidos:
+            for i in partidos:
+                partido = Partido.objects.get(id=i.partido_id)
+                fecha_hora_partido = timezone.localtime(partido.fecha_hora)
+                fecha_partido = fecha_hora_partido.date()
+                diferencia = datetime.strptime(str(fecha_partido),"%Y-%m-%d") - datetime.strptime(str(fecha_actual),"%Y-%m-%d")
+                if diferencia.total_seconds() <= 432000:
+                    print("hola")
+                    return Response(1, status=status.HTTP_200_OK)
+                    break
+            return Response(0, status=status.HTTP_200_OK)
+        else:
+            return Response(0, status=status.HTTP_200_OK)
+
+
 class InscritosByPartidoApiView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 

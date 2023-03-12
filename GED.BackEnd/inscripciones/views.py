@@ -134,7 +134,7 @@ class InscripcionByUserApiView(APIView):
         serializer = InscripcionGetSerializer(inscripciones, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-class RecordatorioPartidosApiView(APIView):
+"""class RecordatorioPartidosApiView(APIView):
     # add permission to check if user is authenticated
     permission_classes = [permissions.IsAuthenticated]
 
@@ -148,4 +148,4 @@ class RecordatorioPartidosApiView(APIView):
         #pk = self.kwargs.get('pk')
         inscripciones = Inscripcion.objects.filter(jugador_id = perfil.id, fecha_hora_baja__isnull=True).order_by("partido__fecha_hora")
         serializer = InscripcionGetSerializer(inscripciones, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.data, status=status.HTTP_200_OK)"""

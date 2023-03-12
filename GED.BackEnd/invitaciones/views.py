@@ -32,7 +32,7 @@ class InvitacionListApiView(APIView):
         id_user = User.objects.get(username = request.user)
         perfil = Perfil.objects.get(user_id=id_user)
 
-        invitaciones = Invitacion.objects.filter(usuario_invitado = perfil.id)
+        invitaciones = Invitacion.objects.filter(usuario_invitado = perfil.id).order_by("-partido__fecha_hora")
         serializer = InvitacionGetSerializer(invitaciones, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
