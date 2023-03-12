@@ -89,6 +89,11 @@ class PartidoListApiView(APIView):
         else:
             raise serializers.ValidationError('Ya existe un partido para esa fecha y hora en esa cancha')
 
+    """def delete(self, request, *args, **kwargs):
+        pk = int(request.data["partido_id"])
+        partido = partido.objects.get(id=pk)
+        partido.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)"""
 
 class PartidoByUserApiView(APIView):
     # add permission to check if user is authenticated

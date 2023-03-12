@@ -101,11 +101,8 @@ class InscripcionListApiView(APIView):
             print("hora_partido:", hora_partido)
             print("fecha_actual:", fecha_actual)
             print("hora actual:",hora_actual)
-
-
             if fecha_actual == fecha_partido:
                 diferencia = datetime.strptime(hora_actual,"%H:%M:%S") - datetime.strptime(hora_partido,"%H:%M:%S")
-
                 print("dif:", diferencia)
                 #hs_actual = hora_actual.hour()
                 #print(hs_actual)
@@ -115,6 +112,12 @@ class InscripcionListApiView(APIView):
                     perfil.puntos_acum -= 15
                     perfil.save()
             serializer.save()
+            #si era el unico inscripto se elimina el partido:
+            inscripciones = Inscripcion.objects.filter(partido_id=inscripcion.partido_id, fecha_hora_baja__isnull=True)
+            if not inscripciones:
+                partido = Partido.objects.get(id=partido.id)
+                partido.delete()
+                return Response(status=status.HTTP_204_NO_CONTENT)
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

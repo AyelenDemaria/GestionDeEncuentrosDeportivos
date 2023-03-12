@@ -13,4 +13,5 @@ urlpatterns = [
     path('api/partidoSemana/', PartidoSemanaApiView.as_view()),
     path('api/inscriptos/', InscritosByPartidoApiView.as_view()),
 
+
 ]
