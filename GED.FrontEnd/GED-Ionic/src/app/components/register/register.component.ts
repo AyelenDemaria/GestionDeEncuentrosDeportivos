@@ -9,7 +9,7 @@ import { CanchaService} from 'src/app/services/cancha.service';
   styleUrls: ['./register.component.scss'],
 })
 export class RegisterComponent implements OnInit {
-  private emailPattern: any = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  //private emailPattern: any = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   
   fecha: string = new Date().toISOString();
   ocultarCalendario = true;
@@ -26,13 +26,13 @@ export class RegisterComponent implements OnInit {
     fecha: ['', Validators.required],
     sexo: ['', Validators.required],
     dni: ['', [Validators.required, Validators.pattern("^[0-9]*$")]],
-    email: ['', [Validators.required, Validators.pattern(this.emailPattern)]],
+    user : ['', Validators.required],
     psw: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(15)]],
   })
  
  
   ngOnInit() { 
-    
+  
   }
 
   
@@ -49,8 +49,8 @@ export class RegisterComponent implements OnInit {
   get telefono() {
     return this.form.get('telefono');
   }
-   get email() {
-    return this.form.get('email');
+   get user() {
+    return this.form.get('user');
   }
   get nombre() {
     return this.form.get('nombre');

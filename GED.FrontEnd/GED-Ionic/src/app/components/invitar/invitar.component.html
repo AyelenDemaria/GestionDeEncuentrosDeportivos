@@ -33,16 +33,16 @@
   </ion-header>
   <ion-content>
     
-    <ion-searchbar placeholder="Ingrese nombre o DNI"></ion-searchbar>
+    <ion-searchbar placeholder="Ingrese nombre o DNI"  [(ngModel)]="filtro"></ion-searchbar>
     
     <div class="content boton">
-      <div *ngFor="let jug of jugadores">
+      <div *ngFor="let jug of filteredJugadores">
 
         <ion-card>
           <ion-card-header style="padding-bottom: 0;">
             <div style="display: flex; justify-content: space-between;">
               <ion-card-title>{{jug.user.first_name}} {{jug.user.last_name}}</ion-card-title>             
-              <ion-buttons style="font-size: x-large;">
+              <ion-buttons style="font-size: x-large;" (click)="mensaje()">
                 <ion-icon  class="yes" name="person-add"></ion-icon>
               </ion-buttons>              
             </div>

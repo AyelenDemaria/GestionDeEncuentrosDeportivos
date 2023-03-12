@@ -14,17 +14,17 @@
       <ion-card-content>
         <form [formGroup]="form">
           <ion-item lines="full">
-            <ion-label position="floating">Email</ion-label>
-            <ion-input type="text" formControlName="email"></ion-input>
+            <ion-label position="floating">Usuario</ion-label>
+            <ion-input type="text" formControlName="user"></ion-input>
           </ion-item>
-          <div class="alert alert-danger" *ngIf="email.invalid && (email.dirty || email.touched)">
-            <div class="container-error-message" *ngIf="email.errors.required">
+          <div class="alert alert-danger" *ngIf="user.invalid && (user.dirty || user.touched)">
+            <div class="container-error-message" *ngIf="user.errors.required">
               Este campo es obligatorio.
             </div>
-            <div class="container-error-message" *ngIf="(email.dirty || email.touched) && email.invalid
+            <!-- <div class="container-error-message" *ngIf="(email.dirty || email.touched) && email.invalid
            && email.errors.pattern">
               El email debe tener una dirección válida.
-            </div>
+            </div> -->
           </div>
 
           <ion-item lines="full">
@@ -94,7 +94,7 @@
             <ion-item lines="full">
               <ion-label position="floating" style="font-size: smaller;">Fecha de Nacimiento</ion-label>
               <ion-input type="date" (click)="abrirCalendario()" [value]="fecha | date:'yyyy-MM-dd'" readonly="false"
-                formControlName="fecha"></ion-input>
+                formControlName="fecha" (ionChange)="seleccionarFechaHora($event)"></ion-input>
 
             </ion-item>
             <!-- <div class="alert alert-danger" *ngIf="fecha.invalid && (fecha.dirty || fecha.touched)">

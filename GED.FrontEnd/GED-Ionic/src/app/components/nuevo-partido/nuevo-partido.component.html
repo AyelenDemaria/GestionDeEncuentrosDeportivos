@@ -10,8 +10,8 @@
       <ion-item [routerLink]="['/profile']"> Mi perfil </ion-item>
       <!-- <ion-item [routerLink]="['/nuevoPartido']"> Nuevo Partido </ion-item> -->
       <ion-item [routerLink]="['/unirme']"> Unirme a un partido </ion-item>
-      <ion-item [routerLink]="['/misPartidos']"> Mis partidos </ion-item> 
-      <ion-item [routerLink]="['/invitaciones']"> Invitaciones </ion-item> 
+      <ion-item [routerLink]="['/misPartidos']"> Mis partidos </ion-item>
+      <ion-item [routerLink]="['/invitaciones']"> Invitaciones </ion-item>
       <ion-item [routerLink]="['/canjear']"> Canjear puntos </ion-item>
       <ion-item [routerLink]="['/misVoucher']"> Mis voucher </ion-item>
       <ion-item [routerLink]="['/reporte']">Reporte de partidos</ion-item>
@@ -33,15 +33,17 @@
     </ion-toolbar>
   </ion-header>
 
-  <ion-content color="light" class="justify-content-center">
+  <ion-content color="light" class="justify-content-center" >
     <ion-card class="card-for-login">
       <ion-card-content>
         <form [formGroup]="form">
           <div>
             <ion-item>
               <ion-label position="floating"> Deporte</ion-label>
-              <ion-select interface="popover" required formControlName="deporte" (ionChange)="seleccionarDeporte($event)">
-                <ion-select-option *ngFor="let deporte of deportes" [value]="deporte.id">{{ deporte.descripcion }} </ion-select-option>
+              <ion-select interface="popover" required formControlName="deporte"
+                (ionChange)="seleccionarDeporte($event)">
+                <ion-select-option *ngFor="let deporte of deportes" [value]="deporte.id">{{ deporte.descripcion }}
+                </ion-select-option>
               </ion-select>
             </ion-item>
             <div class="alert alert-danger" *ngIf="deporte.invalid && (deporte.dirty || deporte.touched)">
@@ -52,7 +54,8 @@
             <ion-item>
               <ion-label position="floating"> Tipo de partido</ion-label>
               <ion-select interface="popover" required formControlName="tipoPart">
-                <ion-select-option *ngFor="let tipo of tiposPartidos" [value]="tipo.id">{{ tipo.descripcion }}</ion-select-option>
+                <ion-select-option *ngFor="let tipo of tiposPartidos" [value]="tipo.id">{{ tipo.descripcion
+                  }}</ion-select-option>
               </ion-select>
             </ion-item>
             <div class="alert alert-danger" *ngIf="tipoPart.invalid && (tipoPart.dirty || tipoPart.touched)">
@@ -62,7 +65,7 @@
             </div>
             <ion-item>
               <ion-label position="floating"> Cancha</ion-label>
-              <ion-select interface="popover" required formControlName="cancha"  (ionChange)="seleccionarCancha($event)">
+              <ion-select interface="popover" required formControlName="cancha" (ionChange)="seleccionarCancha($event)">
                 <ion-select-option *ngFor="let can of canchas" [value]="can">{{ can }}</ion-select-option>
               </ion-select>
             </ion-item>
@@ -71,15 +74,20 @@
                 Este campo es obligatorio.
               </div>
             </div>
+
             <ion-item lines="full">
               <ion-label position="floating">Fecha</ion-label>
-              <ion-input required formControlName="fecha" placeholder="Seleccionar fecha" type="text"></ion-input>
+              <ion-input  required formControlName="fecha"  (click)="abrirCalendario()" value="{{fecha | date:'yyyy-MM-dd HH:mm'}}" readonly="true"></ion-input>
+              <ion-icon name="calendar" slot="end" (click)="ocultarCalendario = true" ></ion-icon>
+              <ion-datetime displayFormat="YYYY-MM-DD HH:mm" pickerFormat="YYYY MMM DD HH:mm" 
+                *ngIf="!ocultarCalendario" (ionChange)="seleccionarFechaHora($event)"></ion-datetime>
             </ion-item>
+<!-- 
             <div class="alert alert-danger" *ngIf="fecha.invalid && (fecha.dirty || fecha.touched)">
               <div class="container-error-message" *ngIf="fecha.errors.required">
                 Este campo es obligatorio.
               </div>
-            </div>
+            </div> -->
             <ion-item lines="full">
               <ion-label position="floating">Cantidad de jugadores</ion-label>
               <ion-input required formControlName="cantJugadores" placeholder="Ingrese cantidad"
@@ -102,18 +110,15 @@
               </div>
             </div>
           </div>
-          <div style="margin-top: 4rem;">
-            <ion-col>
-              <ion-button type="submit" class="boton" color="success" expand="full" [disabled]="!form.valid"
-                strong (click)="crearPartido()">Crear partido</ion-button>
-            </ion-col>
-          
-          <ion-col>
-            <ion-button type="submit" class="boton" color="success" expand="full" strong
-              (click)="cancel()">Cancelar</ion-button>
-          </ion-col>
-        </div>
-
+          <div style=" display: flex; justify-content: space-between;margin-top: 7rem;">
+                       
+              <ion-button type="submit" class="boton" color="success" expand="full" [disabled]="!form.valid" strong
+              (click)="crearPartido()">Crear partido</ion-button>
+                                 
+              <ion-button type="submit" class="boton" color="success" expand="full" strong
+                (click)="cancel()">Cancelar</ion-button>           
+                
+          </div>
         </form>
       </ion-card-content>
     </ion-card>

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AlertController } from '@ionic/angular';
 import { CanchaService } from 'src/app/services/cancha.service';
 import { DeporteService } from 'src/app/services/deporte.service';
 import { PartidoService } from 'src/app/services/partido.service';
@@ -12,21 +13,23 @@ import { PartidoService } from 'src/app/services/partido.service';
 })
 export class NuevoPartidoComponent implements OnInit {
 
-  // deportes: any[] = ['Tenis', 'Futbol', 'Voley', 'Paddel'];
-  // canchas: any[] = ['Cancha SRL', 'Cancha Tito', 'Cancha 5'];
-  // tipos: any[] = ['Femenino', 'Masculino', 'Mixto']
 
   deportes: any[];
   canchas: any[] = ['1', '2', '3'];
   tiposPartidos: any[] = ['1', '5'];
-  idDeporte : number;
+  idDeporte: number;
   idCancha: number
+
+  fecha: string = new Date().toISOString();
+  ocultarCalendario = true;
+
 
   constructor(private fb: FormBuilder,
     private router: Router,
     private canchaService: CanchaService,
     private partidoService: PartidoService,
-    private deporteService: DeporteService) { }
+    private deporteService: DeporteService,
+    private alertController: AlertController,) { }
 
   public form: FormGroup = this.fb.group({
     deporte: ['', Validators.required],
@@ -40,12 +43,23 @@ export class NuevoPartidoComponent implements OnInit {
   ngOnInit() {
     this.getDeportes();
     this.getTiposPartidos();
-  
+    this.canchaService.getCanchas().subscribe(res => console.log(res))
+    this.partidoService.getPartidos().subscribe(res => console.log(res))
+
   }
 
-  getTiposPartidos(){
-    this.partidoService.getTiposPartidos().subscribe(tipos => 
-    this.tiposPartidos = tipos)
+  abrirCalendario() {
+    this.ocultarCalendario = false;
+
+  }
+  seleccionarFechaHora(evento: any) {
+    this.fecha = evento.detail.value;
+    console.log(this.fecha);
+  }
+
+  getTiposPartidos() {
+    this.partidoService.getTiposPartidos().subscribe(tipos =>
+      this.tiposPartidos = tipos)
   }
 
   getDeportes() {
@@ -54,28 +68,43 @@ export class NuevoPartidoComponent implements OnInit {
     })
   }
 
-  getListadoCanchas(id:number) {
-    this.canchaService.getCanchasByDeporte(id).subscribe(res => console.log(res))
+  getListadoCanchas() {
+    const body = {
+      deporte_id: this.idDeporte
+    }
+    this.canchaService.getCanchasByDeporte(body).subscribe(res => console.log(res))
   }
 
   seleccionarDeporte(event: any) {
     this.idDeporte = Number(event.detail.value)
-    this.getListadoCanchas(this.idDeporte)
+    this.getListadoCanchas()
   }
 
-  
+
   seleccionarCancha(event: any) {
     this.idCancha = Number(event.detail.value)
   }
 
   crearPartido() {
     const body = {
-      fecha_hora: new Date(this.form.controls['fecha'].value),
+      fecha_hora: this.form.controls['fecha'].value,
       cant_jugadores: Number(this.form.controls['cantJugadores'].value),
       tipo_partido: Number(this.form.controls['tipoPart'].value),
       cancha: this.idCancha,
     }
-    this.partidoService.postPartido(body).subscribe(res => console.log(res))
+    console.log(body)
+    //this.partidoService.postPartido(body).subscribe(res => console.log(res))
+    this.mensaje()
+  }
+
+
+  async mensaje() {
+    const alert = await this.alertController.create({
+      header: 'Partido creado con éxito!',
+      message: 'Podes verlo en "Mis partidos"',
+      buttons: ['OK'],
+    });
+    await alert.present();
   }
 
 
@@ -83,9 +112,9 @@ export class NuevoPartidoComponent implements OnInit {
     this.router.navigateByUrl('home')
   }
 
-  get fecha() {
-    return this.form.get('fecha');
-  }
+  // get fecha() {
+  //   return this.form.get('fecha');
+  // }
 
   get deporte() {
     return this.form.get('deporte');

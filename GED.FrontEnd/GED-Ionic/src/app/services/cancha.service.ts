@@ -1,7 +1,8 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+
 
 @Injectable({
   providedIn: 'root'
@@ -10,9 +11,10 @@ export class CanchaService {
 
   apiUrl = environment.baseURL
 
+  private baseUrl = 'https://ayelend.pythonanywhere.com/canchas/api/';
+
   constructor(
-    private httpClient: HttpClient
-  ) { }
+    private httpClient: HttpClient) { }
 
   getCanchas(username: string = 'Julieta', password: string = 'Proyecto2022'): Observable<any> {
     const headers = new HttpHeaders({
@@ -22,17 +24,36 @@ export class CanchaService {
     return this.httpClient.get<any>('https://ayelend.pythonanywhere.com/canchas/api/', { headers });
   }
 
-  getCanchasByDeporte(deporte_id: number, username: string = 'Julieta', password: string = 'Proyecto2022'): Observable<any> {
+  getCanchasByDeporte(body:any, username: string = 'Julieta', password: string = 'Proyecto2022'): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': 'Basic ' + btoa(username + ':' + password)
     });
-    const url = `https://ayelend.pythonanywhere.com/canchas/api/cancha_deporte?deporte_id=${deporte_id}`;
-    console.log(url)
-
-    return this.httpClient.get<any>(url, { headers });
-    // return this.httpClient.get<any>('https://ayelend.pythonanywhere.com/canchas/api/cancha_deporte/',{ headers });
+    const options = { 
+      headers: headers,
+      params: body
+    };
+    return this.httpClient.get<any>('https://ayelend.pythonanywhere.com/canchas/api/cancha_deporte', options);
   }
+
+ 
+
+//OTRA FORMA PROPORCIONADA POR CHATGPT
+  // getCanchasByDeporte(deporte_id: number, username: string = 'Julieta', password: string = 'Proyecto2022'): Observable<any> {
+  //   const headers = new HttpHeaders({
+  //     'Content-Type': 'application/json',
+  //     'Authorization': 'Basic ' + btoa(username + ':' + password)
+  //   });
+  //   const url = `${this.baseUrl}cancha_deporte/?deporte_id=${deporte_id}`;
+  //   return this.httpClient.get<any>(url, { headers }).pipe(
+  //     catchError((error: HttpErrorResponse) => {
+  //       console.error('Error en la solicitud HTTP:', error);
+  //       return throwError('Algo salió mal. Intente de nuevo más tarde.');
+  //     })
+  //   );
+  // }
+
+  // return this.httpClient.get<any>('https://ayelend.pythonanywhere.com/canchas/api/cancha_deporte/',{ headers });
 }
 
 

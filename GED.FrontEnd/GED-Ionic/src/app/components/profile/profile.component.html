@@ -1,5 +1,5 @@
 <ion-app>
- <!-- HEADER Y MENU -->
+  <!-- HEADER Y MENU -->
   <ion-menu contentId="main-content">
     <ion-header>
       <ion-toolbar color="success">
@@ -11,8 +11,8 @@
         <!-- <ion-item [routerLink]="['/profile']"> Mi perfil </ion-item> -->
         <ion-item [routerLink]="['/nuevoPartido']"> Nuevo Partido </ion-item>
         <ion-item [routerLink]="['/unirme']"> Unirme a un partido </ion-item>
-        <ion-item [routerLink]="['/misPartidos']"> Mis partidos </ion-item> 
-        <ion-item [routerLink]="['/invitaciones']"> Invitaciones </ion-item> 
+        <ion-item [routerLink]="['/misPartidos']"> Mis partidos </ion-item>
+        <ion-item [routerLink]="['/invitaciones']"> Invitaciones </ion-item>
         <ion-item [routerLink]="['/canjear']"> Canjear puntos </ion-item>
         <ion-item [routerLink]="['/misVoucher']"> Mis voucher </ion-item>
         <ion-item [routerLink]="['/reporte']">Reporte de partidos</ion-item>
@@ -25,11 +25,11 @@
     <ion-header [translucent]="true">
       <ion-toolbar color="light">
         <ion-buttons slot="end">
-          <ion-menu-button></ion-menu-button>          
+          <ion-menu-button></ion-menu-button>
         </ion-buttons>
-        <ion-buttons slot="start" style= "margin-left: 1rem;  font-size: x-large;" [routerLink]="['/home']">
+        <ion-buttons slot="start" style="margin-left: 1rem;  font-size: x-large;" [routerLink]="['/home']">
           <ion-icon name="home-outline"></ion-icon>
-        </ion-buttons>        
+        </ion-buttons>
         <ion-title>Mi perfil</ion-title>
       </ion-toolbar>
     </ion-header>
@@ -37,9 +37,11 @@
     <ion-content class="ion-padding">
 
       <div class="container col-md-12 text-center">
+        <ion-card-title style="text-align:center; ">{{'Julieta Steckinger'}}</ion-card-title>
         <ion-card>
+
           <ion-card-header style="color:rgb(39, 2, 48)">
-            <!-- <ion-title>{{profile.nombre + ' ' + profile.apellido}}</ion-title> -->
+
 
 
           </ion-card-header>
@@ -48,14 +50,9 @@
               <ion-item>
                 <ion-icon name="person-circle" class="icon"></ion-icon>
                 <!-- <ion-text>{{profile.edad + " años"}}</ion-text>  -->
-                <ion-title>{{'Julieta Steckinger'}}</ion-title>
+                <ion-title>{{'Julieta'}}</ion-title>
               </ion-item>
 
-              <ion-item>
-                <ion-icon name="mail" class="icon"></ion-icon>
-                <!-- <ion-text>{{profile.email}} </ion-text> -->
-                <ion-title>{{'justeck@gmail.com'}}</ion-title>
-              </ion-item>
 
               <ion-item>
                 <ion-icon name="call" class="icon"></ion-icon>
@@ -82,7 +79,7 @@
               </ion-item>
 
               <ion-item>
-                
+
                 <ion-icon name="lock-closed-sharp"></ion-icon>
                 <!-- <ion-text> <strong> {{profile.intereses}} </strong> </ion-text> -->
                 <ion-title>{{'54654'}}</ion-title>
@@ -93,7 +90,6 @@
 
           </ion-card-content>
         </ion-card>
-
         <ion-row>
           <ion-col>
             <ion-button class="boton" color="success" expand="full" [routerLink]="['/edit-profile']">
@@ -101,18 +97,8 @@
             </ion-button>
             <!-- <ion-button expand="block" (click)="onLogout()"><strong>Cerrar sesión</strong></ion-button> -->
           </ion-col>
-        </ion-row>
-
-
-        <!-- <div class="mt-3 ion-justify-content-center" style="margin-bottom: 24px; display: flex;"> -->
-        <!-- <ion-label class="text" style="margin: 12px auto" (click)="launchExternalApp()">Desarrollado por <strong>REDJAR -->
-        <!-- COOP</strong></ion-label> -->
-        <!-- </div> -->
-
+        </ion-row>   
       </div>
-
-
-
     </ion-content>
   </div>
 

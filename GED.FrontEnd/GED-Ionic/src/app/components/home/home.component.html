@@ -1,52 +1,66 @@
-  <ion-menu contentId="main-content">
-    <ion-header>
-      <ion-toolbar color="success">
-        <ion-title style="font-weight: 500; font-size: large;">MENU</ion-title>
-      </ion-toolbar>
-    </ion-header>
-    <ion-content>
-      <ion-list>
-        <ion-item [routerLink]="['/profile']"> Mi perfil </ion-item>
-        <ion-item [routerLink]="['/nuevoPartido']"> Nuevo Partido </ion-item>
-        <ion-item [routerLink]="['/unirme']"> Unirme a un partido </ion-item>
-        <ion-item [routerLink]="['/misPartidos']"> Mis partidos </ion-item>
-        <ion-item [routerLink]="['/invitaciones']"> Invitaciones </ion-item>
-        <ion-item [routerLink]="['/canjear']"> Canjear puntos </ion-item>
-        <ion-item [routerLink]="['/misVoucher']"> Mis voucher </ion-item>
-        <ion-item [routerLink]="['/reporte']">Reporte de partidos</ion-item>
-  
-      </ion-list>
-    </ion-content>
-  </ion-menu>
+<ion-menu contentId="main-content">
+  <ion-header>
+    <ion-toolbar color="success">
+      <ion-title style="font-weight: 500; font-size: large;">MENU</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-list>
+      <ion-item [routerLink]="['/profile']"> Mi perfil </ion-item>
+      <ion-item [routerLink]="['/nuevoPartido']"> Nuevo Partido </ion-item>
+      <ion-item [routerLink]="['/unirme']"> Unirme a un partido </ion-item>
+      <ion-item [routerLink]="['/misPartidos']"> Mis partidos </ion-item>
+      <ion-item [routerLink]="['/invitaciones']"> Invitaciones </ion-item>
+      <ion-item [routerLink]="['/canjear']"> Canjear puntos </ion-item>
+      <ion-item [routerLink]="['/misVoucher']"> Mis voucher </ion-item>
+      <ion-item [routerLink]="['/reporte']">Reporte de partidos</ion-item>
 
- <div class="ion-page" id="main-content">
+    </ion-list>
+  </ion-content>
+</ion-menu>
 
-    <ion-header [translucent]="true">
-      <ion-toolbar color="light">
-        <ion-buttons slot="end">
-          <ion-menu-button></ion-menu-button>          
-        </ion-buttons>  
-        <ion-title>Inicio</ion-title>
-      </ion-toolbar>
-    </ion-header>
+<div class="ion-page" id="main-content">
+
+  <ion-header [translucent]="true">
+    <ion-toolbar color="light">
+      <ion-buttons slot="end">
+        <ion-menu-button></ion-menu-button>
+      </ion-buttons>
+      <ion-title>Inicio</ion-title>
+    </ion-toolbar>
+  </ion-header>
 
 
-<ion-content>
-  <div class="content">
-    <button class="buttonHome" [routerLink]="['/nuevoPartido']">
-      Nuevo partido
-    </button> 
+  <ion-content>
+    <ion-card
+      style="background-color: rgb(71, 216, 126); height: 3rem; width: 9rem; padding: 0.5rem; 
+      margin-inline-start: auto;">
 
-    <button class="buttonHome" [routerLink]="['/unirme']">
-      Unirme a un partido
-    </button> 
+      <ion-card-title style="font-size: 0.9rem; text-align: center;">Puntos acumulados</ion-card-title>
+      <div style="display: flex; justify-content: center;">
+        <ion-icon style=" font-size: large; color: rgb(9, 99, 54);" name="star"></ion-icon>
+        <ion-card-content style=" font-size: 1rem; color: black; font-weight: 700; padding: 0%;">
+          25
+        </ion-card-content>
+      </div>
 
-    <button class="buttonHome" [routerLink]="['/misPartidos']">
-      Mis partidos
-    </button> 
+    </ion-card>
 
-    <button class="buttonHome" [routerLink]="['/canjear']">
-      Canjear puntos
-    </button> 
-</div>
-</ion-content>
+    <div class="content">
+      <button class="buttonHome" [routerLink]="['/nuevoPartido']">
+        Nuevo partido
+      </button>
+
+      <button class="buttonHome" [routerLink]="['/unirme']">
+        Unirme a un partido
+      </button>
+
+      <button class="buttonHome" [routerLink]="['/misPartidos']">
+        Mis partidos
+      </button>
+
+      <button class="buttonHome" [routerLink]="['/canjear']">
+        Canjear puntos
+      </button>
+    </div>
+  </ion-content>

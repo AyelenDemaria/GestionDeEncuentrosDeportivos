@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AlertController } from '@ionic/angular';
 import { PartidoService } from 'src/app/services/partido.service';
 
 
@@ -46,6 +47,7 @@ export class UnirmeComponent implements OnInit {
 
   constructor(
     private partidoService: PartidoService,
+    private alertController: AlertController,
   ) { }
 
   ngOnInit() {
@@ -62,6 +64,16 @@ export class UnirmeComponent implements OnInit {
     this.fecha = evento.detail.value;
     console.log(this.fecha); 
   } 
+
+  async mensaje() {
+    const alert = await this.alertController.create({
+      header: 'Te uniste a un partido!',     
+      message: 'Podes verlo en "Mis partidos"',
+      buttons: ['OK'],
+    });
+    await alert.present();
+  }
+
 
 
 
