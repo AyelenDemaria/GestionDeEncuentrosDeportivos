@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import permissions
 from .models import Inscripcion
-from .serializers import InscripcionSerializer
+from .serializers import InscripcionSerializer, InscripcionGetSerializer
 from django.contrib.auth.models import User
 from usuarios.models import Perfil
 from django.shortcuts import get_object_or_404
@@ -28,7 +28,7 @@ class InscripcionListApiView(APIView):
         Lista de todas las inscripciones
         '''
         inscripciones = Inscripcion.objects.all()
-        serializer = InscripcionSerializer(inscripciones, many=True)
+        serializer = InscripcionGetSerializer(inscripciones, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request, *args, **kwargs):
@@ -131,7 +131,7 @@ class InscripcionByUserApiView(APIView):
 
         #pk = self.kwargs.get('pk')
         inscripciones = Inscripcion.objects.filter(jugador_id = perfil.id).order_by("-partido__fecha_hora")
-        serializer = InscripcionSerializer(inscripciones, many=True)
+        serializer = InscripcionGetSerializer(inscripciones, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 class RecordatorioPartidosApiView(APIView):
@@ -147,5 +147,5 @@ class RecordatorioPartidosApiView(APIView):
         fecha_hora_actual = timezone.localtime(timezone.now())
         #pk = self.kwargs.get('pk')
         inscripciones = Inscripcion.objects.filter(jugador_id = perfil.id, fecha_hora_baja__isnull=True).order_by("partido__fecha_hora")
-        serializer = InscripcionSerializer(inscripciones, many=True)
+        serializer = InscripcionGetSerializer(inscripciones, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)

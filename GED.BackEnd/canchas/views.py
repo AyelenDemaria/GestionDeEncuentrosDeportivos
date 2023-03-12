@@ -7,7 +7,7 @@ from django.http import JsonResponse
 from rest_framework import status
 from rest_framework import permissions
 from .models import Cancha
-from .serializers import CanchaSerializer
+from .serializers import CanchaSerializer, CanchaGetSerializer
 
 class CanchaListApiView(APIView):
     # add permission to check if user is authenticated
@@ -21,7 +21,7 @@ class CanchaListApiView(APIView):
         #canchas = Cancha.objects.all().values()
         canchas = Cancha.objects.all()
         print (canchas)
-        serializer = CanchaSerializer(canchas, many=True)
+        serializer = CanchaGetSerializer(canchas, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
         #return JsonResponse(list(canchas), safe=False, status=status.HTTP_200_OK)
 
@@ -36,5 +36,5 @@ class CanchaByDeporteListApiView(APIView):
         '''
         pk = int(request.data['deporte_id'])
         canchas = Cancha.objects.filter(deporte_id=pk)
-        serializer = CanchaSerializer(canchas, many=True)
+        serializer = CanchaGetSerializer(canchas, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)

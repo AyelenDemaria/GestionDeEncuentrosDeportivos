@@ -5,6 +5,11 @@ from usuarios.serializers import PerfilSerializer
 
 
 class VoucherSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Voucher
+        fields = ["id","fecha_canje", "fecha_emision", "fecha_vencimiento", "jugador", "cancha"]
+
+class VoucherGetSerializer(serializers.ModelSerializer):
     cancha = CanchaSerializer(many=False)
     jugador = PerfilSerializer(many=False)
     class Meta:

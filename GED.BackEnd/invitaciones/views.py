@@ -8,7 +8,7 @@ from rest_framework import serializers
 from rest_framework import permissions
 from .models import Invitacion
 from inscripciones.models import Inscripcion
-from .serializers import InvitacionSerializer
+from .serializers import InvitacionSerializer, InvitacionGetSerializer
 from inscripciones.serializers import InscripcionSerializer
 from django.contrib.auth.models import User
 from usuarios.models import Perfil
@@ -33,7 +33,7 @@ class InvitacionListApiView(APIView):
         perfil = Perfil.objects.get(user_id=id_user)
 
         invitaciones = Invitacion.objects.filter(usuario_invitado = perfil.id)
-        serializer = InvitacionSerializer(invitaciones, many=True)
+        serializer = InvitacionGetSerializer(invitaciones, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request, *args, **kwargs):

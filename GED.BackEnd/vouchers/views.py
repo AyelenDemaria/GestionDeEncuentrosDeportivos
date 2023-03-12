@@ -26,7 +26,7 @@ class  VoucherListApiView(APIView):
         id_user = User.objects.get(username = request.user)
         perfil = Perfil.objects.get(user_id=id_user)
         vouchers = Voucher.objects.filter(jugador = perfil.id)
-        serializer = VoucherSerializer(vouchers, many=True)
+        serializer = VoucherGetSerializer(vouchers, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request, *args, **kwargs):
@@ -68,7 +68,7 @@ class  VoucherListApiView(APIView):
         perfil = Perfil.objects.get(user_id=id_user) #busco el perfil de ese usuario
         #pk = self.kwargs.get('pk') #obtengo la pk de la url que es la inscripcion
         pk = int(request.data["voucher_id"])
-        voucher = Voucher.objects.get(id = pk) 
+        voucher = Voucher.objects.get(id = pk)
         if not voucher:
             return Response(
                 {"res": "Object with todo id does not exists"},
