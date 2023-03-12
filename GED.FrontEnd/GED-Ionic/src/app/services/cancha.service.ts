@@ -31,7 +31,7 @@ export class CanchaService {
     });
     const options = { 
       headers: headers,
-      params: body
+      body: body
     };
     return this.httpClient.get<any>('https://ayelend.pythonanywhere.com/canchas/api/cancha_deporte', options);
   }
