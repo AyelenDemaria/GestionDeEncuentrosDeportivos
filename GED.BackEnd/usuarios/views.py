@@ -131,9 +131,9 @@ class UserDataAPIView(APIView):
 class UserLogoutApiView(APIView):
     permission_classes = [permissions.IsAuthenticated]
     def get(self, request, *args, **kwargs):
-        print("usuario logueado:",request.user)
+        #print("usuario logueado:",request.user)
         logout(request)
-        print("luego del logout:", request.user)
+        #print("luego del logout:", request.user)
         return Response('Se ha cerrado sesión', status=status.HTTP_200_OK)
 
 class ReporteByUserApiView(APIView):

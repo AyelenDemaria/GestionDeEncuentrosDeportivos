@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import Inscripcion
-from partidos.serializers import PartidoSerializer
+from partidos.serializers import PartidoGetSerializer
 from usuarios.serializers import PerfilSerializer
 
 class InscripcionSerializer(serializers.ModelSerializer):
@@ -9,7 +9,7 @@ class InscripcionSerializer(serializers.ModelSerializer):
         fields = ["jugador","partido","fecha_hora_inscripcion","fecha_hora_baja"]
 
 class InscripcionGetSerializer(serializers.ModelSerializer):
-    partido = PartidoSerializer(many=False)
+    partido = PartidoGetSerializer(many=False)
     jugador = PerfilSerializer(many=False)
     class Meta:
         model = Inscripcion
