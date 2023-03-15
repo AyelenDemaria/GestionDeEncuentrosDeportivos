@@ -9,21 +9,22 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
-  
+
   constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) { }
-  
+
   form: FormGroup = this.fb.group({
-    email: ['Julieta',Validators.required],
-    psw: ['Proyecto2022',Validators.required],
+    email: ['Julieta', Validators.required],
+    psw: ['Proyecto2022', Validators.required],
   })
 
   ngOnInit() {
   }
 
   login() {
-    this.authService.authenticate(this.form.controls['email'].value, this.form.controls['psw'].value).subscribe(x => {
-      this.router.navigateByUrl('/home');
-    })
+    this.authService.authenticate(this.form.controls['email'].value,
+      this.form.controls['psw'].value).subscribe(x => {
+        this.router.navigateByUrl('/home');
+      })
   }
 
   get email() {

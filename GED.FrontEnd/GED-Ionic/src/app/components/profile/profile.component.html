@@ -37,67 +37,60 @@
     <ion-content class="ion-padding">
 
       <div class="container col-md-12 text-center">
-        <ion-card-title style="text-align:center; ">{{'Julieta Steckinger'}}</ion-card-title>
+        <div>
+          <ion-card-title style="text-align:center; ">{{perfil.user.first_name}}</ion-card-title>
+          <ion-card-title style="text-align:center; ">{{perfil.user.last_name}}</ion-card-title>
+        </div>
         <ion-card>
 
           <ion-card-header style="color:rgb(39, 2, 48)">
-
-
 
           </ion-card-header>
           <ion-card-content>
             <ion-list>
               <ion-item>
-                <ion-icon name="person-circle" class="icon"></ion-icon>
-                <!-- <ion-text>{{profile.edad + " años"}}</ion-text>  -->
-                <ion-title>{{'Julieta'}}</ion-title>
+                <ion-icon name="person-circle" class="icon"></ion-icon>        
+                <ion-title>{{perfil.user.username}}</ion-title>
               </ion-item>
 
 
               <ion-item>
-                <ion-icon name="call" class="icon"></ion-icon>
-                <!-- <ion-text>{{profile.telefono}}</ion-text> -->
-                <ion-title>{{'3413909723'}}</ion-title>
+                <ion-icon name="call" class="icon"></ion-icon>              
+                <ion-title>{{perfil.telefono}}</ion-title>
               </ion-item>
 
               <ion-item>
-                <ion-icon name="male-female-sharp"></ion-icon>
-                <!-- <ion-text> {{profile.localidad + ', ' + profile.provincia}} </ion-text> -->
-                <ion-title>{{'F'}}</ion-title>
+                <ion-icon name="male-female-sharp"></ion-icon>          
+                <ion-title>{{perfil.sexo}}</ion-title>
               </ion-item>
 
               <ion-item>
-                <ion-icon name="calendar" class="icon"></ion-icon>
-                <!-- <ion-text> <strong> {{profile.intereses}} </strong> </ion-text> -->
-                <ion-title>{{'18/07/1995'}}</ion-title>
+                <ion-icon name="calendar" class="icon"></ion-icon> 
+
+                <ion-title>{{perfil.fecha_nacimiento}}</ion-title>
               </ion-item>
 
               <ion-item>
-                <ion-icon name="id-card-sharp"></ion-icon>
-                <!-- <ion-text> <strong> {{profile.intereses}} </strong> </ion-text> -->
-                <ion-title>{{'38808854'}}</ion-title>
+                <ion-icon name="id-card-sharp"></ion-icon>                
+                <ion-title type="pass">{{perfil.documento}}</ion-title>
               </ion-item>
-
-              <ion-item>
-
-                <ion-icon name="lock-closed-sharp"></ion-icon>
-                <!-- <ion-text> <strong> {{profile.intereses}} </strong> </ion-text> -->
-                <ion-title>{{'54654'}}</ion-title>
-              </ion-item>
+              <!-- <ion-item>
+                <ion-icon name="lock-closed-sharp"></ion-icon>              
+                <ion-title type="password">{{perfil.password}}</ion-title>
+              </ion-item> -->
             </ion-list>
-
-
-
           </ion-card-content>
         </ion-card>
         <ion-row>
           <ion-col>
             <ion-button class="boton" color="success" expand="full" [routerLink]="['/edit-profile']">
-              <strong>Editar</strong>
+              <strong>Editar mis datos</strong>
             </ion-button>
-            <!-- <ion-button expand="block" (click)="onLogout()"><strong>Cerrar sesión</strong></ion-button> -->
+            <ion-button class="boton" color="success" expand="full" [routerLink]="['/contrasena']">
+              <strong>Cambiar contraseña</strong>
+            </ion-button>
           </ion-col>
-        </ion-row>   
+        </ion-row>
       </div>
     </ion-content>
   </div>

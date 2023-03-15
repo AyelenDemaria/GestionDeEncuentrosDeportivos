@@ -21,6 +21,7 @@ import { UnirmeComponent } from './components/unirme/unirme.component';
 import { InvitarComponent } from './components/invitar/invitar.component';
 import { CanjearPuntosComponent } from './components/canjear-puntos/canjear-puntos.component';
 import { VoucherComponent } from './components/voucher/voucher.component';
+import { ContrasenaComponent } from './components/contrasena/contrasena.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { VoucherComponent } from './components/voucher/voucher.component';
     InvitarComponent,
     CanjearPuntosComponent,
     VoucherComponent,
+    ContrasenaComponent
     ],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, FormsModule, ReactiveFormsModule, 
     HttpClientModule],

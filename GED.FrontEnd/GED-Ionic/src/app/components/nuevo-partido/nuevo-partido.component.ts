@@ -15,10 +15,10 @@ export class NuevoPartidoComponent implements OnInit {
 
 
   deportes: any[];
-  canchas: any[] = ['1', '2', '3'];
-  tiposPartidos: any[] = ['1', '5'];
+  canchas: any[];
+  tiposPartidos: any[];
   idDeporte: number;
-  idCancha: number
+  idCancha: number;
 
   fecha: string = new Date().toISOString();
   ocultarCalendario = true;
@@ -93,6 +93,7 @@ export class NuevoPartidoComponent implements OnInit {
       cancha: this.idCancha,
     }
     console.log(body)
+    
     //this.partidoService.postPartido(body).subscribe(res => console.log(res))
     this.mensaje()
   }

@@ -37,4 +37,13 @@ export class PartidoService {
     });
     return this.http.post('https://ayelend.pythonanywhere.com/partidos/api', body,{ headers })
   }
+
+  cantidadInscriptosPartido(username: string = 'Julieta', password: string = 'Proyecto2022'){
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Basic ' + btoa(username + ':' + password)
+    });
+    return this.http.get<any>('https://ayelend.pythonanywhere.com/partidos/api/inscriptos/', { headers });
+  }
+
 }

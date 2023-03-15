@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { AppComponent } from './app.component';
 import { CanjearPuntosComponent } from './components/canjear-puntos/canjear-puntos.component';
+import { ContrasenaComponent } from './components/contrasena/contrasena.component';
 import { HomeComponent } from './components/home/home.component';
 import { InvitacionesComponent } from './components/invitaciones/invitaciones.component';
 import { InvitarComponent } from './components/invitar/invitar.component';
@@ -31,6 +32,7 @@ const routes: Routes = [
   {path: 'invitar', component: InvitarComponent},
   {path: 'canjear', component:CanjearPuntosComponent},
   {path: 'voucher', component:VoucherComponent},
+  {path: 'contrasena', component: ContrasenaComponent}
 ];
 
 @NgModule({

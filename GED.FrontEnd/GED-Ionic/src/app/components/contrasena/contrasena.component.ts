@@ -23,7 +23,7 @@ psw2: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(1
   ngOnInit() {}
 
   cancel() {
-    this.router.navigateByUrl('login')
+    this.router.navigateByUrl('profile')
   }
 
   cambiarContrasena(){

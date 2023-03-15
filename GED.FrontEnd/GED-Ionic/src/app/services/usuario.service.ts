@@ -23,16 +23,7 @@ export class UsuarioService {
   }
 
   postUsuario(body: any): Observable<any> {
-    // const body = {
-    //   username: '',
-    //   password: '',
-    //   nombre: '', 
-    //   apellido: '', 
-    //   documento: 0,
-    //   telofono: 0, 
-    //   fecha_nacimiento: '',
-    //   sexo: '',        
-    // }
+
     return this.http.post('https://ayelend.pythonanywhere.com/usuarios/api', body)
   }
 
@@ -60,10 +51,7 @@ export class UsuarioService {
   }
 
   putContraseña(body: any, username: string = 'Julieta', password: string = 'Proyecto2022'): Observable<any> {
-    // const body = {
-    //   password_1: '',
-    //   password_2 :''       
-    // }
+ 
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': 'Basic ' + btoa(username + ':' + password)
