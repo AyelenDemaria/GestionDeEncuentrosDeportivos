@@ -16,11 +16,9 @@ from usuarios.models import Perfil
 from django.shortcuts import get_object_or_404
 from django.db.models import Q
 from rest_framework import serializers
+from django.contrib.auth import authenticate
 
 class PartidoListApiView(APIView):
-    # add permission to check if user is authenticated
-    permission_classes = [permissions.IsAuthenticated]
-
     # 1. List all
     def get(self, request, *args, **kwargs):
         '''
