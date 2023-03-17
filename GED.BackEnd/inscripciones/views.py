@@ -18,7 +18,7 @@ from rest_framework import serializers
 
 class InscripcionListApiView(APIView):
     # add permission to check if user is authenticated
-    permission_classes = [permissions.IsAuthenticated]
+    #permission_classes = [permissions.IsAuthenticated]
 
 
     # 1. List all
@@ -35,7 +35,7 @@ class InscripcionListApiView(APIView):
         '''
         Create inscripcion
         '''
-        id_user = User.objects.get(username = request.user)
+        id_user = User.objects.get(username = request.data.get('username'))
         perfil = Perfil.objects.get(user_id=id_user)
         pk = int(request.data["partido_id"])
         #print(request.data)
@@ -74,7 +74,7 @@ class InscripcionListApiView(APIView):
         '''
         Updates the inscripcion with given inscripcion_id if exists
         '''
-        id_user = User.objects.get(username = request.user) #recupero usuario logueada
+        id_user = User.objects.get(username = request.data.get('username')) #recupero usuario logueada
         perfil = Perfil.objects.get(user_id=id_user) #busco el perfil de ese usuario
         #pk = self.kwargs.get('pk') #obtengo la pk de la url que es la inscripcion
         pk = int(request.data["inscripcion_id"])
@@ -123,13 +123,13 @@ class InscripcionListApiView(APIView):
 
 class InscripcionByUserApiView(APIView):
     # add permission to check if user is authenticated
-    permission_classes = [permissions.IsAuthenticated]
+    #permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
         '''
         Lista de todas las inscripciones de un usuario logueado
         '''
-        id_user = User.objects.get(username = request.user)
+        id_user = User.objects.get(username = request.data.get('username'))
         perfil = Perfil.objects.get(user_id=id_user)
 
         #pk = self.kwargs.get('pk')

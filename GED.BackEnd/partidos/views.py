@@ -47,7 +47,7 @@ class PartidoListApiView(APIView):
         Create partido
         '''
 
-        id_user = User.objects.get(username = request.user)
+        id_user = User.objects.get(username = request.data.get('username'))
         perfil = Perfil.objects.get(user_id=id_user)
         print("fecha_hora:",request.data.get('fecha_hora'))
         print("cancha:",request.data.get('cancha'))
@@ -95,13 +95,13 @@ class PartidoListApiView(APIView):
 
 class PartidoByUserApiView(APIView):
     # add permission to check if user is authenticated
-    permission_classes = [permissions.IsAuthenticated]
+    #permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
         '''
         Lista de todos los partidos creados por el usuario logueado
         '''
-        id_user = User.objects.get(username = request.user)
+        id_user = User.objects.get(username = request.data.get('username'))
         perfil = Perfil.objects.get(user_id=id_user)
 
         #pk = self.kwargs.get('pk')
@@ -111,13 +111,13 @@ class PartidoByUserApiView(APIView):
 
 class PartidoSemanaApiView(APIView):
     # add permission to check if user is authenticated
-    permission_classes = [permissions.IsAuthenticated]
+    #permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
         '''
         Valida si el usuario tiene partidos en los próximos 5 días
         '''
-        id_user = User.objects.get(username = request.user)
+        id_user = User.objects.get(username = request.data.get('username'))
         perfil = Perfil.objects.get(user_id=id_user)
         fecha_hora_actual = timezone.localtime(timezone.now())
         fecha_actual = fecha_hora_actual.date()
@@ -138,7 +138,7 @@ class PartidoSemanaApiView(APIView):
 
 
 class InscritosByPartidoApiView(APIView):
-    permission_classes = [permissions.IsAuthenticated]
+    #permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
         '''
@@ -146,18 +146,19 @@ class InscritosByPartidoApiView(APIView):
         '''
         partidos = Partido.objects.all()
 
-        fecha_hora_actual =  timezone.localtime(timezone.now())
-        partidos_mayor_hoy = []
+        #fecha_hora_actual =  timezone.localtime(timezone.now())
+        #partidos_mayor_hoy = []
         #partidos_mayor_hoy = Partido.objects.filter(timezone.localtime(fecha_hora)__gt = fecha_hora_actual)
-        for i in partidos:
-            fecha_hora = timezone.localtime(i.fecha_hora)
-            if fecha_hora_actual < fecha_hora:
-                partidos_mayor_hoy.append(i)
         partidos_disp = []
-        for j in partidos_mayor_hoy:
-            insc = Inscripcion.objects.filter(partido_id=j.id, fecha_hora_baja__isnull=True)
+        for i in partidos:
+            #fecha_hora = timezone.localtime(i.fecha_hora)
+            #if fecha_hora_actual < fecha_hora:
+                #partidos_mayor_hoy.append(i)
+
+        #for j in partidos_mayor_hoy:
+            insc = Inscripcion.objects.filter(partido_id=i.id, fecha_hora_baja__isnull=True)
             cant_insc = insc.count()
-            if cant_insc < j.cant_jugadores:
-                partidos_disp.append({'partido':j, 'cant_insc': cant_insc})
+            #if cant_insc < j.cant_jugadores:
+            partidos_disp.append({'partido':i, 'cant_insc': cant_insc})
         serializer = InscriptosPartidoSerializer(partidos_disp, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)

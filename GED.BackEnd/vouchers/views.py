@@ -8,14 +8,14 @@ from rest_framework import permissions
 from .models import Voucher
 from usuarios.models import Perfil
 from django.contrib.auth.models import User
-from .serializers import VoucherSerializer
+from .serializers import VoucherSerializer,VoucherGetSerializer
 from django.utils import timezone
 from datetime import datetime
 from datetime import timedelta
 
 class  VoucherListApiView(APIView):
     # add permission to check if user is authenticated
-    permission_classes = [permissions.IsAuthenticated]
+    #permission_classes = [permissions.IsAuthenticated]
 
     # 1. List all
     def get(self, request, *args, **kwargs):
@@ -23,7 +23,7 @@ class  VoucherListApiView(APIView):
         Lista de todos los vouchers de un usuario logueado
         '''
         #vouchers = Voucher.objects.all()
-        id_user = User.objects.get(username = request.user)
+        id_user = User.objects.get(username = request.data.get('username'))
         perfil = Perfil.objects.get(user_id=id_user)
         vouchers = Voucher.objects.filter(jugador = perfil.id)
         serializer = VoucherGetSerializer(vouchers, many=True)
@@ -34,7 +34,7 @@ class  VoucherListApiView(APIView):
         Create voucher
         '''
 
-        id_user = User.objects.get(username = request.user)
+        id_user = User.objects.get(username = request.data.get('username'))
         perfil = Perfil.objects.get(user_id=id_user)
         fecha_hora_actual= timezone.localtime(timezone.now())
         fecha_actual = fecha_hora_actual.date()
@@ -64,7 +64,7 @@ class  VoucherListApiView(APIView):
         '''
         Updates the voucher with given voucher_id if exists
         '''
-        id_user = User.objects.get(username = request.user) #recupero usuario logueada
+        id_user = User.objects.get(username = request.data.get('username')) #recupero usuario logueada
         perfil = Perfil.objects.get(user_id=id_user) #busco el perfil de ese usuario
         #pk = self.kwargs.get('pk') #obtengo la pk de la url que es la inscripcion
         pk = int(request.data["voucher_id"])

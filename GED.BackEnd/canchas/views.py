@@ -11,7 +11,7 @@ from .serializers import CanchaSerializer, CanchaGetSerializer
 
 class CanchaListApiView(APIView):
     # add permission to check if user is authenticated
-    permission_classes = [permissions.IsAuthenticated]
+    #permission_classes = [permissions.IsAuthenticated]
 
     # 1. List all
     def get(self, request, *args, **kwargs):
@@ -27,7 +27,7 @@ class CanchaListApiView(APIView):
 
 class CanchaByDeporteListApiView(APIView):
     # add permission to check if user is authenticated
-    permission_classes = [permissions.IsAuthenticated]
+    #permission_classes = [permissions.IsAuthenticated]
 
     # 1. List all
     def get(self, request, *args, **kwargs):
