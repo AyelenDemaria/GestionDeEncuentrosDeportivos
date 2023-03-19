@@ -15,7 +15,7 @@ export class NuevoPartidoComponent implements OnInit {
 
 
   deportes: any[];
-  canchas: any[];
+  canchas: any[] = [1,2,3];
   tiposPartidos: any[];
   idDeporte: number;
   idCancha: number;
@@ -77,7 +77,7 @@ export class NuevoPartidoComponent implements OnInit {
 
   seleccionarDeporte(event: any) {
     this.idDeporte = Number(event.detail.value)
-    this.getListadoCanchas()
+    //his.getListadoCanchas()
   }
 
 
@@ -94,8 +94,8 @@ export class NuevoPartidoComponent implements OnInit {
     }
     console.log(body)
     
-    //this.partidoService.postPartido(body).subscribe(res => console.log(res))
-    this.mensaje()
+    this.partidoService.postPartido(body).subscribe(res => console.log(res))
+    this.mensaje()    
   }
 
 

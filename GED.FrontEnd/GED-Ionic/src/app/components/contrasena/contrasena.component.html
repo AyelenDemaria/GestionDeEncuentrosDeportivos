@@ -11,7 +11,7 @@
       <ion-card-content>
         <form [formGroup]="form">
           <ion-item lines="full">
-            <ion-label position="floating">Contraseña actual</ion-label>
+            <ion-label position="floating">Contraseña nueva</ion-label>
             <ion-input type="text" formControlName="psw1"></ion-input>
           </ion-item>
           <div class="alert alert-danger" *ngIf="psw1.invalid && (psw1.dirty || psw1.touched)">
@@ -20,7 +20,7 @@
             </div>
           </div>
           <ion-item lines="full">
-            <ion-label position="floating">Nueva contraseña</ion-label>
+            <ion-label position="floating">Repetir contraseña</ion-label>
             <ion-input required type="text" formControlName="psw2"></ion-input>
           </ion-item>
           <div class="alert alert-danger" *ngIf="psw2.invalid && (psw2.dirty || psw2.touched)">

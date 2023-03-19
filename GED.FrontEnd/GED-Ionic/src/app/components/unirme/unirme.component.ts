@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController } from '@ionic/angular';
+import { InscripcionService } from 'src/app/services/inscripcion.service';
 import { PartidoService } from 'src/app/services/partido.service';
 
 
@@ -9,37 +10,8 @@ import { PartidoService } from 'src/app/services/partido.service';
   styleUrls: ['./unirme.component.scss'],
 })
 export class UnirmeComponent implements OnInit {
-  partidos: any[] = [
-    {
-      deporte: 'Voley',
-      cantInscriptos: '8',
-      fechaHora: '20-02-23 14hs',
-      cantJugadores: '10',
-      cancha: 'Alverdi 458',
-      tipoPartido: 'Mixto',
-    },
-
-    {
-      deporte: 'Futbol',
-      cantInscriptos: '8',
-      fechaHora: '15-03-23 15hs',
-      cantJugadores: '10',
-      cancha: 'Mitre 2067',
-      tipoPartido: 'Mixto',
-    },
-
-    {
-      deporte: 'Futbol',
-      cantInscriptos: '2',
-      fechaHora: '05-03-23',
-      cantJugadores: '10',
-      cancha: 'Mitre 2067',
-      tipoPartido: 'Mixto',
-    },
-  ];
-
-  deportes: any[] = ['Tenis', 'Futbol', 'Voley', 'Paddel'];
-  canchas: any[] = ['Cancha SRL', 'Cancha Tito', 'Cancha 5']
+  partidos: any[] = []
+  filtro = ''; 
 
   fecha: string = new Date().toISOString();
   ocultarCalendario = true;
@@ -47,13 +19,28 @@ export class UnirmeComponent implements OnInit {
 
   constructor(
     private partidoService: PartidoService,
+    private inscripcionService: InscripcionService,
     private alertController: AlertController,
-  ) { }
+    ) { }
 
   ngOnInit() {
-    this.partidoService.getPartidos().subscribe(x => console.log(x), err => console.log(err))
+    this.partidoService.getPartidos().subscribe((data: any[]) => {
+      this.partidos = data;
+      console.log(this.partidos);
+    },
+    (error) => {
+      console.log(error);
+    })
+   } 
 
-  } 
+   get filteredPartidos() {
+    if (this.filtro != "") {
+      return this.partidos.filter(x => (x.fecha_hora + x.cant_jugadores + x.cancha.deporte.descripcion.toLowerCase()
+        + x.cancha.direccion.toLowerCase() + x.tipo_partido.descripcion.toLowerCase()).
+        includes(this.filtro.toLowerCase()));
+    }
+    return this.partidos;
+  }
   
 
   abrirCalendario() {
@@ -76,11 +63,20 @@ export class UnirmeComponent implements OnInit {
 
 
 
-
 filtrar() {
   console.log(this.fecha);
 
    }
+
+unirme(id: number){
+  const body = {
+    username: 'julieta',
+    partido_id: id,
+  }
+  console.log(body)
+  this.inscripcionService.crearInscripcionPartido(body).subscribe(res => console.log(res))
+  
+}
 
 
 }

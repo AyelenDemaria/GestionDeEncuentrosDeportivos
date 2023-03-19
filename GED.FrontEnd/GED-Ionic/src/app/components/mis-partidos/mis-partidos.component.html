@@ -52,7 +52,7 @@
         <ion-card>
           <ion-card-header style="padding-bottom: 0;">
             <div style="display: flex; justify-content: space-between;">
-              <ion-card-title>Partido de {{part.deporte}}</ion-card-title>             
+              <ion-card-title>Partido de {{part.partido.cancha.deporte.descripcion}}</ion-card-title>             
               <ion-buttons style="font-size: x-large;" [routerLink]="['/invitar']">
                 <ion-icon  class="yes" name="person-add"></ion-icon>
               </ion-buttons>
@@ -61,21 +61,21 @@
                 <ion-icon  class="no" name="person-remove"></ion-icon>
               </ion-buttons>
             </div>
-            <ion-card-subtitle>{{part.cantInscriptos}} inscriptos</ion-card-subtitle>
+            <ion-card-subtitle>{{8}} inscriptos</ion-card-subtitle>
           </ion-card-header>
           <ion-card-content>
             <ion-list>
               <ion-item>
-                <ion-text>Fecha y hora:</ion-text> {{part.fechaHora}}
+                <ion-text>Fecha y hora:</ion-text> {{part.partido.fecha_hora | date:'yyyy-MM-dd HH:mm'}}
               </ion-item>
               <ion-item>
-                <ion-text>Cantidad jugadores:</ion-text> {{part.cantJugadores}}
+                <ion-text>Cantidad jugadores:</ion-text> {{part.partido.cant_jugadores}}
               </ion-item>
               <ion-item>
-                <ion-text>Cancha:</ion-text> {{part.cancha}}
+                <ion-text>Cancha:</ion-text> {{part.partido.cancha.direccion}}
               </ion-item>
               <ion-item>
-                <ion-text>Tipo de partido:</ion-text> {{part.tipoPartido}}
+                <ion-text>Tipo de partido:</ion-text> {{part.partido.tipo_partido.descripcion}}
               </ion-item>              
             </ion-list>
           </ion-card-content>

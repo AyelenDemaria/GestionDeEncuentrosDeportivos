@@ -13,22 +13,22 @@ export class LoginComponent implements OnInit {
   constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) { }
 
   form: FormGroup = this.fb.group({
-    email: ['Julieta', Validators.required],
-    psw: ['Proyecto2022', Validators.required],
+    user: ['', Validators.required],
+    psw: ['', Validators.required],
   })
 
   ngOnInit() {
   }
 
   login() {
-    this.authService.authenticate(this.form.controls['email'].value,
+    this.authService.authenticate(this.form.controls['user'].value,
       this.form.controls['psw'].value).subscribe(x => {
         this.router.navigateByUrl('/home');
       })
   }
 
-  get email() {
-    return this.form.get('email');
+  get user() {
+    return this.form.get('user');
   }
   get psw() {
     return this.form.get('psw');

@@ -10,12 +10,10 @@ export class InvitacionService {
     private http: HttpClient,
   ) { }
 
-  invitarUsuario(username: string = 'Julieta', password: string = 'Proyecto2022'){
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': 'Basic ' + btoa(username + ':' + password)
-    });
-    return this.http.post<any>('https://ayelend.pythonanywhere.com/invitaciones/api', { headers });
+  invitarUsuario(body:any){
+  
+    
+    return this.http.post<any>('https://ayelend.pythonanywhere.com/invitaciones/api', body);
   }
 
   

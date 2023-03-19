@@ -71,20 +71,13 @@ export class UsuarioService {
     return this.http.get<any>('https://ayelend.pythonanywhere.com/usuarios/api/usuario/', { headers });
   }
 
-  getReporteUsuario(username: string = 'Julieta', password: string = 'Proyecto2022'): Observable<any> {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': 'Basic ' + btoa(username + ':' + password)
-    });
-    return this.http.get<any>('https://ayelend.pythonanywhere.com/usuarios/api/reporteUsuario', { headers });
+  getReporteUsuario(body:any): Observable<any> {
+      return this.http.get<any>('https://ayelend.pythonanywhere.com/usuarios/api/reporteUsuario', body);
   }
 
-  getPuntosUsuario(username: string = 'Julieta', password: string = 'Proyecto2022'): Observable<any> {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': 'Basic ' + btoa(username + ':' + password)
-    });
-    return this.http.get<any>('https://ayelend.pythonanywhere.com/usuarios/api/puntosUsuario', { headers });
+  getPuntosUsuario(body:any): Observable<any> {
+    
+    return this.http.get<any>('https://ayelend.pythonanywhere.com/usuarios/api/puntosUsuario/',body);
   }
 }
 

@@ -30,12 +30,9 @@ export class PartidoService {
     return this.http.get<any>('https://ayelend.pythonanywhere.com/tipos_partidos/api', { headers });
   }
 
-  postPartido( body:any, username: string = 'Julieta', password: string = 'Proyecto2022'):Observable<any> { 
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': 'Basic ' + btoa(username + ':' + password)
-    });
-    return this.http.post('https://ayelend.pythonanywhere.com/partidos/api', body,{ headers })
+  postPartido( body:any):Observable<any> { 
+    
+    return this.http.post('https://ayelend.pythonanywhere.com/partidos/api', body)
   }
 
   cantidadInscriptosPartido(username: string = 'Julieta', password: string = 'Proyecto2022'){

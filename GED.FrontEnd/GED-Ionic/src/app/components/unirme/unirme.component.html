@@ -33,7 +33,7 @@
   </ion-header>
   <ion-content [fullscreen]="true" class="text-center">
 
-    <ion-item lines="full">
+    <!-- <ion-item lines="full">
       <ion-label position="floating">Fecha</ion-label>
       <ion-input (click)="abrirCalendario()" value="{{fecha | date:'yyyy-MM-dd HH:mm'}}" readonly="true"></ion-input>
       <ion-icon name="calendar" slot="end" (click)="ocultarCalendario = true" ></ion-icon>
@@ -57,32 +57,32 @@
       <button class="filtrobtn" (click)="filtrar()">
         Filtrar
       </button>
-    </div>
+    </div> -->
 
-
+    <ion-searchbar placeholder="Buscar partido" [(ngModel)]="filtro"></ion-searchbar>
     <div class="content boton">
-      <div *ngFor="let part of partidos">
+      <div *ngFor="let part of filteredPartidos">
 
         <ion-card>
           <ion-card-header style="padding-bottom: 0;">
             <div style="display: flex; justify-content: space-between;">
-              <ion-card-title>Partido de {{part.deporte}}</ion-card-title><button (click)="mensaje()">UNIRME</button>
+              <ion-card-title>Partido de {{part.cancha.deporte.descripcion}}</ion-card-title><button (click)="unirme(part.id)">UNIRME</button>
             </div>
-            <ion-card-subtitle>{{part.cantInscriptos}} inscriptos</ion-card-subtitle>
+            <!-- <ion-card-subtitle>{{part.cantInscriptos}} inscriptos</ion-card-subtitle> -->
           </ion-card-header>
           <ion-card-content>
             <ion-list>
               <ion-item>
-                <ion-text>Fecha y hora:</ion-text> {{part.fechaHora}}
+                <ion-text>Fecha y hora:</ion-text> {{part.fecha_hora| date:'yyyy-MM-dd HH:mm'}}
               </ion-item>
               <ion-item>
-                <ion-text>Cantidad jugadores:</ion-text> {{part.cantJugadores}}
+                <ion-text>Cantidad jugadores:</ion-text> {{part.cant_jugadores}}
               </ion-item>
               <ion-item>
-                <ion-text>Cancha:</ion-text> {{part.cancha}}
+                <ion-text>Cancha:</ion-text> {{part.cancha.direccion}}
               </ion-item>
               <ion-item>
-                <ion-text>Tipo de partido:</ion-text> {{part.tipoPartido}}
+                <ion-text>Tipo de partido:</ion-text> {{part.tipo_partido.descripcion}}
               </ion-item>
             </ion-list>
           </ion-card-content>

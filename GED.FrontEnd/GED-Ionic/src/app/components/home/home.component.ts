@@ -9,25 +9,39 @@ import { UsuarioService } from 'src/app/services/usuario.service';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
+puntos:number 
 
   constructor( 
     private authService: AuthService,
-    private router: Router) { 
+    private router: Router,
+    private usuarioService: UsuarioService) { 
    
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+
+ this.puntosUsuario()
+}
 
   cerrarSesion(){ 
     this.authService.logout().subscribe(
     (data) => {     
       console.log(data);
-      this.router.navigateByUrl('/login');
-      
+      this.router.navigateByUrl('/login');      
     },
     (error) => {
       console.log(error);
     }
   );      
+  }
+
+  puntosUsuario(){
+    const body = {
+      username: 'Julieta'
+    }
+    console.log(body)   
+    this.usuarioService.getPuntosUsuario(body).subscribe(res =>{
+      this.puntos = res
+    })    
   }
 }
