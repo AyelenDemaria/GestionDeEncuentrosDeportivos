@@ -30,7 +30,7 @@ DEBUG = True
 
 CORS_ORIGIN_ALLOW_ALL = True
 
-ALLOWED_HOSTS = ['127.0.0.1', '.pythonanywhere.com']
+ALLOWED_HOSTS = ['127.0.0.1','192.168.0.150', '.pythonanywhere.com']
 
 CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1",

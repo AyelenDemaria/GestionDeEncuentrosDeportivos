@@ -12,4 +12,4 @@ class Perfil(models.Model):
     puntos_acum = models.BigIntegerField()
 
     def __str__(self):
-        return str(self.documento) + "-" + str(self.user.first_name) + " " + str(self.user.last_name) + "/" + str(self.puntos_acum) 
+        return str(self.documento) + " - " + str(self.user.first_name) + " " + str(self.user.last_name) + " - " + str(self.puntos_acum) 

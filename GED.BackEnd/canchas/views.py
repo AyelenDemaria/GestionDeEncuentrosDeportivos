@@ -11,7 +11,7 @@ from .serializers import CanchaSerializer, CanchaGetSerializer
 
 class CanchaListApiView(APIView):
     # add permission to check if user is authenticated
-    #permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
 
     # 1. List all
     def get(self, request, *args, **kwargs):
@@ -27,14 +27,17 @@ class CanchaListApiView(APIView):
 
 class CanchaByDeporteListApiView(APIView):
     # add permission to check if user is authenticated
-    #permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
 
     # 1. List all
     def get(self, request, *args, **kwargs):
         '''
         Lista de todas las canchas de un deporte
         '''
-        pk = int(request.data['deporte_id'])
+        print(request.GET.get('deporte_id'))
+        #print("body:",request.body)
+        pk = int(request.GET.get('deporte_id'))
+
         canchas = Cancha.objects.filter(deporte_id=pk)
         serializer = CanchaGetSerializer(canchas, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)

@@ -10,7 +10,7 @@ from .serializers import Tipo_partidoSerializer
 
 class Tipo_partidoListApiView(APIView):
     # add permission to check if user is authenticated
-    #permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
 
     # 1. List all
     def get(self, request, *args, **kwargs):

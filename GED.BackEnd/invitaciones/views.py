@@ -20,7 +20,7 @@ from datetime import datetime
 
 class InvitacionListApiView(APIView):
     # add permission to check if user is authenticated
-    #permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
 
 
     # 1. List all
@@ -29,7 +29,7 @@ class InvitacionListApiView(APIView):
         '''
         Lista de todas las invitaciones del usuario logueado
         '''
-        id_user = User.objects.get(username = request.data.get('username'))
+        id_user = User.objects.get(username = request.user)
         perfil = Perfil.objects.get(user_id=id_user)
 
         invitaciones = Invitacion.objects.filter(usuario_invitado = perfil.id).order_by("-partido__fecha_hora")
@@ -41,7 +41,7 @@ class InvitacionListApiView(APIView):
         Create invitacion
         '''
 
-        id_user = User.objects.get(username = request.data.get('username'))
+        id_user = User.objects.get(username = request.user)
         perfil = Perfil.objects.get(user_id=id_user)
 
         data = {
@@ -61,12 +61,12 @@ class InvitacionListApiView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class AceptarInvitacionApiView(APIView):
-    #permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
     def put(self, request, *args, **kwargs):
         '''
         Updates the inscripcion with given inscripcion_id if exists
         '''
-        id_user = User.objects.get(username = request.data.get('username')) #recupero usuario logueada
+        id_user = User.objects.get(username = request.user) #recupero usuario logueada
         perfil = Perfil.objects.get(user_id=id_user) #busco el perfil de ese usuario
 
         pk = int(request.data["invitacion_id"])
@@ -123,12 +123,12 @@ class AceptarInvitacionApiView(APIView):
 
 
 class RechazarInvitacionApiView(APIView):
-    #permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
     def put(self, request, *args, **kwargs):
         '''
         Updates the inscripcion with given inscripcion_id if exists
         '''
-        id_user = User.objects.get(username = request.data.get('username')) #recupero usuario logueada
+        id_user = User.objects.get(username = request.user) #recupero usuario logueada
         perfil = Perfil.objects.get(user_id=id_user) #busco el perfil de ese usuario
 
         pk = int(request.data["invitacion_id"])

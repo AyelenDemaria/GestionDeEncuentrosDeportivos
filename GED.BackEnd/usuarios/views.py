@@ -25,14 +25,14 @@ from django.contrib.auth.hashers import make_password
 
 class PerfilListApiView(APIView):
     # add permission to check if user is authenticated
-    #permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
 
     # 1. List all
     def get(self, request, *args, **kwargs):
         '''
         Lista de todos los usuarios
         '''
-        #permission_classes = [permissions.IsAuthenticated]
+
         usuarios = Perfil.objects.all()
         serializer = PerfilSerializer(usuarios, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
@@ -70,9 +70,8 @@ class PerfilListApiView(APIView):
         '''
         Updates the perfil with given perfil if exists
         '''
-        #permission_classes = [permissions.IsAuthenticated]
 
-        id_user = User.objects.get(username = request.data.get('username')) #recupero usuario logueada
+        id_user = User.objects.get(username = request.user) #recupero usuario logueada
         perfil = Perfil.objects.get(user_id=id_user) #busco el perfil de ese usuario
 
         serializer = PerfilSerializer(instance=perfil, data=request.data, partial = True)
@@ -85,12 +84,12 @@ class PerfilListApiView(APIView):
 
 class CambioClaveAPIVIew(APIView):
     def put(self, request, *args, **kwargs):
-        #permission_classes = [permissions.IsAuthenticated]
+        permission_classes = [permissions.IsAuthenticated]
         print(request.data.get('password_1'))
         print(request.data.get('password_2'))
         if not (request.data.get('password_1') == None or request.data.get('password_2')== None):
             if request.data.get('password_1') == request.data.get('password_2'):
-                usuario = User.objects.get(username = request.data.get('username'))
+                usuario = User.objects.get(username = request.user)
                 #usuario = User.objects.get(id=id_user)
                 print("-------user:",usuario)
                 usuario.password = make_password(request.data.get('password_1'))
@@ -120,16 +119,16 @@ class UserLoginApiView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class UserDataAPIView(APIView):
-    #permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
     def get(self, request, *args, **kwargs):
-        id_user = User.objects.get(username = request.data.get('username'))
+        id_user = User.objects.get(username = request.user)
         perfil = Perfil.objects.get(user_id=id_user)
         usuario = Perfil.objects.get(id=perfil.id)
         serializer = PerfilSerializer(usuario, many=False)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 class UserLogoutApiView(APIView):
-    #permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
     def get(self, request, *args, **kwargs):
         #user = User.objects.get(request.data.get('username'))
         #print("usuario logueado:",user)
@@ -139,11 +138,11 @@ class UserLogoutApiView(APIView):
 
 class ReporteByUserApiView(APIView):
     # add permission to check if user is authenticated
-    #permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
 
     # 1. List all
     def get(self, request, *args, **kwargs):
-        id_user = User.objects.get(username = request.data.get('username'))
+        id_user = User.objects.get(username = request.user)
         perfil = Perfil.objects.get(user_id=id_user)
 
         #partidos creados: busca los partidos donde creado_id sea el del usuario logueado
@@ -196,13 +195,13 @@ class ReporteByUserApiView(APIView):
 
 class PuntosUsertApiView(APIView):
     # add permission to check if user is authenticated
-    #permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
     def get(self, request, *args, **kwargs):
         '''
         Puntos del usuario logueado
         '''
         #permission_classes = [permissions.IsAuthenticated]
-        id_user = User.objects.get(username = request.data.get('username'))
+        id_user = User.objects.get(username = request.user)
         perfil = Perfil.objects.get(user_id=id_user)
 
         return Response(perfil.puntos_acum, status=status.HTTP_200_OK)

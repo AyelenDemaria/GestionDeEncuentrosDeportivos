@@ -11,4 +11,4 @@ class Inscripcion(models.Model):
     fecha_hora_baja = models.DateTimeField(blank=True, null=True)
 
     def __str__(self):
-        return str(self.jugador) + '-' + str(self.partido)
+        return str(self.jugador) + ' / ' + str(self.partido)

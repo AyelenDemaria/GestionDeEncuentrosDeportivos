@@ -20,6 +20,7 @@ from django.contrib.auth import authenticate
 
 class PartidoListApiView(APIView):
     # 1. List all
+    permission_classes = [permissions.IsAuthenticated]
     def get(self, request, *args, **kwargs):
         '''
         Lista de todos los partidos con fecha y hora mayor a la actual y cupo disponible
@@ -46,8 +47,9 @@ class PartidoListApiView(APIView):
         '''
         Create partido
         '''
-
-        id_user = User.objects.get(username = request.data.get('username'))
+        print("hola")
+        print(request.user)
+        id_user = User.objects.get(username = request.user)
         perfil = Perfil.objects.get(user_id=id_user)
         print("fecha_hora:",request.data.get('fecha_hora'))
         print("cancha:",request.data.get('cancha'))
@@ -95,13 +97,13 @@ class PartidoListApiView(APIView):
 
 class PartidoByUserApiView(APIView):
     # add permission to check if user is authenticated
-    #permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
         '''
         Lista de todos los partidos creados por el usuario logueado
         '''
-        id_user = User.objects.get(username = request.data.get('username'))
+        id_user = User.objects.get(username = request.user)
         perfil = Perfil.objects.get(user_id=id_user)
 
         #pk = self.kwargs.get('pk')
@@ -111,13 +113,13 @@ class PartidoByUserApiView(APIView):
 
 class PartidoSemanaApiView(APIView):
     # add permission to check if user is authenticated
-    #permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
         '''
         Valida si el usuario tiene partidos en los próximos 5 días
         '''
-        id_user = User.objects.get(username = request.data.get('username'))
+        id_user = User.objects.get(username = request.user)
         perfil = Perfil.objects.get(user_id=id_user)
         fecha_hora_actual = timezone.localtime(timezone.now())
         fecha_actual = fecha_hora_actual.date()
@@ -138,7 +140,7 @@ class PartidoSemanaApiView(APIView):
 
 
 class InscritosByPartidoApiView(APIView):
-    #permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
         '''
