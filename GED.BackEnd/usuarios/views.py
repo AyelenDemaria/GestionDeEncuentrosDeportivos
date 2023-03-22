@@ -24,15 +24,13 @@ from django.contrib.auth.hashers import make_password
 
 
 class PerfilListApiView(APIView):
-    # add permission to check if user is authenticated
-    permission_classes = [permissions.IsAuthenticated]
 
     # 1. List all
     def get(self, request, *args, **kwargs):
         '''
         Lista de todos los usuarios
         '''
-
+        permission_classes = [permissions.IsAuthenticated]
         usuarios = Perfil.objects.all()
         serializer = PerfilSerializer(usuarios, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
@@ -70,7 +68,7 @@ class PerfilListApiView(APIView):
         '''
         Updates the perfil with given perfil if exists
         '''
-
+        permission_classes = [permissions.IsAuthenticated]
         id_user = User.objects.get(username = request.user) #recupero usuario logueada
         perfil = Perfil.objects.get(user_id=id_user) #busco el perfil de ese usuario
 
