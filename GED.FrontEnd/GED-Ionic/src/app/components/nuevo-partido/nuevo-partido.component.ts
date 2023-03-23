@@ -15,7 +15,7 @@ export class NuevoPartidoComponent implements OnInit {
 
 
   deportes: any[];
-  canchas: any[] = [1,2,3];
+  canchas: any[];
   tiposPartidos: any[];
   idDeporte: number;
   idCancha: number;
@@ -69,20 +69,19 @@ export class NuevoPartidoComponent implements OnInit {
   }
 
   getListadoCanchas() {
-    const body = {
-      deporte_id: this.idDeporte
-    }
-    this.canchaService.getCanchasByDeporte(body).subscribe(res => console.log(res))
+    this.canchaService.getCanchasByDeporte(this.idDeporte).subscribe(canchas => {
+      this.canchas = canchas;
+    })
   }
 
   seleccionarDeporte(event: any) {
     this.idDeporte = Number(event.detail.value)
-    //his.getListadoCanchas()
+    this.getListadoCanchas()
   }
 
 
   seleccionarCancha(event: any) {
-    this.idCancha = Number(event.detail.value)
+    this.idCancha = Number(event.detail.value['id'])
   }
 
   crearPartido() {
@@ -92,10 +91,9 @@ export class NuevoPartidoComponent implements OnInit {
       tipo_partido: Number(this.form.controls['tipoPart'].value),
       cancha: this.idCancha,
     }
-    console.log(body)
     
-    this.partidoService.postPartido(body).subscribe(res => console.log(res))
-    this.mensaje()    
+    this.partidoService.postPartido(body).subscribe();
+    this.mensaje();
   }
 
 
