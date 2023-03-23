@@ -21,8 +21,10 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    this.authService.authenticate(this.form.controls['user'].value,
-      this.form.controls['psw'].value).subscribe(x => {
+    const userValue = this.form.controls['user'].value;
+    const userPassword = this.form.controls['psw'].value;
+    this.authService.authenticate(userValue, userPassword).subscribe(x => 
+      {
         this.router.navigateByUrl('/home');
       })
   }

@@ -7,29 +7,37 @@ import { Observable } from 'rxjs';
 })
 export class AuthService {
 
-  apiUrl = environment.baseURL
+  apiUrl = environment.baseURL;
 
-  constructor(
-    private httpClient: HttpClient,
-  ) { }
+  constructor(private http: HttpClient) { }
 
   authenticate(username: string, password: string): Observable<any> {
     const body = {
       username: username,
       password: password
     }
-    return this.httpClient.post('https://ayelend.pythonanywhere.com/usuarios/api/login/', body);
+    sessionStorage.setItem('username', username);
+    sessionStorage.setItem('password', password); //TODO: hashear o cifrar
+    return this.http.post(`${this.apiUrl}/usuarios/api/login/`, body);
   }
 
 
-  logout(username: string = 'Julieta', password: string = 'Proyecto2022'): Observable<any> {
+  logout(): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      'Authorization': 'Basic ' + btoa(username + ':' + password)
+      'Authorization': 'Basic ' + btoa(this.getUsername() + ':' + this.getPassword())
     });
-    return this.httpClient.get<any>('https://ayelend.pythonanywhere.com/usuarios/api/logout/ ', { headers });
+    return this.http.get<any>(`${this.apiUrl}/usuarios/api/logout/`, { headers });
   }
 
+  getUsername(): string {
+    return sessionStorage.getItem('username');
+  }
+
+  getPassword(): string {
+    //TODO: descifrar/deshashear
+    return sessionStorage.getItem('password');
+  }
 
 }
 
