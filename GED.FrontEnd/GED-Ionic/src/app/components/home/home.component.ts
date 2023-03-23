@@ -9,19 +9,18 @@ import { UsuarioService } from 'src/app/services/usuario.service';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-puntos:number 
+
+  puntos:number 
 
   constructor( 
     private authService: AuthService,
     private router: Router,
-    private usuarioService: UsuarioService) { 
-   
-  }
+    private usuarioService: UsuarioService
+  ) {}
 
   ngOnInit() {
-
- this.puntosUsuario()
-}
+   this.puntosUsuario()
+  }
 
   cerrarSesion(){ 
     this.authService.logout().subscribe(
@@ -39,7 +38,6 @@ puntos:number
     const body = {
       username: 'Julieta'
     }
-    console.log(body)   
     this.usuarioService.getPuntosUsuario(body).subscribe(res =>{
       this.puntos = res
     })    
