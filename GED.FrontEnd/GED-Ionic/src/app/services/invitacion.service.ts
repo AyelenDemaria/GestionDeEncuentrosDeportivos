@@ -1,48 +1,43 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from 'src/environments/environment';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class InvitacionService {
 
-  constructor(
-    private http: HttpClient,
-  ) { }
+  apiUrl = environment.baseURL;
 
-  invitarUsuario(body:any){
-  
-    
-    return this.http.post<any>('https://ayelend.pythonanywhere.com/invitaciones/api', body);
+  constructor(private http: HttpClient, private authService: AuthService) { }
+
+  invitarUsuario(body:any){    
+    return this.http.post<any>(`${this.apiUrl}/invitaciones/api`, body);
   }
 
-  
-
-  aceptarInvitacion(username: string = 'Julieta', password: string = 'Proyecto2022'){
+  aceptarInvitacion(){
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      'Authorization': 'Basic ' + btoa(username + ':' + password)
+      'Authorization': 'Basic ' + btoa(this.authService.getUsername() + ':' + this.authService.getPassword())
     });
-    return this.http.put<any>('https://ayelend.pythonanywhere.com/invitaciones/api/aceptarInvitacion/', { headers });
+    return this.http.put<any>(`${this.apiUrl}/invitaciones/api/aceptarInvitacion/`, { headers });
   }
 
-
-
-  rechazarInvitacion(username: string = 'Julieta', password: string = 'Proyecto2022'){
+  rechazarInvitacion(){
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      'Authorization': 'Basic ' + btoa(username + ':' + password)
+      'Authorization': 'Basic ' + btoa(this.authService.getUsername() + ':' + this.authService.getPassword())
     });
-    return this.http.put<any>('https://ayelend.pythonanywhere.com/invitaciones/api/rechazarInvitacion/', { headers });
+    return this.http.put<any>(`${this.apiUrl}/invitaciones/api/rechazarInvitacion/`, { headers });
   }
 
-
-  invitacionesUser(username: string = 'Julieta', password: string = 'Proyecto2022'){
+  invitacionesUser(){
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      'Authorization': 'Basic ' + btoa(username + ':' + password)
+      'Authorization': 'Basic ' + btoa(this.authService.getUsername() + ':' + this.authService.getPassword())
     });
-    return this.http.get<any>('https://ayelend.pythonanywhere.com/invitaciones/api', { headers });
+    return this.http.get<any>(`${this.apiUrl}/invitaciones/api`, { headers });
   }
 
 

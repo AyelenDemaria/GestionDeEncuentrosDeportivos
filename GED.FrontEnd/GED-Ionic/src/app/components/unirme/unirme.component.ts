@@ -61,23 +61,14 @@ export class UnirmeComponent implements OnInit {
     await alert.present();
   }
 
-
-
-filtrar() {
-  console.log(this.fecha);
-
-   }
-
-unirme(id: number){
-  const body = {
-    username: 'julieta',
-    partido_id: id,
+  filtrar() {
+    console.log(this.fecha);
   }
-  console.log(body)
-  this.inscripcionService.crearInscripcionPartido(body).subscribe(res => console.log(res))
-  
-}
 
+  unirme(partido_id: number){
+    this.inscripcionService.crearInscripcionPartido(partido_id).subscribe()
+    
+  }
 
 }
 
