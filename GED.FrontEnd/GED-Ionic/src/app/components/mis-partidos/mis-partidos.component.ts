@@ -37,12 +37,8 @@ export class MisPartidosComponent implements OnInit {
     // },
     //   (error) => {
     //     console.log(error);
-    //   })
-    const body = {
-      username : 'Julieta' 
-    }
-   
-    this.inscripcionService.getInscripcionesUser(body).subscribe(
+    //   })  
+    this.inscripcionService.getInscripcionesUser().subscribe(
       (data: any[]) => {
         this.partidos = data;
         console.log(this.partidos);

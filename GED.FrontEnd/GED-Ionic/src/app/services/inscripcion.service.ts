@@ -1,40 +1,46 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class InscripcionService {
 
-  constructor(
-    private http: HttpClient,
-  ) { }
+  apiUrl = environment.baseURL;
 
-  crearInscripcionPartido(body: any) {
-    // const headers = new HttpHeaders({
-    //   'Content-Type': 'application/json',
-    //   'Authorization': 'Basic ' + btoa(username + ':' + password)
-    // });
-    return this.http.post<any>(`https://ayelend.pythonanywhere.com/inscripciones/api`, body);
-  }
+  constructor(private http: HttpClient, private authService: AuthService) { }
 
-
-  bajaInscripcionPartido(body: string, username: string = 'Julieta', password: string = 'Proyecto2022', inscripcionId) {
+  crearInscripcionPartido(partido_id: number) {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      'Authorization': 'Basic ' + btoa(username + ':' + password)
+      'Authorization': 'Basic ' + btoa(this.authService.getUsername() + ':' + this.authService.getPassword())
+    });
+    const body = {
+      partido_id: partido_id,
+    }
+    return this.http.post<any>(`${this.apiUrl}/inscripciones/api/${partido_id}/`, body, {headers});
+  }
+
+  bajaInscripcionPartido(body: string, inscripcionId: number) {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Basic ' + btoa(this.authService.getUsername() + ':' + this.authService.getPassword())
     });
     const options = {
       headers: headers,
-      params: body
+      params: { body, inscripcionId: inscripcionId }
     }
-    return this.http.put<any>('https://ayelend.pythonanywhere.com/inscripciones/api/', options);
+    return this.http.put<any>(`${this.apiUrl}/inscripciones/api/`, options);
   }
 
-
-  getInscripcionesUser(body:any): Observable<any> {
-   
-    return this.http.get<any>('https://ayelend.pythonanywhere.com/inscripciones/api/inscripcion/',body);
+  getInscripcionesUser(): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Basic ' + btoa(this.authService.getUsername() + ':' + this.authService.getPassword())
+    });
+    return this.http.get<any>(`${this.apiUrl}/inscripciones/api/inscripcion/`,{ headers });
   }
 }
