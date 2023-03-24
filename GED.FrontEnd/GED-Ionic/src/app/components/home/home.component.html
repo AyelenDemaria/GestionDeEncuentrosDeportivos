@@ -45,23 +45,27 @@
         </ion-card-content>
       </div>
 
-    </ion-card>
+    <!-- <ion-content>
+        <ion-card style="background-color: rgb(71, 216, 126); height: 3rem; width: 9rem; padding: 0.5rem; margin-inline-start: auto;">
+            <ion-card-title style="font-size: 0.9rem; text-align: center;">Puntos acumulados: {{puntos}}</ion-card-title>  -->
+    </ion-card> 
+         
 
-    <div class="content">
-      <button class="buttonHome" [routerLink]="['/nuevoPartido']">
+        <div class="content">
+            <button class="buttonHome" [routerLink]="['/nuevoPartido']">
         Nuevo partido
       </button>
 
-      <button class="buttonHome" [routerLink]="['/unirme']">
+            <button class="buttonHome" [routerLink]="['/unirme']">
         Unirme a un partido
       </button>
 
-      <button class="buttonHome" [routerLink]="['/misPartidos']">
+            <button class="buttonHome" [routerLink]="['/misPartidos']">
         Mis partidos
       </button>
 
-      <button class="buttonHome" [routerLink]="['/canjear']">
+            <button class="buttonHome" [routerLink]="['/canjear']">
         Canjear puntos
       </button>
-    </div>
-  </ion-content>
+        </div>
+    </ion-content>

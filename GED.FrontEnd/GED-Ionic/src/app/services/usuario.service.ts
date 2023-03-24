@@ -2,33 +2,33 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsuarioService {
+
   apiUrl = environment.baseURL
 
-  constructor(
-    private http: HttpClient,
-  ) { }
+  constructor(private http: HttpClient, private authService: AuthService) { }
 
-  getUsuarios(username: string = 'Julieta', password: string = 'Proyecto2022'): Observable<any> {
+  getUsuarios(): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      'Authorization': 'Basic ' + btoa(username + ':' + password)
+      'Authorization': 'Basic ' + btoa(this.authService.getUsername() + ':' + this.authService.getPassword())
     });
-    return this.http.get<any>('https://ayelend.pythonanywhere.com/usuarios/api', { headers });
+    return this.http.get<any>(`${this.apiUrl}/usuarios/api`, { headers });
   }
 
   postUsuario(body: any): Observable<any> {
-
-    return this.http.post('https://ayelend.pythonanywhere.com/usuarios/api', body)
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+    return this.http.post(`${this.apiUrl}/usuarios/api`, body, {headers})
   }
 
-
-  putUsuario(body: any, username: string = 'Julieta', password: string = 'Proyecto2022'): Observable<any> {
+  putUsuario(body: any): Observable<any> {
     // const body = {
     //   username: '',
     //   password: '',
@@ -41,43 +41,57 @@ export class UsuarioService {
     // }
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      'Authorization': 'Basic ' + btoa(username + ':' + password)
+      'Authorization': 'Basic ' + btoa(this.authService.getUsername() + ':' + this.authService.getPassword())
     });
     const options = { 
       headers: headers,
       body: body
     };
-    return this.http.put('https://ayelend.pythonanywhere.com/usuarios/api', options)
+    return this.http.put(`${this.apiUrl}/usuarios/api`, options)
   }
 
-  putContraseña(body: any, username: string = 'Julieta', password: string = 'Proyecto2022'): Observable<any> {
- 
+  putContraseña(body: any): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      'Authorization': 'Basic ' + btoa(username + ':' + password)
+      'Authorization': 'Basic ' + btoa(this.authService.getUsername() + ':' + this.authService.getPassword())
     });
     const options = { 
       headers: headers,
       body: body
     };
-    return this.http.put('https://ayelend.pythonanywhere.com/usuarios/api/cambiarClave', options)
+    return this.http.put(`${this.apiUrl}/usuarios/api/cambiarClave`, options)
   }
 
-  getDataUsuario(username: string = 'Julieta', password: string = 'Proyecto2022'): Observable<any> {
+  getDataUsuario(): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      'Authorization': 'Basic ' + btoa(username + ':' + password)
+      'Authorization': 'Basic ' + btoa(this.authService.getUsername() + ':' + this.authService.getPassword())
     });
-    return this.http.get<any>('https://ayelend.pythonanywhere.com/usuarios/api/usuario/', { headers });
+    return this.http.get<any>(`${this.apiUrl}/usuarios/api/usuario/`, { headers });
   }
 
   getReporteUsuario(body:any): Observable<any> {
-      return this.http.get<any>('https://ayelend.pythonanywhere.com/usuarios/api/reporteUsuario', body);
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Basic ' + btoa(this.authService.getUsername() + ':' + this.authService.getPassword())
+    });
+    const options = { 
+      headers: headers,
+      body: body
+    };
+    return this.http.get<any>(`${this.apiUrl}/usuarios/api/reporteUsuario`, options);
   }
 
   getPuntosUsuario(body:any): Observable<any> {
-    
-    return this.http.get<any>('https://ayelend.pythonanywhere.com/usuarios/api/puntosUsuario/',body);
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Basic ' + btoa(this.authService.getUsername() + ':' + this.authService.getPassword())
+    });
+    const options = { 
+      headers: headers,
+      body: body
+    };
+    return this.http.get<any>(`${this.apiUrl}/usuarios/api/puntosUsuario/`,options);
   }
 }
 

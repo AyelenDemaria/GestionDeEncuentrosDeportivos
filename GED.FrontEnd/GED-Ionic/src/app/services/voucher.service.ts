@@ -1,43 +1,44 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class VoucherService {
 
-  constructor(
-    private http: HttpClient,
-  ) { }
+  apiUrl = environment.baseURL;
 
-  crearVoucher(username: string = 'Julieta', password: string = 'Proyecto2022'){
+  constructor(private http: HttpClient, private authService: AuthService) { }
+
+  crearVoucher(){
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      'Authorization': 'Basic ' + btoa(username + ':' + password)
+      'Authorization': 'Basic ' + btoa(this.authService.getUsername() + ':' + this.authService.getPassword())
     });
-    return this.http.post<any>('https://ayelend.pythonanywhere.com/vouchers/api', { headers });
+    return this.http.post<any>(`${this.apiUrl}/vouchers/api`, { headers });
   }
 
-
-  usarVoucher(body: string, username: string = 'Julieta', password: string = 'Proyecto2022'){
+  usarVoucher(body: string){
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      'Authorization': 'Basic ' + btoa(username + ':' + password)
+      'Authorization': 'Basic ' + btoa(this.authService.getUsername() + ':' + this.authService.getPassword())
     });
     const options = {
       headers: headers,
       params: body
     }
-    return this.http.put<any>('https://ayelend.pythonanywhere.com/vouchers/api', options);
+    return this.http.put<any>(`${this.apiUrl}/vouchers/api`, options);
   }
 
 
-  voucherUser(username: string = 'Julieta', password: string = 'Proyecto2022'){
+  voucherUser(){
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      'Authorization': 'Basic ' + btoa(username + ':' + password)
+      'Authorization': 'Basic ' + btoa(this.authService.getUsername() + ':' + this.authService.getPassword())
     });
-    return this.http.get<any>('https://ayelend.pythonanywhere.com/vouchers/api', { headers });
+    return this.http.get<any>(`${this.apiUrl}/vouchers/api`, { headers });
   }
 
 }

@@ -2,6 +2,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { AuthService } from './auth.service';
 
 
 @Injectable({
@@ -11,32 +12,23 @@ export class CanchaService {
 
   apiUrl = environment.baseURL
 
-  private baseUrl = 'https://ayelend.pythonanywhere.com/canchas/api/';
+  constructor(private http: HttpClient, private authService: AuthService) { }
 
-  constructor(
-    private httpClient: HttpClient) { }
-
-  getCanchas(username: string = 'Julieta', password: string = 'Proyecto2022'): Observable<any> {
+  getCanchas(): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      'Authorization': 'Basic ' + btoa(username + ':' + password)
+      'Authorization': 'Basic ' + btoa(this.authService.getUsername() + ':' + this.authService.getPassword())
     });
-    return this.httpClient.get<any>('https://ayelend.pythonanywhere.com/canchas/api/', { headers });
+    return this.http.get<any>(`${this.apiUrl}/canchas/api/`, { headers });
   }
 
-  getCanchasByDeporte(body:any, username: string = 'Julieta', password: string = 'Proyecto2022'): Observable<any> {
+  getCanchasByDeporte(idDeporte:number): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      'Authorization': 'Basic ' + btoa(username + ':' + password)
+      'Authorization': 'Basic ' + btoa(this.authService.getUsername() + ':' + this.authService.getPassword()),
     });
-    const options = { 
-      headers: headers,
-      body: body
-    };
-    return this.httpClient.get<any>('https://ayelend.pythonanywhere.com/canchas/api/cancha_deporte', options);
+    return this.http.get<any>(`${this.apiUrl}/canchas/api/cancha_deporte?deporte_id=${idDeporte}`, { headers });
   }
-
- 
 
 //OTRA FORMA PROPORCIONADA POR CHATGPT
   // getCanchasByDeporte(deporte_id: number, username: string = 'Julieta', password: string = 'Proyecto2022'): Observable<any> {
