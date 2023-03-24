@@ -1,0 +1,49 @@
+ion-label{
+    font-family: 'Segoe UI';
+    font-size: 1rem;
+}
+
+ion-input{
+    font-family: 'Segoe UI';
+    font-size: 1rem;
+}
+
+ion-item{
+    font-family: 'Segoe UI';
+    font-size: 1rem;
+}
+
+// button {
+//     color: white;
+//     background-color: mediumseagreen;
+//     font-size: 1.2rem;
+//     height: 2rem;
+//     width: 8rem;
+//     border-radius: 0.5rem;
+//     font-family: "Segoe UI";
+//     margin-top: 1rem;
+    
+// }
+
+
+.btn-disabled {
+    color: white;
+    background-color: rgb(214, 216, 216);
+    font-size: 1.2rem;
+    height: 2rem;
+    width: 12rem;
+    border-radius: 0.5rem;
+    font-family: "Segoe UI";
+    margin-top: 1rem;
+  }
+  
+  .btn-enabled {
+    color: white;
+    background-color: mediumseagreen;
+    font-size: 1.2rem;
+    height: 2rem;
+    width: 12rem;
+    border-radius: 0.5rem;
+    font-family: "Segoe UI";
+    margin-top: 1rem;
+  }

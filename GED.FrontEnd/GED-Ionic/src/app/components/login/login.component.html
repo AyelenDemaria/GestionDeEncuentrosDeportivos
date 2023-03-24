@@ -39,12 +39,12 @@
             </ion-col>
           </ion-row>
           <div style="display: grid; justify-content:center ;">
-            <button type="submit" class="boton" [disabled]="!form.valid"
+            <button type="submit" class="boton" [disabled]="!form.valid"  [ngClass]="{'btn-disabled': !form.valid, 'btn-enabled': form.valid}"
               (click)="login()">
               Ingresar
             </button>
 
-            <button [routerLink]="['/register']">
+            <button class="btn-enabled" [routerLink]="['/register']">
               Registrarse
             </button>
           </div>
