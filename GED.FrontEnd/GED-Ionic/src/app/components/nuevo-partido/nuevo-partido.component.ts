@@ -5,6 +5,8 @@ import { AlertController } from '@ionic/angular';
 import { CanchaService } from 'src/app/services/cancha.service';
 import { DeporteService } from 'src/app/services/deporte.service';
 import { PartidoService } from 'src/app/services/partido.service';
+import { HttpErrorResponse } from '@angular/common/http';
+
 
 @Component({
   selector: 'app-nuevo-partido',
@@ -22,7 +24,7 @@ export class NuevoPartidoComponent implements OnInit {
 
   fecha: string = new Date().toISOString();
   ocultarCalendario = true;
-
+  errorMensaje: string
 
   constructor(private fb: FormBuilder,
     private router: Router,
@@ -90,14 +92,22 @@ export class NuevoPartidoComponent implements OnInit {
       cant_jugadores: Number(this.form.controls['cantJugadores'].value),
       tipo_partido: Number(this.form.controls['tipoPart'].value),
       cancha: this.idCancha,
-    }
-    
-    this.partidoService.postPartido(body).subscribe();
-    this.mensaje();
+    }    
+    this.partidoService.postPartido(body).subscribe(
+      (data) => {
+        this.mensajeExito()
+        this.router.navigateByUrl('/home');
+        //console.log(data);
+      },
+      (error: HttpErrorResponse) => {
+        this.errorMensaje = error.error[0];
+        this.mensajeError(this.errorMensaje)
+        //console.log(error.error[0]);
+      }
+    );        
   }
 
-
-  async mensaje() {
+  async mensajeExito() {
     const alert = await this.alertController.create({
       header: 'Partido creado con éxito!',
       message: 'Podes verlo en "Mis partidos"',
@@ -105,9 +115,17 @@ export class NuevoPartidoComponent implements OnInit {
     });
     await alert.present();
   }
+  async mensajeError(error:string) {
+    const alert = await this.alertController.create({
+      header: error,
+      //message: 'Intenta de nuevo más tarde.',
+      buttons: ['OK'],
+    });
+    await alert.present();
+  }
 
 
-  cancel() {
+   cancel() {
     this.router.navigateByUrl('home')
   }
 

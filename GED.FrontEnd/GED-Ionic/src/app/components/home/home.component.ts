@@ -10,36 +10,36 @@ import { UsuarioService } from 'src/app/services/usuario.service';
 })
 export class HomeComponent implements OnInit {
 
-  puntos:number 
+  puntos: number
 
-  constructor( 
+  constructor(
     private authService: AuthService,
     private router: Router,
     private usuarioService: UsuarioService
-  ) {}
+  ) { }
 
   ngOnInit() {
-   this.puntosUsuario()
+
+    this.puntosUsuario()
   }
 
-  cerrarSesion(){ 
+  cerrarSesion() {
     this.authService.logout().subscribe(
-    (data) => {     
-      console.log(data);
-      this.router.navigateByUrl('/login');      
-    },
-    (error) => {
-      console.log(error);
-    }
-  );      
+      (data) => {
+        console.log(data);
+        this.router.navigateByUrl('/login');
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   }
 
-  puntosUsuario(){
-    const body = {
-      username: 'Julieta'
-    }
-    this.usuarioService.getPuntosUsuario(body).subscribe(res =>{
+  puntosUsuario() {
+    this.usuarioService.getPuntosUsuario().subscribe(res => {
       this.puntos = res
-    })    
+    })
   }
+
+  
 }

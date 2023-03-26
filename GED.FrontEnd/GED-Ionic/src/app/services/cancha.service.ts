@@ -29,23 +29,6 @@ export class CanchaService {
     });
     return this.http.get<any>(`${this.apiUrl}/canchas/api/cancha_deporte?deporte_id=${idDeporte}`, { headers });
   }
-
-//OTRA FORMA PROPORCIONADA POR CHATGPT
-  // getCanchasByDeporte(deporte_id: number, username: string = 'Julieta', password: string = 'Proyecto2022'): Observable<any> {
-  //   const headers = new HttpHeaders({
-  //     'Content-Type': 'application/json',
-  //     'Authorization': 'Basic ' + btoa(username + ':' + password)
-  //   });
-  //   const url = `${this.baseUrl}cancha_deporte/?deporte_id=${deporte_id}`;
-  //   return this.httpClient.get<any>(url, { headers }).pipe(
-  //     catchError((error: HttpErrorResponse) => {
-  //       console.error('Error en la solicitud HTTP:', error);
-  //       return throwError('Algo salió mal. Intente de nuevo más tarde.');
-  //     })
-  //   );
-  // }
-
-  // return this.httpClient.get<any>('https://ayelend.pythonanywhere.com/canchas/api/cancha_deporte/',{ headers });
 }
 
 

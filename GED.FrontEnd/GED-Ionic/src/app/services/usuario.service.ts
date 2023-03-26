@@ -70,28 +70,22 @@ export class UsuarioService {
     return this.http.get<any>(`${this.apiUrl}/usuarios/api/usuario/`, { headers });
   }
 
-  getReporteUsuario(body:any): Observable<any> {
+  getReporteUsuario(): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': 'Basic ' + btoa(this.authService.getUsername() + ':' + this.authService.getPassword())
     });
-    const options = { 
-      headers: headers,
-      body: body
-    };
-    return this.http.get<any>(`${this.apiUrl}/usuarios/api/reporteUsuario`, options);
+    
+    return this.http.get<any>(`${this.apiUrl}/usuarios/api/reporteUsuario`, { headers });
   }
 
-  getPuntosUsuario(body:any): Observable<any> {
+  getPuntosUsuario(): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': 'Basic ' + btoa(this.authService.getUsername() + ':' + this.authService.getPassword())
     });
-    const options = { 
-      headers: headers,
-      body: body
-    };
-    return this.http.get<any>(`${this.apiUrl}/usuarios/api/puntosUsuario/`,options);
+   
+    return this.http.get<any>(`${this.apiUrl}/usuarios/api/puntosUsuario/`,{ headers });
   }
 }
 

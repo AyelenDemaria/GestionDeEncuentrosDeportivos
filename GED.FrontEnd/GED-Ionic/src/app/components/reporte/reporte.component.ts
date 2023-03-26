@@ -17,10 +17,8 @@ export class ReporteComponent implements OnInit {
 
   ngOnInit() {
 
-    const body = {
-      username: 'Julieta'
-    }
-    this.usuarioService.getReporteUsuario(body).subscribe(
+    
+    this.usuarioService.getReporteUsuario().subscribe(
       (data: any[]) => {
         this.reporte = data;
         console.log(this.reporte);

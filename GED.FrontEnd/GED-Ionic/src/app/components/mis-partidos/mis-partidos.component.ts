@@ -12,7 +12,7 @@ export class MisPartidosComponent implements OnInit {
 
   filtro = '';
   partidos: any[] = []
-  cantInscriptos: any[] = []
+
 
   constructor(
     private alertController: AlertController,
@@ -21,23 +21,6 @@ export class MisPartidosComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    // this.inscripcionService.getInscripcionesUser().subscribe((data: any[]) => {
-    //   this.partidos = data;
-    //   this.partidosService.cantidadInscriptosPartido().subscribe(x => {
-    //     this.cantInscriptos = x;
-    //     this.partidos.forEach((partido) => {
-    //       console.log(partido.partido)
-    //       this.cantInscriptos.forEach((inscriptos) => {
-    //         if ((partido.partido.id) === (inscriptos.partido)) {
-    //           console.log('Coinciden', inscriptos.partido)
-    //         }
-    //       })
-    //     });
-    //   })
-    // },
-    //   (error) => {
-    //     console.log(error);
-    //   })  
     this.inscripcionService.getInscripcionesUser().subscribe(
       (data: any[]) => {
         this.partidos = data;
@@ -46,20 +29,21 @@ export class MisPartidosComponent implements OnInit {
       (error: any) => {
         console.log(error);
       }
-    );
-
-    
+    );    
   }
 
 
   get filteredPartidos() {
     if (this.filtro != "") {
-      return this.partidos.filter(x => (x.deporte.toLowerCase() + x.cantInscriptos + x.fechaHora + x.cantJugadores
-        + x.cancha.toLowerCase() + x.tipoPartido.toLowerCase()).
+      return this.partidos.filter(x => (x.partido.cancha.deporte.descripcion.toLowerCase() + x.partido.fecha_hora + x.partido.cant_jugadores
+        + x.partido.cancha.direccion.toLowerCase() + x.partido.tipo_partido.descripcion.toLowerCase()).
         includes(this.filtro.toLowerCase()));
     }
     return this.partidos;
   }
+
+  
+    
 
 
   async mensaje() {
