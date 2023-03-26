@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AlertController } from '@ionic/angular';
 import { InscripcionService } from 'src/app/services/inscripcion.service';
 import { PartidoService } from 'src/app/services/partido.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-mis-partidos',
@@ -17,7 +18,7 @@ export class MisPartidosComponent implements OnInit {
   constructor(
     private alertController: AlertController,
     private inscripcionService: InscripcionService,
-    private partidosService: PartidoService
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -43,9 +44,6 @@ export class MisPartidosComponent implements OnInit {
   }
 
   
-    
-
-
   async mensaje() {
     const alert = await this.alertController.create({
       header: '¿Estas seguro que querés darte de baja del partido?',
@@ -63,4 +61,17 @@ export class MisPartidosComponent implements OnInit {
     });
     await alert.present();
   }
+
+
+  partidoFechaPasada(fecha: string): boolean {
+    const fechaPartido = new Date(fecha);
+    const fechaActual = new Date();
+    return fechaPartido > fechaActual;
+  }
+
+  invitar(id_partido:number){
+    this.router.navigate(['/invitar', id_partido]);
+  } 
+
+  
 }

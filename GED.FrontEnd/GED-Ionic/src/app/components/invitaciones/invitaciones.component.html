@@ -43,22 +43,24 @@
           <ion-card-header style="padding-bottom: 0;">
             <div style="display: flex; justify-content: space-between;">
               <ion-card-title>Partido de {{inv.deporte}}</ion-card-title>
-              <button class="yes">
-                <ion-icon slot="icon-only" name="checkmark-sharp"></ion-icon>
-              </button>
-              <button class="no">
-                <ion-icon slot="icon-only" name="close-sharp"></ion-icon>
-              </button>
+              <div>
+                <button class="yes">
+                  <ion-icon slot="icon-only" name="checkmark-sharp"></ion-icon>
+                </button>
+                <button class="no">
+                  <ion-icon slot="icon-only" name="close-sharp"></ion-icon>
+                </button>
+              </div>          
             </div>
-            <ion-card-subtitle>{{inv.cantInscriptos}} inscriptos</ion-card-subtitle>
+            <!-- <ion-card-subtitle>{{inv.cantInscriptos}} inscriptos</ion-card-subtitle> -->
           </ion-card-header>
           <ion-card-content>
             <ion-list>
               <ion-item>
-                <ion-text>Fecha y hora:</ion-text> {{inv.fechaHora}}
+                <ion-text>Fecha y hora:</ion-text> {{inv.partido.fecha_hora| date:'yyyy-MM-dd HH:mm'}}
               </ion-item>
               <ion-item>
-                <ion-text>Cantidad jugadores:</ion-text> {{inv.cantJugadores}}
+                <ion-text>Cantidad jugadores:</ion-text> {{inv.partido.cant_jugadores}}
               </ion-item>
               <ion-item>
                 <ion-text>Cancha:</ion-text> {{inv.cancha}}
@@ -66,7 +68,10 @@
               <ion-item>
                 <ion-text>Tipo de partido:</ion-text> {{inv.tipoPartido}}
               </ion-item>
-              <ion-text class="invitado">Invitado por: {{inv.invitadoPor}}</ion-text>
+              <ion-text class="invitado">Invitado por: 
+                <ion-text class="invitado">{{inv.usuario_invita.user.first_name}}</ion-text>
+                <ion-text class="invitado">{{inv.usuario_invita.user.last_name}}</ion-text>
+             </ion-text>
             </ion-list>
           </ion-card-content>
         </ion-card>

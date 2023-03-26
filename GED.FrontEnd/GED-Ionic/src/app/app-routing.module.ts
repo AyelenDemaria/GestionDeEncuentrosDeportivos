@@ -29,7 +29,7 @@ const routes: Routes = [
   {path: 'reporte', component: ReporteComponent},
   {path: 'unirme', component: UnirmeComponent},
   {path: 'nuevoPartido', component: NuevoPartidoComponent},
-  {path: 'invitar', component: InvitarComponent},
+  {path: 'invitar/:id_partido', component: InvitarComponent},
   {path: 'canjear', component:CanjearPuntosComponent},
   {path: 'voucher', component:VoucherComponent},
   {path: 'contrasena', component: ContrasenaComponent}

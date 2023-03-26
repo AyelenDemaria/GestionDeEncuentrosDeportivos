@@ -42,7 +42,7 @@
           <ion-card-header style="padding-bottom: 0;">
             <div style="display: flex; justify-content: space-between;">
               <ion-card-title>{{jug.user.first_name}} {{jug.user.last_name}}</ion-card-title>             
-              <ion-buttons style="font-size: x-large;" (click)="mensaje()">
+              <ion-buttons style="font-size: x-large;" (click)="mensajeConfirmacion(jug.user.id)">
                 <ion-icon  class="yes" name="person-add"></ion-icon>
               </ion-buttons>              
             </div>
