@@ -6,11 +6,11 @@ from usuarios.serializers import PerfilSerializer
 class InscripcionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Inscripcion
-        fields = ["jugador","partido","fecha_hora_inscripcion","fecha_hora_baja"]
+        fields = ["id","jugador","partido","fecha_hora_inscripcion","fecha_hora_baja"]
 
 class InscripcionGetSerializer(serializers.ModelSerializer):
     partido = PartidoGetSerializer(many=False)
     jugador = PerfilSerializer(many=False)
     class Meta:
         model = Inscripcion
-        fields = ["jugador","partido","fecha_hora_inscripcion","fecha_hora_baja"]
+        fields = ["id","jugador","partido","fecha_hora_inscripcion","fecha_hora_baja"]
