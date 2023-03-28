@@ -34,7 +34,33 @@ class PerfilSerializer(serializers.ModelSerializer):
         perfil_instance.save()
         return perfil_instance
 
+class UserLoginSerializer(serializers.Serializer):
 
+    # Campos que vamos a requerir
+    username = serializers.CharField()
+    password = serializers.CharField()
+    #print("username and password:", username, password)
+    # Primero validamos los datos
+    def validate(self, data):
+
+        print("validate", data)
+        # authenticate recibe las credenciales, si son válidas devuelve el objeto del usuario
+        user = authenticate(username=data['username'], password=data['password'])
+        if not user:
+            raise serializers.ValidationError('Las credenciales no son válidas')
+
+        # Guardamos el usuario en el contexto para posteriormente en create recuperar el token
+        self.context['user'] = user
+        return data
+
+    def create(self,validated_data):
+        print("create")
+        #return User.objects.create(**validated_data)
+        return self.context['user']
+
+
+
+"""
 class UserLoginSerializer(serializers.Serializer):
 
     # Campos que vamos a requerir
@@ -65,3 +91,4 @@ class UserLoginSerializer(serializers.Serializer):
         print("create")
         #return User.objects.create(**validated_data)
         return self.context['user']
+"""
