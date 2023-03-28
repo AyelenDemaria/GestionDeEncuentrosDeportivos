@@ -29,7 +29,7 @@ export class PartidoService {
     return this.http.get<any>(`${this.apiUrl}/tipos_partidos/api`, { headers });
   }
 
-  postPartido(body:any):Observable<any> {   
+  postPartido(body: any): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': 'Basic ' + btoa(this.authService.getUsername() + ':' + this.authService.getPassword())
@@ -37,12 +37,20 @@ export class PartidoService {
     return this.http.post<any>(`${this.apiUrl}/partidos/api`, body, { headers })
   }
 
-  cantidadInscriptosPartido(){
+  cantidadInscriptosPartido() {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': 'Basic ' + btoa(this.authService.getUsername() + ':' + this.authService.getPassword())
     });
     return this.http.get<any>(`${this.apiUrl}/partidos/api/inscriptos/`, { headers });
+  }
+
+  partidosSemana() {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Basic ' + btoa(this.authService.getUsername() + ':' + this.authService.getPassword())
+    });
+    return this.http.get<any>(`${this.apiUrl}/partidos/api/partidoSemana/`, { headers });
   }
 
 }
