@@ -11,7 +11,6 @@ import { HttpErrorResponse } from '@angular/common/http';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
-  errorMensaje:string
 
   constructor(
     private fb: FormBuilder,
@@ -24,8 +23,7 @@ export class LoginComponent implements OnInit {
     psw: ['', Validators.required],
   })
 
-  ngOnInit() {
-  
+  ngOnInit() {  
   }
 
   login() {
@@ -37,9 +35,8 @@ export class LoginComponent implements OnInit {
         this.router.navigateByUrl('/home');
         //console.log(data);
       },
-      (error: HttpErrorResponse) => {
-        this.errorMensaje = error.error.detail;
-        this.mensajeError(this.errorMensaje)
+      (error) => {      
+        this.mensajeError()
         //console.log(error.error[0]);
       }
     );        
@@ -51,10 +48,10 @@ export class LoginComponent implements OnInit {
     return this.form.get('psw');
   }
 
-  async mensajeError(error:string) {
+  async mensajeError() {
     const alert = await this.alertController.create({
-      header: error,
-      message: 'Intenta de nuevo más tarde.',
+      header: 'Usuario o contraseña incorrecta.',
+      message: 'Intente de nuevo.',
       buttons: ['OK'],
     });
     await alert.present();

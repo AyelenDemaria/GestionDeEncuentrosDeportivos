@@ -21,20 +21,20 @@ export class InvitacionService {
     return this.http.post<any>(`${this.apiUrl}/invitaciones/api`, body, { headers });
   }
 
-  aceptarInvitacion(){
+  aceptarInvitacion(body:any){
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': 'Basic ' + btoa(this.authService.getUsername() + ':' + this.authService.getPassword())
     });
-    return this.http.put<any>(`${this.apiUrl}/invitaciones/api/aceptarInvitacion/`, { headers });
+    return this.http.put<any>(`${this.apiUrl}/invitaciones/api/aceptarInvitacion/`, body, { headers });
   }
 
-  rechazarInvitacion(){
+  rechazarInvitacion(body:any){
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': 'Basic ' + btoa(this.authService.getUsername() + ':' + this.authService.getPassword())
     });
-    return this.http.put<any>(`${this.apiUrl}/invitaciones/api/rechazarInvitacion/`, { headers });
+    return this.http.put<any>(`${this.apiUrl}/invitaciones/api/rechazarInvitacion/`, body, { headers });
   }
 
   invitacionesUser(){

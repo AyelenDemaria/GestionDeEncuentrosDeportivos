@@ -27,45 +27,57 @@
       <ion-buttons slot="end">
         <ion-menu-button></ion-menu-button>
       </ion-buttons>
-      <ion-title style="font-family: 'Segoe UI'" >Inicio</ion-title>
+      <ion-title style="font-family: 'Segoe UI'">Inicio</ion-title>
     </ion-toolbar>
   </ion-header>
 
 
   <ion-content>
-    <ion-card
-      style="background-color: rgb(71, 216, 126); height: 3rem; width: 9rem; padding: 0.5rem; 
-      margin-inline-start: auto;">
+    <div style="display: flex; justify-content: center;">
+      <ion-card style="background-color: rgb(71, 216, 126); height: 3rem; width: 9rem; padding: 0.5rem;">
+        <ion-card-title style="font-size: 0.9rem; text-align: center; font-family: 'Segoe UI';">Puntos
+          acumulados</ion-card-title>
+        <div style="display: flex; justify-content: center;">
+          <ion-icon style=" font-size: large; color: rgb(9, 99, 54);" name="star"></ion-icon>
+          <ion-card-content style=" font-size: 1rem; color: black; font-weight: 700; padding: 0%;">
+            {{puntos}}
+          </ion-card-content>
+        </div>
+      </ion-card>
+      <ion-card *ngIf="recordatorio === 1" style="background-color: rgb(255, 252, 68); height: 3rem; width: 9rem; padding: 0.5rem;">
+        <ion-card-title style="font-size: 0.7rem; text-align: center; font-family: 'Segoe UI';">Tenes partidos dentro de
+          los próximos 5 días</ion-card-title>
+        <div style="display: flex; justify-content: center;">
+        </div>
+      </ion-card>
+      <ion-card *ngIf="recordatorio === 0" style="background-color: rgb(255, 252, 68); height: 3rem; width: 9rem; padding: 0.5rem;">
+        <ion-card-title style="font-size: 0.7rem; text-align: center; font-family: 'Segoe UI';">No tenes partidos
+          registrados dentro de los próximos 5 días</ion-card-title>
+        <div style="display: flex; justify-content: center;">
+        </div>
+      </ion-card>
 
-      <ion-card-title style="font-size: 0.9rem; text-align: center; font-family: 'Segoe UI';">Puntos acumulados</ion-card-title>
-      <div style="display: flex; justify-content: center;">
-        <ion-icon style=" font-size: large; color: rgb(9, 99, 54);" name="star"></ion-icon>
-        <ion-card-content style=" font-size: 1rem; color: black; font-weight: 700; padding: 0%;">
-          {{puntos}}
-        </ion-card-content>
-      </div>
 
-    <!-- <ion-content>
-        <ion-card style="background-color: rgb(71, 216, 126); height: 3rem; width: 9rem; padding: 0.5rem; margin-inline-start: auto;">
-            <ion-card-title style="font-size: 0.9rem; text-align: center;">Puntos acumulados: {{puntos}}</ion-card-title>  -->
-    </ion-card> 
-         
+    </div>
 
-        <div class="content">
-            <button class="buttonHome" [routerLink]="['/nuevoPartido']">
+
+
+
+    <div class="content">
+      <button class="buttonHome" [routerLink]="['/nuevoPartido']">
         Nuevo partido
       </button>
 
-            <button class="buttonHome" [routerLink]="['/unirme']">
+      <button class="buttonHome" [routerLink]="['/unirme']">
         Unirme a un partido
       </button>
 
-            <button class="buttonHome" [routerLink]="['/misPartidos']">
+      <button class="buttonHome" [routerLink]="['/misPartidos']">
         Mis partidos
       </button>
 
-            <button class="buttonHome" [routerLink]="['/canjear']">
+      <button class="buttonHome" [routerLink]="['/canjear']">
         Canjear puntos
       </button>
-        </div>
-    </ion-content>
+    </div>
+  </ion-content>

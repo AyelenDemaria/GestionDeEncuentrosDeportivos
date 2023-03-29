@@ -54,12 +54,8 @@ export class UsuarioService {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': 'Basic ' + btoa(this.authService.getUsername() + ':' + this.authService.getPassword())
-    });
-    const options = { 
-      headers: headers,
-      body: body
-    };
-    return this.http.put(`${this.apiUrl}/usuarios/api/cambiarClave`, options)
+    });   
+    return this.http.put(`${this.apiUrl}/usuarios/api/cambiarClave/`, body, { headers })
   }
 
   getDataUsuario(): Observable<any> {

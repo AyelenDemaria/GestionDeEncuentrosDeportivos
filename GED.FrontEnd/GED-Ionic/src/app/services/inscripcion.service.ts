@@ -24,16 +24,12 @@ export class InscripcionService {
     return this.http.post<any>(`${this.apiUrl}/inscripciones/api/${partido_id}/`, body, {headers});
   }
 
-  bajaInscripcionPartido(body: string, inscripcionId: number) {
+  bajaInscripcionPartido(body:any) {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': 'Basic ' + btoa(this.authService.getUsername() + ':' + this.authService.getPassword())
-    });
-    const options = {
-      headers: headers,
-      params: { body, inscripcionId: inscripcionId }
-    }
-    return this.http.put<any>(`${this.apiUrl}/inscripciones/api/`, options);
+    });    
+    return this.http.put<any>(`${this.apiUrl}/inscripciones/api/`, body, { headers });
   }
 
   getInscripcionesUser(): Observable<any> {

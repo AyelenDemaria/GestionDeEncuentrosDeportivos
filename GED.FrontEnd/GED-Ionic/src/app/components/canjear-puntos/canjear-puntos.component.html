@@ -40,7 +40,7 @@
     <ion-card style="background-color: rgb(255, 232, 128); height: 5rem; width: 15rem; margin-inline: auto;">
       <ion-card-header>
         <ion-card-title>Puntos acumulados</ion-card-title>
-        <div>
+        <div style="display: flex;">
           <ion-icon style=" font-size: xx-large; color: rgb(248, 142, 4);" name="star"></ion-icon>
           <ion-card-content>
             {{puntos}}
@@ -81,7 +81,7 @@
     <ion-card style="background-color: rgb(187, 187, 187); height: 5rem; width: 15rem; margin-inline: auto;">
       <ion-card-header>
         <ion-card-title>Puntos acumulados</ion-card-title>
-        <div style="display: flex; justify-content: center;">
+        <div style="display: flex;">
           <ion-icon style=" font-size: xx-large; color: rgb(99, 97, 96);" name="star"></ion-icon>
           <ion-card-content>
             {{puntos}}
@@ -92,9 +92,6 @@
     <ion-text class="mensaje" style="display: flex; justify-content: center;">
       No cuentas con puntos suficientes para canjear
     </ion-text>
-
-
-
 
     <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
       <ion-text class="regla" style="text-align: center;">Cantidad de puntos acumulados:{{puntos}}</ion-text>

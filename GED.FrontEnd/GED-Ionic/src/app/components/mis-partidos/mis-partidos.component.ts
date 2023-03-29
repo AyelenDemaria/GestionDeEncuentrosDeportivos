@@ -3,6 +3,7 @@ import { AlertController } from '@ionic/angular';
 import { InscripcionService } from 'src/app/services/inscripcion.service';
 import { PartidoService } from 'src/app/services/partido.service';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-mis-partidos',
@@ -18,7 +19,8 @@ export class MisPartidosComponent implements OnInit {
   constructor(
     private alertController: AlertController,
     private inscripcionService: InscripcionService,
-    private router: Router
+    private router: Router,
+    private authService: AuthService,
   ) { }
 
   ngOnInit() {
@@ -30,7 +32,7 @@ export class MisPartidosComponent implements OnInit {
       (error: any) => {
         console.log(error);
       }
-    );    
+    );
   }
 
 
@@ -43,8 +45,8 @@ export class MisPartidosComponent implements OnInit {
     return this.partidos;
   }
 
-  
-  async mensaje() {
+
+  async mensajeBaja(inscripcionId: number) {
     const alert = await this.alertController.create({
       header: '¿Estas seguro que querés darte de baja del partido?',
       message: 'Si te das de baja no podrás volver a unirte',
@@ -55,9 +57,35 @@ export class MisPartidosComponent implements OnInit {
         },
         {
           text: 'OK',
-          role: 'confirm',
+          handler: () => {
+            this.bajaInscripcion(inscripcionId);
+          },
         },
       ],
+    });
+    await alert.present();
+  }
+
+  bajaInscripcion(inscripcion_id: number) {
+
+    const body = {
+      username: this.authService.getUsername(),
+      inscripcion_id: inscripcion_id
+    }
+    this.inscripcionService.bajaInscripcionPartido(body).subscribe(
+      (data) => {
+        this.mensajeExito()
+        this.router.navigateByUrl('/misPartidos');
+      },
+      (error) => {
+        console.log(error)
+      });
+  }
+
+  async mensajeExito() {
+    const alert = await this.alertController.create({
+      header: 'Te diste de baja del partido.',
+      buttons: ['OK'],
     });
     await alert.present();
   }
@@ -69,9 +97,9 @@ export class MisPartidosComponent implements OnInit {
     return fechaPartido > fechaActual;
   }
 
-  invitar(id_partido:number){
+  invitar(id_partido: number) {
     this.router.navigate(['/invitar', id_partido]);
-  } 
+  }
 
-  
+
 }

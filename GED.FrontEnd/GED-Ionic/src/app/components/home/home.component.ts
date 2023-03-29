@@ -22,7 +22,7 @@ export class HomeComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-
+ 
     this.puntosUsuario()
     this.partidosSemana()
   }

@@ -57,7 +57,7 @@
                 <ion-icon  class="yes" name="person-add"></ion-icon>
               </ion-buttons>
 
-              <ion-buttons  *ngIf="partidoFechaPasada(part.partido.fecha_hora)" style="font-size: x-large;" (click)="mensaje()" >
+              <ion-buttons  *ngIf="partidoFechaPasada(part.partido.fecha_hora)" style="font-size: x-large;" (click)="mensajeBaja(part.id)" >
                 <ion-icon  class="no" name="person-remove"></ion-icon>
               </ion-buttons>
 

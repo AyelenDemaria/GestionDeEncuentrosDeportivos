@@ -44,10 +44,10 @@
               <div style="display: flex; justify-content: space-between;">
                 <ion-card-title>Partido de {{inv.partido.cancha.deporte.descripcion}}</ion-card-title>
                 <div>
-                  <button class="yes" (click)="aceptar()">
+                  <button class="yes" (click)="aceptar(inv.id)">
                     <ion-icon slot="icon-only" name="checkmark-sharp"></ion-icon>
                   </button>
-                  <button class="no" (click)="rechazar()">
+                  <button class="no" (click)="rechazar(inv.id)">
                     <ion-icon slot="icon-only" name="close-sharp"></ion-icon>
                   </button>
                 </div>
