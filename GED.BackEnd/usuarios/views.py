@@ -183,7 +183,7 @@ class ReporteByUserApiView(APIView):
             cant_jugados = 0
 
         #partidos no jugados: busca inscripciones con fecha y hora de baja en null en partidos ya pasados
-        no_jugados = Inscripcion.objects.filter(jugador_id = perfil.id, fecha_hora_baja__isnull=False, partido__fecha_hora__lt=fecha_hora_actual)
+        no_jugados = Inscripcion.objects.filter(jugador_id = perfil.id, fecha_hora_baja__isnull=False)
         if no_jugados:
             cant_no_jugados = no_jugados.count()
         else:
@@ -244,7 +244,7 @@ def reporte_usuarios(request):
         else:
             cant_jugados = 0
         #partidos no jugados: busca inscripciones con fecha y hora de baja en null en partidos ya pasados
-        no_jugados = Inscripcion.objects.filter(jugador_id = k.id, fecha_hora_baja__isnull=False, partido__fecha_hora__lt=fecha_hora_actual)
+        no_jugados = Inscripcion.objects.filter(jugador_id = k.id, fecha_hora_baja__isnull=False)
         if no_jugados:
             cant_no_jugados = no_jugados.count()
         else:
