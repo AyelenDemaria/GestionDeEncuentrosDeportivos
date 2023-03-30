@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import Voucher
-from canchas.serializers import CanchaSerializer
+from canchas.serializers import CanchaSerializer,  CanchaGetSerializer
 from usuarios.serializers import PerfilSerializer
 
 
