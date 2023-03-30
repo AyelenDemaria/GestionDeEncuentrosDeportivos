@@ -44,10 +44,10 @@ class InscripcionListApiView(APIView):
         fecha_hora_partido = partido.fecha_hora
         fecha_partido = partido.fecha_hora.date()
         #busco si ya esta el usuario inscripto a ese partido:
-        user_inscripto = Inscripcion.objects.filter(jugador_id=perfil.id, partido_id=pk)
+        user_inscripto = Inscripcion.objects.filter(jugador_id=perfil.id, partido_id=pk, fecha_hora_baja__isnull=True)
         if not user_inscripto:
             #busco si ya esta el usuario inscripto a otro partido en esa fecha y hora:
-            partido_inscripto = Inscripcion.objects.filter(partido__fecha_hora=fecha_hora_partido, jugador_id=perfil.id)
+            partido_inscripto = Inscripcion.objects.filter(partido__fecha_hora=fecha_hora_partido, jugador_id=perfil.id, fecha_hora_baja__isnull=True)
             if not partido_inscripto:
                 #print(fecha_partido)
                 data = {
