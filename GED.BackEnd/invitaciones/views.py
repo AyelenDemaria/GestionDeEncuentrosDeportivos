@@ -51,7 +51,7 @@ class InvitacionListApiView(APIView):
         data = {
             'usuario_invita': perfil.id,
             #'usuario_invitado': request.data.get('usuario_invitado'),
-            'usuario_invitado': perfil_inv,
+            'usuario_invitado': perfil_inv.id,
             'partido': request.data.get('partido'),
             'fecha_hora_invitacion': timezone.localtime(timezone.now()),
 
