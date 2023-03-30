@@ -40,9 +40,9 @@ export class MisPartidosComponent implements OnInit {
     if (this.filtro != "") {
       return this.partidos.filter(x => (x.partido.cancha.deporte.descripcion.toLowerCase() + x.partido.fecha_hora + x.partido.cant_jugadores
         + x.partido.cancha.direccion.toLowerCase() + x.partido.tipo_partido.descripcion.toLowerCase()).
-        includes(this.filtro.toLowerCase()));
+        includes(this.filtro.toLowerCase())).filter(x => x.fecha_hora_baja == null);
     }
-    return this.partidos;
+    return this.partidos.filter(x => x.fecha_hora_baja == null);
   }
 
 
@@ -68,10 +68,8 @@ export class MisPartidosComponent implements OnInit {
 
   bajaInscripcion(inscripcion_id: number) {
 
-    const body = {
-      username: this.authService.getUsername(),
-      inscripcion_id: inscripcion_id
-    }
+    const body = { 
+      inscripcion_id: inscripcion_id    }
     this.inscripcionService.bajaInscripcionPartido(body).subscribe(
       (data) => {
         this.mensajeExito()

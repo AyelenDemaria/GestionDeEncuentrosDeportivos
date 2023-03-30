@@ -14,6 +14,7 @@ export class InvitacionesComponent implements OnInit {
 
   invitaciones: any[] = []
   errorMensaje:string
+  todasAceptadas = false
 
   constructor(
     private invitacionesService: InvitacionService,
@@ -26,6 +27,7 @@ export class InvitacionesComponent implements OnInit {
     this.invitacionesService.invitacionesUser().subscribe(
       (data: any[]) => {
         this.invitaciones = data;
+        this.todasAceptadas = this.invitaciones.every(inv => inv.estado !== null);
         console.log(this.invitaciones);
       },
       (error: any) => {
@@ -35,8 +37,7 @@ export class InvitacionesComponent implements OnInit {
   }
 
   rechazar(id: number) {
-    const body = {
-      username: this.authService.getUsername(),
+    const body = {  
       invitacion_id: id
     }
     console.log(body)
@@ -53,8 +54,7 @@ export class InvitacionesComponent implements OnInit {
   }
 
   aceptar(id: number) {
-    const body = {
-      username: this.authService.getUsername(),
+    const body = {    
       invitacion_id: id
     }
     console.log(body)
@@ -96,9 +96,6 @@ export class InvitacionesComponent implements OnInit {
     });
     await alert.present();
   }
-
-
-
 
 }
 
