@@ -37,6 +37,9 @@
   <ion-content *ngIf="puntos>=30; then ifBlock else elseBlock"> </ion-content>
 
   <ng-template #ifBlock>
+    <ion-text style="display: flex; justify-content: center; font-family: 'Segoe UI'; color: darkslategray;">
+      Al realizar el canje se te restaran 30 puntos
+    </ion-text>
     <ion-card style="background-color: rgb(255, 232, 128); height: 5rem; width: 15rem; margin-inline: auto;">
       <ion-card-header>
         <ion-card-title>Puntos acumulados</ion-card-title>
@@ -48,31 +51,42 @@
         </div>
       </ion-card-header>
     </ion-card>
-
+    <form [formGroup]="form">
     <div>
       <ion-item>
         <ion-label position="floating"> Deporte</ion-label>
-        <ion-select interface="popover">
-          <ion-select-option *ngFor="let dep of deportes" [value]="dep">{{ dep }}</ion-select-option>
+        <ion-select interface="popover" required formControlName="deporte" (ionChange)="seleccionarDeporte($event)">
+          <ion-select-option *ngFor="let deporte of deportes" [value]="deporte.id">{{ deporte.descripcion }}
+          </ion-select-option>
         </ion-select>
       </ion-item>
+      <div class="alert alert-danger" *ngIf="deporte.invalid && (deporte.dirty || deporte.touched)">
+        <div class="container-error-message" *ngIf="deporte.errors.required">
+          Este campo es obligatorio.
+        </div>
+      </div>
       <ion-item style="margin-top: 2rem;">
         <ion-label position="floating"> Cancha</ion-label>
-        <ion-select interface="popover">
-          <ion-select-option *ngFor="let can of canchas" [value]="can">{{ can }}</ion-select-option>
+        <ion-select interface="popover" required formControlName="cancha" (ionChange)="seleccionarCancha($event)">
+          <ion-select-option *ngFor="let can of canchas" [value]="can">{{ can.nombre }}</ion-select-option>
         </ion-select>
       </ion-item>
+      <div class="alert alert-danger" *ngIf="cancha.invalid && (cancha.dirty || cancha.touched)">
+        <div class="container-error-message" *ngIf="cancha.errors.required">
+          Este campo es obligatorio.
+        </div>
+      </div>
     </div>
+  </form>
 
     <div style="margin-bottom: 4rem; display: flex;">
-
+      <ion-col>
+        <ion-button  [disabled]="!form.valid" type="submit" class="boton" color="success" style="width: 10rem;" expand="full"
+          strong (click)="crearVoucher()">Canjear</ion-button>
+      </ion-col>
       <ion-col>
         <ion-button type="submit" class="boton" style="background-color: gray; width: 10rem;" expand="full" strong
           (click)="cancel()">Cancelar</ion-button>
-      </ion-col>
-      <ion-col>
-        <ion-button type="submit" class="boton" color="success" style="width: 10rem;" expand="full"
-          strong>Canjear</ion-button>
       </ion-col>
     </div>
   </ng-template>

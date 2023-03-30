@@ -12,12 +12,12 @@ export class VoucherService {
 
   constructor(private http: HttpClient, private authService: AuthService) { }
 
-  crearVoucher(){
+  crearVoucher(body: any){
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': 'Basic ' + btoa(this.authService.getUsername() + ':' + this.authService.getPassword())
     });
-    return this.http.post<any>(`${this.apiUrl}/vouchers/api`, { headers });
+    return this.http.post<any>(`${this.apiUrl}/vouchers/api`, body, { headers });
   }
 
   usarVoucher(body: string){

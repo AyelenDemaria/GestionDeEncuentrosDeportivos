@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { VoucherService } from 'src/app/services/voucher.service';
+import { AlertController } from '@ionic/angular';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-mis-voucher',
@@ -6,32 +10,26 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./mis-voucher.component.scss'],
 })
 export class MisVoucherComponent implements OnInit {
+  vouchers: any[] = []
+  hoy: Date = new Date();
 
-vouchers: any[] = [
-  {nombre: 'Cancha SRL',
-   direccion:'Alvear 2040',
-   deporte: 'Tenis',
-   fechaEmision:'06-02-23',
-   fechaVenc:'30-06-23' },
+  constructor(
+    private voucherService: VoucherService,
+    private alertController: AlertController,
+    private router: Router
+  ) { }
 
-   {nombre: 'Cancha 5',
-   direccion:'Rioja 683',
-   deporte: 'Fútbol',
-   fechaEmision:'15-01-23',
-   fechaVenc:'30-05-23' },
-
-   {nombre: 'Cancha Tito',
-   direccion:'Mitre 1900',
-   deporte: 'Paddel',
-   fechaEmision:'12-02-23',
-   fechaVenc:'30-06-23' },
-] ;
-
-
-  constructor() {
-   
-   }
-
-  ngOnInit() {}
+  ngOnInit() {
+    console.log(this.hoy)
+    this.voucherService.voucherUser().subscribe(
+      (data: any[]) => {
+        this.vouchers = data;
+        console.log(this.vouchers);
+      },
+      (error: any) => {
+        console.log(error);
+      }
+    );
+  }
 
 }

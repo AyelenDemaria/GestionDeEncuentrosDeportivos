@@ -26,7 +26,8 @@ export class NuevoPartidoComponent implements OnInit {
   ocultarCalendario = true;
   errorMensaje: string
 
-  constructor(private fb: FormBuilder,
+  constructor(
+    private fb: FormBuilder,
     private router: Router,
     private canchaService: CanchaService,
     private partidoService: PartidoService,

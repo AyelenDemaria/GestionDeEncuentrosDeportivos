@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController } from '@ionic/angular';
 import { InscripcionService } from 'src/app/services/inscripcion.service';
-import { PartidoService } from 'src/app/services/partido.service';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 
