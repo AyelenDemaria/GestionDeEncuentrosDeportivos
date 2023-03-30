@@ -1,57 +1,52 @@
 <ion-header [translucent]="true">
-  <ion-toolbar color="light">
-    <ion-title class="text-center" style="font-family: 'Segoe UI'" >
-      Login
-    </ion-title>
-  </ion-toolbar>
+    <ion-toolbar color="light">
+        <ion-title class="text-center" style="font-family: 'Segoe UI'">
+            Login
+        </ion-title>
+    </ion-toolbar>
 </ion-header>
 <ion-content>
-  <form [formGroup]="form" (ngSubmit)="login()">
-    <ion-slide class="back">
-      <div class="container-login">
-        <ion-grid>
-          <ion-row>
-            <ion-col>
-              <ion-list>
-                <ion-item>
-                  <ion-input name="user" type="text" formControlName="user" style="font-family: 'Segoe UI'" required
-                    placeholder="Ingrese usuario">
-                  </ion-input>
-                </ion-item>
-                <div class="alert alert-danger" *ngIf="user.invalid && (user.dirty || user.touched)">
-                  <div class="container-error-message" style="font-family: 'Segoe UI';  font-size: smaller;" *ngIf="user.errors.required">
-                    Este campo es obligatorio.
-                  </div>
-                </div>
-                <br />
-                <ion-item>
-                  <ion-input name="password" type="password" formControlName="psw"
-                    style="font-family: 'Segoe UI';" required placeholder="Ingrese contraseña">
-                  </ion-input>
-                </ion-item>
-                <div class="alert alert-danger" *ngIf="psw.invalid && (psw.dirty || psw.touched)">
-                  <div class="container-error-message" style="font-family: 'Segoe UI'; font-size: smaller;"
-                    *ngIf="psw.errors.required">
-                    Este campo es obligatorio.
-                  </div>
-                </div>
-              </ion-list>
-            </ion-col>
-          </ion-row>
-          <div style="display: grid; justify-content:center ;">
-            <button type="submit" class="boton" [disabled]="!form.valid"  [ngClass]="{'btn-disabled': !form.valid, 'btn-enabled': form.valid}"
-              (click)="login()">
-              Ingresar
-            </button>
-
-            <button class="btn-enabled" [routerLink]="['/register']">
+    <form [formGroup]="form" (ngSubmit)="login()">
+        <ion-slide class="back">
+            <div class="container-login">
+                <ion-grid>
+                    <ion-row>
+                        <ion-col>
+                            <ion-list>
+                                <ion-item>
+                                    <ion-input name="user" type="text" formControlName="user" style="font-family: 'Segoe UI'" required placeholder="Ingrese usuario">
+                                    </ion-input>
+                                </ion-item>
+                                <div class="alert alert-danger" *ngIf="user.invalid && (user.dirty || user.touched)">
+                                    <div class="container-error-message" style="font-family: 'Segoe UI';  font-size: smaller;" *ngIf="user.errors.required">
+                                        Este campo es obligatorio.
+                                    </div>
+                                </div>
+                                <br />
+                                <ion-item>
+                                    <ion-input name="password" type="password" formControlName="psw" style="font-family: 'Segoe UI';" required placeholder="Ingrese contraseña">
+                                    </ion-input>
+                                </ion-item>
+                                <div class="alert alert-danger" *ngIf="psw.invalid && (psw.dirty || psw.touched)">
+                                    <div class="container-error-message" style="font-family: 'Segoe UI'; font-size: smaller;" *ngIf="psw.errors.required">
+                                        Este campo es obligatorio.
+                                    </div>
+                                </div>
+                            </ion-list>
+                        </ion-col>
+                    </ion-row>
+                    <div style="display: grid; justify-content:center ;">
+                        <button type="submit" class="boton" [disabled]="!form.valid" [ngClass]="{'btn-disabled': !form.valid, 'btn-enabled': form.valid}">
+                          Ingresar
+                        </button>
+                        <button class="btn-enabled" [routerLink]="['/register']">
               Registrarse
             </button>
-          </div>
+                    </div>
 
 
-        </ion-grid>
-      </div>
-    </ion-slide>
-  </form>
+                </ion-grid>
+            </div>
+        </ion-slide>
+    </form>
 </ion-content>
