@@ -46,7 +46,8 @@ class  VoucherListApiView(APIView):
             'jugador': perfil.id,
             'cancha': request.data.get('cancha_id'),
             'fecha_emision': fecha_actual,
-            'fecha_vencimiento': fecha_vencimiento,
+            #'fecha_vencimiento': fecha_vencimiento,
+            'fecha_vencimiento': fecha_actual,
 
         }
 
