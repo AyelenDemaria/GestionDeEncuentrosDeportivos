@@ -83,3 +83,19 @@ class  VoucherListApiView(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class VoucherByIDApiView(APIView):
+    # add permission to check if user is authenticated
+    permission_classes = [permissions.IsAuthenticated]
+
+    # 1. List all
+    def get(self, request, *args, **kwargs):
+        '''
+        Devuelve voucher mediante un id
+        '''
+
+        pk = int(request.GET.get('voucher_id'))
+
+        voucher = Voucher.objects.get(id=pk)
+        serializer = VoucherGetSerializer(voucher, many=False)
+        return Response(serializer.data, status=status.HTTP_200_OK)
