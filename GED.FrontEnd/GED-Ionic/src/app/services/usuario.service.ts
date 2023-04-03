@@ -28,26 +28,12 @@ export class UsuarioService {
     return this.http.post(`${this.apiUrl}/usuarios/api`, body, {headers})
   }
 
-  putUsuario(body: any): Observable<any> {
-    // const body = {
-    //   username: '',
-    //   password: '',
-    //   nombre: '', 
-    //   apellido: '', 
-    //   documento: 0,
-    //   telofono: 0, 
-    //   fecha_nacimiento: '',
-    //   sexo: '',        
-    // }
+  putUsuario(body: any): Observable<any> { 
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': 'Basic ' + btoa(this.authService.getUsername() + ':' + this.authService.getPassword())
-    });
-    const options = { 
-      headers: headers,
-      body: body
-    };
-    return this.http.put(`${this.apiUrl}/usuarios/api`, options)
+    });   
+    return this.http.put(`${this.apiUrl}/usuarios/api`,  body, { headers })
   }
 
   putContraseña(body: any): Observable<any> {

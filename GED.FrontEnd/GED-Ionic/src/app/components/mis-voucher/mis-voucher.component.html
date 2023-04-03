@@ -11,8 +11,8 @@
       <ion-item [routerLink]="['/profile']"> Mi perfil </ion-item>
       <ion-item [routerLink]="['/nuevoPartido']"> Nuevo Partido </ion-item>
       <ion-item [routerLink]="['/unirme']"> Unirme a un partido </ion-item>
-      <ion-item [routerLink]="['/misPartidos']"> Mis partidos </ion-item> 
-      <ion-item [routerLink]="['/invitaciones']"> Invitaciones </ion-item> 
+      <ion-item [routerLink]="['/misPartidos']"> Mis partidos </ion-item>
+      <ion-item [routerLink]="['/invitaciones']"> Invitaciones </ion-item>
       <ion-item [routerLink]="['/canjear']"> Canjear puntos </ion-item>
       <!-- <ion-item [routerLink]="['/misVoucher']"> Mis voucher </ion-item> -->
       <ion-item [routerLink]="['/reporte']">Reporte de partidos</ion-item>
@@ -41,16 +41,19 @@
 
         <ion-card>
           <ion-card-header style="padding-bottom: 0;">
-            <div *ngIf="voucher.fecha_canje === null && voucher.fecha_vencimiento >= hoy" style="display: flex; justify-content: space-between;">
-              <ion-card-title>{{voucher.cancha.nombre}}</ion-card-title> <button>USAR</button>
+            <div *ngIf="estadoUsar(voucher.fecha_canje, voucher.fecha_vencimiento)"
+              style="justify-content: end; display: flex;">
+              <button class="button1" (click)="usarVoucher(voucher.id)">USAR</button>
             </div>
-            <div *ngIf="voucher.fecha_canje !== null" style="display: flex; justify-content: space-between;">
-              <ion-card-title>{{voucher.cancha.nombre}}</ion-card-title> <button>CANJEADO</button>
+            <div *ngIf="voucher.fecha_canje !== null" style="justify-content: end; display: flex;">
+              <button class="button2">USADO</button>
             </div>
-            <div *ngIf="voucher.fecha_canje === null && voucher.fecha_vencimiento < hoy" style="display: flex; justify-content: space-between;">
-              <ion-card-title>{{voucher.cancha.nombre}}</ion-card-title> <button>VENCIDO</button>
+            <div *ngIf="estadoVencido(voucher.fecha_canje, voucher.fecha_vencimiento)"
+              style="justify-content: end; display: flex;">
+              <button class="button3">VENCIDO</button>
             </div>
-            <ion-card-subtitle>{{voucher.deporte}}</ion-card-subtitle>
+            <ion-card-title style="margin-top: 0rem;">{{voucher.cancha.nombre}}</ion-card-title>
+            <ion-card-subtitle>{{voucher.cancha.deporte.descripcion}}</ion-card-subtitle>
           </ion-card-header>
           <ion-card-content>
             <ion-list>
@@ -69,4 +72,3 @@
       </div>
     </div>
   </ion-content>
-

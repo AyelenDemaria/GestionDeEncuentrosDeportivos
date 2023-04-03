@@ -23,12 +23,31 @@ ion-text {
     margin-right: 0.75rem;
 }
 
-button {
+.button1 {
     color: white;
     background-color: skyblue;
-    font-size: 1rem;
+    font-size: 0.80rem;
     height: 1.8rem;
     width: 5rem;
     border-radius: 0.5rem;
     
+}
+
+.button2 {
+    color: rgb(104, 104, 104);
+    background-color: rgb(207, 205, 187);
+    font-size: 0.80rem;
+    height: 1.8rem;
+    width: 6rem;
+    border-radius: 0.5rem;
+    
+}
+
+.button3 {
+    color: rgb(172, 3, 3);
+    background-color: rgb(233, 121, 121);
+    font-size: 0.80rem;
+    height: 1.8rem;
+    width: 6rem;
+    border-radius: 0.5rem;    
 }

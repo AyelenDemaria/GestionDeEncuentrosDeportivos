@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { AuthService } from './auth.service';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class VoucherService {
 
   constructor(private http: HttpClient, private authService: AuthService) { }
 
-  crearVoucher(body: any){
+  crearVoucher(body: any) {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': 'Basic ' + btoa(this.authService.getUsername() + ':' + this.authService.getPassword())
@@ -20,25 +21,31 @@ export class VoucherService {
     return this.http.post<any>(`${this.apiUrl}/vouchers/api`, body, { headers });
   }
 
-  usarVoucher(body: string){
+  usarVoucher(body: any) {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': 'Basic ' + btoa(this.authService.getUsername() + ':' + this.authService.getPassword())
-    });
-    const options = {
-      headers: headers,
-      params: body
-    }
-    return this.http.put<any>(`${this.apiUrl}/vouchers/api`, options);
+    });    
+    return this.http.put<any>(`${this.apiUrl}/vouchers/api`, body, { headers });
   }
 
-
-  voucherUser(){
+  voucherUser() {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': 'Basic ' + btoa(this.authService.getUsername() + ':' + this.authService.getPassword())
     });
     return this.http.get<any>(`${this.apiUrl}/vouchers/api`, { headers });
   }
+
+
+  getVoucherById(idVoucher:number): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Basic ' + btoa(this.authService.getUsername() + ':' + this.authService.getPassword()),
+    });
+    return this.http.get<any>(`${this.apiUrl}/vouchers/api/voucher/?voucher_id=${idVoucher}`, { headers });
+  } 
+
+
 
 }

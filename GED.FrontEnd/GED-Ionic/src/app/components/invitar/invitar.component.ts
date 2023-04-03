@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController } from '@ionic/angular';
-import { AuthService } from 'src/app/services/auth.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { ActivatedRoute } from '@angular/router';
 import { InvitacionService } from 'src/app/services/invitacion.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-invitar',
@@ -17,14 +17,15 @@ export class InvitarComponent implements OnInit {
   errorMensaje: string;
   jugadores: any[] = [];
   id_partido: number;
+  currentUser: string
 
   constructor(
     private usuarioService: UsuarioService,
     private alertController: AlertController,
-    private authService: AuthService,
     private route: ActivatedRoute,
     private invitacionService: InvitacionService,
     private router: Router,
+    private authService: AuthService,
   ) { }
 
   ngOnInit() {
@@ -36,12 +37,22 @@ export class InvitarComponent implements OnInit {
 
     this.usuarioService.getUsuarios().subscribe(
       (data: any[]) => {
-        this.jugadores = data;
+        this.jugadores = data.filter(usuario => usuario.user.username.toLowerCase() !== this.authService.getUsername().toLowerCase());
         console.log(this.jugadores);
+        console.log( this.authService.getUsername())
       },
       (error) => {
         console.log(error);
       }
+
+      // (data: any[]) => {
+      //   this.jugadores = data;
+       
+      //   console.log(this.jugadores);
+      // },
+      // (error) => {
+      //   console.log(error);
+      // }
     );
   }
 
@@ -73,8 +84,7 @@ export class InvitarComponent implements OnInit {
   }
 
 enviarInvitacion(id_user:number){
-  const body ={
-    username: this.authService.getUsername(),
+  const body ={ 
     partido: this.id_partido,
     usuario_invitado: id_user
   }

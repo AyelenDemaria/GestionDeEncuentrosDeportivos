@@ -49,44 +49,71 @@
           <ion-card-content>
             <ion-list>
               <ion-item>
-                <ion-icon name="person-circle" class="icon"></ion-icon>        
+                <ion-icon name="person-circle" class="icon"></ion-icon>
                 <ion-title>{{perfil.user.username}}</ion-title>
               </ion-item>
 
 
-              <ion-item>
-                <ion-icon name="call" class="icon"></ion-icon>              
+              <!-- <ion-item>
+                <ion-icon name="call" class="icon"></ion-icon>
                 <ion-title>{{perfil.telefono}}</ion-title>
               </ion-item>
+              <div *ngIf="mostrarInput" class="ion-padding">
+                <ion-item>
+                  <ion-label position="floating">Nuevo teléfono</ion-label>
+                  <ion-input [(ngModel)]="nuevoTelefono" type="tel"></ion-input>
+                </ion-item>
+                <ion-button class="boton" color="success" expand="full" (click)="actualizarTelefono()">
+                  <strong>Guardar cambios</strong>
+                </ion-button>
+              </div> -->
 
               <ion-item>
-                <ion-icon name="male-female-sharp"></ion-icon>          
+                <ion-icon name="call" class="icon"></ion-icon>
+                <ng-container *ngIf="!mostrarInput; else inputTemplate">
+                  <ion-title style="padding: 0; margin-left: 1rem;">
+                    {{perfil.telefono}}</ion-title>
+                </ng-container>
+                <ng-template #inputTemplate>
+                  <ion-input [(ngModel)]="nuevoTelefono" type="tel"></ion-input>
+                </ng-template>
+                <ion-button size="small" slot="end" (click)="mostrarInputTelefono()">
+                  Editar
+                </ion-button>
+              </ion-item>
+              <div *ngIf="mostrarInput" class="ion-padding">
+                <ion-button class="boton" color="success" expand="full" (click)="actualizarTelefono()">
+                  <strong>Guardar cambios</strong>
+                </ion-button>
+                <ion-button class="boton" color="success" expand="full" (click)="cancelar()">
+                  <strong>Cancelar</strong>
+                </ion-button>
+              </div>
+
+              <ion-item>
+                <ion-icon name="male-female-sharp"></ion-icon>
                 <ion-title>{{perfil.sexo}}</ion-title>
               </ion-item>
 
               <ion-item>
-                <ion-icon name="calendar" class="icon"></ion-icon> 
+                <ion-icon name="calendar" class="icon"></ion-icon>
 
                 <ion-title>{{perfil.fecha_nacimiento}}</ion-title>
               </ion-item>
 
               <ion-item>
-                <ion-icon name="id-card-sharp"></ion-icon>                
+                <ion-icon name="id-card-sharp"></ion-icon>
                 <ion-title type="pass">{{perfil.documento}}</ion-title>
               </ion-item>
-              <!-- <ion-item>
-                <ion-icon name="lock-closed-sharp"></ion-icon>              
-                <ion-title type="password">{{perfil.password}}</ion-title>
-              </ion-item> -->
             </ion-list>
           </ion-card-content>
         </ion-card>
         <ion-row>
           <ion-col>
-            <ion-button class="boton" color="success" expand="full" [routerLink]="['/edit-profile']">
-              <strong>Editar mis datos</strong>
-            </ion-button>
-            <ion-button class="boton" color="success" expand="full" [routerLink]="['/contrasena']">
+            <!-- <ion-button class="boton" color="success" expand="full" (click)="mostrarInputTelefono()">
+              <strong>Editar teléfono</strong>
+            </ion-button> -->
+            <ion-button class="boton" color="success" expand="full" (click)="contrasena()">
               <strong>Cambiar contraseña</strong>
             </ion-button>
           </ion-col>
@@ -94,15 +121,4 @@
       </div>
     </ion-content>
   </div>
-
-
-
-
-
-
-
-
-
-
-
 </ion-app>

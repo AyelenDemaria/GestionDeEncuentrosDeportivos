@@ -79,14 +79,14 @@
     </div>
   </form>
 
-    <div style="margin-bottom: 4rem; display: flex;">
-      <ion-col>
-        <ion-button  [disabled]="!form.valid" type="submit" class="boton" color="success" style="width: 10rem;" expand="full"
-          strong (click)="crearVoucher()">Canjear</ion-button>
-      </ion-col>
+    <div style="margin-bottom: 4rem; display: flex;">     
       <ion-col>
         <ion-button type="submit" class="boton" style="background-color: gray; width: 10rem;" expand="full" strong
           (click)="cancel()">Cancelar</ion-button>
+      </ion-col>
+      <ion-col>
+        <ion-button  [disabled]="!form.valid" type="submit" class="boton" color="success" style="width: 10rem;" expand="full"
+          strong (click)="crearVoucher()">Canjear</ion-button>
       </ion-col>
     </div>
   </ng-template>

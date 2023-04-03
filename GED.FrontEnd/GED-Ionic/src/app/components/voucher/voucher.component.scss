@@ -1,0 +1,53 @@
+.user{
+    font-weight: 700;
+    font-size: x-large;
+    font-family: system-ui;
+    text-align: center;
+}
+
+ion-card-subtitle {
+    font-size: 1rem;
+    font-family: system-ui;
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-left: 0.80rem;
+    background-color: #DAF7A6;
+}
+
+ion-text {
+    color: darkslategray;
+    font-weight: 700;
+    font-family: system-ui;
+    margin-right: 0.75rem;
+}
+
+ion-item {
+    --border-style: none;
+  }
+
+  .datos{
+    font-family: system-ui;
+    font-weight: 600;
+    font-size: 1rem;
+    text-transform: uppercase;
+    margin-left: 0.80rem;  
+  }
+
+  .cancha{
+    font-weight: 700;
+    font-size: x-large;
+    font-family: system-ui;
+    text-align: start;
+     color: rgb(36, 105, 51);
+}
+
+button {
+    color: white;
+    background-color: mediumseagreen;
+    font-size: 1.2rem;
+    height: 2rem;
+    width: 12rem;
+    border-radius: 0.5rem;
+    font-family: "Segoe UI";
+    margin-top: 1rem;
+  }

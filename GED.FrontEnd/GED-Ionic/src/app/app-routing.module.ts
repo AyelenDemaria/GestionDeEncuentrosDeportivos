@@ -31,7 +31,7 @@ const routes: Routes = [
   {path: 'nuevoPartido', component: NuevoPartidoComponent},
   {path: 'invitar/:id_partido', component: InvitarComponent},
   {path: 'canjear', component:CanjearPuntosComponent},
-  {path: 'voucher', component:VoucherComponent},
+  {path: 'voucher/:voucher_id', component:VoucherComponent},
   {path: 'contrasena', component: ContrasenaComponent}
 ];
 

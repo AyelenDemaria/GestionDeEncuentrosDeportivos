@@ -50,7 +50,6 @@ export class HomeComponent implements OnInit {
       this.recordatorio = res
       console.log(this.recordatorio)
     })
-
   }
 
   

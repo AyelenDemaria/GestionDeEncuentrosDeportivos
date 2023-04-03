@@ -108,9 +108,11 @@
                     </div>
                     <div style=" display: flex; justify-content: space-between;margin-top: 7rem;">
 
+                        <ion-button type="submit" class="boton" color="success" expand="full" strong (click)="cancel()">Cancelar</ion-button>
+
                         <ion-button type="submit" class="boton" color="success" expand="full" [disabled]="!form.valid" strong (click)="crearPartido()">Crear partido</ion-button>
 
-                        <ion-button type="submit" class="boton" color="success" expand="full" strong (click)="cancel()">Cancelar</ion-button>
+                        
 
                     </div>
                 </form>

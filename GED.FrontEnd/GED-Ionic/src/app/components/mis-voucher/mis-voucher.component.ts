@@ -32,4 +32,22 @@ export class MisVoucherComponent implements OnInit {
     );
   }
 
+
+  estadoUsar(canje, venc) {
+    const fechaActual = new Date().toISOString().slice(0, 10);
+    const rta = canje === undefined || canje === null && venc >= fechaActual;
+    console.log(rta)
+    return (rta)
+  }
+
+  estadoVencido(canje, venc){
+    const fechaActual = new Date().toISOString().slice(0, 10);
+    const rta = canje === undefined || canje === null && venc < fechaActual;
+  }
+
+
+  usarVoucher(voucher_id: number) {
+    this.router.navigate(['/voucher', voucher_id]);
+  }
+
 }

@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, NgZone, OnInit } from '@angular/core';
 import { AlertController } from '@ionic/angular';
 import { InscripcionService } from 'src/app/services/inscripcion.service';
 import { Router } from '@angular/router';
-import { AuthService } from 'src/app/services/auth.service';
+
 
 @Component({
   selector: 'app-mis-partidos',
@@ -19,7 +19,8 @@ export class MisPartidosComponent implements OnInit {
     private alertController: AlertController,
     private inscripcionService: InscripcionService,
     private router: Router,
-    private authService: AuthService,
+    private ngZone: NgZone,
+   
   ) { }
 
   ngOnInit() {
@@ -48,7 +49,6 @@ export class MisPartidosComponent implements OnInit {
   async mensajeBaja(inscripcionId: number) {
     const alert = await this.alertController.create({
       header: '¿Estas seguro que querés darte de baja del partido?',
-      message: 'Si te das de baja no podrás volver a unirte',
       buttons: [
         {
           text: 'Cancelar',
@@ -72,6 +72,8 @@ export class MisPartidosComponent implements OnInit {
     this.inscripcionService.bajaInscripcionPartido(body).subscribe(
       (data) => {
         this.mensajeExito()
+        // este método actualiza la lista de mis partidos, quitando el id de la inscripción eliminada
+        this.updatePartidos(this.partidos.filter(p => p.id !== inscripcion_id));
         this.router.navigateByUrl('/misPartidos');
       },
       (error) => {
@@ -96,6 +98,13 @@ export class MisPartidosComponent implements OnInit {
 
   invitar(id_partido: number) {
     this.router.navigate(['/invitar', id_partido]);
+  }
+
+  updatePartidos(partidos: any[]) {
+    // ngZone le avisa a ionic que una variable cambió
+    this.ngZone.run(() => {
+      this.partidos = partidos;
+    });
   }
 
 
