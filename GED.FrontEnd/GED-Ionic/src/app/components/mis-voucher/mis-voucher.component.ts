@@ -41,8 +41,11 @@ export class MisVoucherComponent implements OnInit {
   }
 
   estadoVencido(canje, venc){
-    const fechaActual = new Date().toISOString().slice(0, 10);
+    const fecha = new Date().toISOString().slice(0, 10);
+    const fechaActual = new Date(new Date(fecha).getTime() - (24 * 60 * 60 * 1000)).toISOString().slice(0, 10);
     const rta = canje === undefined || canje === null && venc < fechaActual;
+    console.log('VENCIDO',rta, venc, fechaActual)
+    return (rta)
   }
 
 
