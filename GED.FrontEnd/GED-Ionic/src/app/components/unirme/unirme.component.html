@@ -1,39 +1,19 @@
-<ion-menu contentId="main-content">
-  <ion-header>
-    <ion-toolbar color="success">
-      <ion-title style="font-weight: 500; font-size: large;">MENU</ion-title>
-    </ion-toolbar>
-  </ion-header>
-  <ion-content>
-    <ion-list>
-        <ion-item [routerLink]="['/profile']"> Mi perfil </ion-item>
-        <ion-item [routerLink]="['/nuevoPartido']"> Nuevo Partido </ion-item>
-        <!-- <ion-item [routerLink]="['/unirme']"> Unirme a un partido </ion-item> -->
-        <ion-item [routerLink]="['/misPartidos']"> Mis partidos </ion-item> 
-        <ion-item [routerLink]="['/invitaciones']"> Invitaciones </ion-item> 
-        <ion-item [routerLink]="['/canjear']"> Canjear puntos </ion-item>
-        <ion-item [routerLink]="['/misVoucher']"> Mis voucher </ion-item>
-        <ion-item [routerLink]="['/reporte']">Reporte de partidos</ion-item>
-    </ion-list>
-  </ion-content>
-</ion-menu>
-
 <div class="ion-page" id="main-content">
 
-  <ion-header [translucent]="true">
-    <ion-toolbar color="light">
-      <ion-buttons slot="end">
-        <ion-menu-button></ion-menu-button>
-      </ion-buttons>
-      <ion-buttons slot="start" style="margin-left: 1rem;  font-size: x-large;" [routerLink]="['/home']">
-        <ion-icon name="home-outline"></ion-icon>
-      </ion-buttons>
-      <ion-title>Unirme a un partido</ion-title>
-    </ion-toolbar>
-  </ion-header>
-  <ion-content [fullscreen]="true" class="text-center">
+    <ion-header [translucent]="true">
+        <ion-toolbar color="light">
+            <ion-buttons slot="end">
+                <ion-menu-button></ion-menu-button>
+            </ion-buttons>
+            <ion-buttons slot="start" style="margin-left: 1rem;  font-size: x-large;" [routerLink]="['/home']">
+                <ion-icon name="home-outline"></ion-icon>
+            </ion-buttons>
+            <ion-title>Unirme a un partido</ion-title>
+        </ion-toolbar>
+    </ion-header>
+    <ion-content [fullscreen]="true" class="text-center">
 
-    <!-- <ion-item lines="full">
+        <!-- <ion-item lines="full">
       <ion-label position="floating">Fecha</ion-label>
       <ion-input (click)="abrirCalendario()" value="{{fecha | date:'yyyy-MM-dd HH:mm'}}" readonly="true"></ion-input>
       <ion-icon name="calendar" slot="end" (click)="ocultarCalendario = true" ></ion-icon>
@@ -59,34 +39,34 @@
       </button>
     </div> -->
 
-    <ion-searchbar placeholder="Buscar partido" [(ngModel)]="filtro"></ion-searchbar>
-    <div class="content boton">
-      <div *ngFor="let part of filteredPartidos">
+        <ion-searchbar placeholder="Buscar partido" [(ngModel)]="filtro"></ion-searchbar>
+        <div class="content boton">
+            <div *ngFor="let part of filteredPartidos">
 
-        <ion-card>
-          <ion-card-header style="padding-bottom: 0;">
-            <div style="display: flex; justify-content: space-between;">
-              <ion-card-title>Partido de {{part.cancha.deporte.descripcion}}</ion-card-title><button (click)="unirme(part.id)">UNIRME</button>
+                <ion-card>
+                    <ion-card-header style="padding-bottom: 0;">
+                        <div style="display: flex; justify-content: space-between;">
+                            <ion-card-title>Partido de {{part.cancha.deporte.descripcion}}</ion-card-title><button (click)="unirme(part.id)">UNIRME</button>
+                        </div>
+                        <!-- <ion-card-subtitle>{{part.cantInscriptos}} inscriptos</ion-card-subtitle> -->
+                    </ion-card-header>
+                    <ion-card-content>
+                        <ion-list>
+                            <ion-item>
+                                <ion-text>Fecha y hora:</ion-text> {{part.fecha_hora| date:'yyyy-MM-dd HH:mm'}}
+                            </ion-item>
+                            <ion-item>
+                                <ion-text>Cantidad jugadores:</ion-text> {{part.cant_jugadores}}
+                            </ion-item>
+                            <ion-item>
+                                <ion-text>Cancha:</ion-text> {{part.cancha.direccion}}
+                            </ion-item>
+                            <ion-item>
+                                <ion-text>Tipo de partido:</ion-text> {{part.tipo_partido.descripcion}}
+                            </ion-item>
+                        </ion-list>
+                    </ion-card-content>
+                </ion-card>
             </div>
-            <!-- <ion-card-subtitle>{{part.cantInscriptos}} inscriptos</ion-card-subtitle> -->
-          </ion-card-header>
-          <ion-card-content>
-            <ion-list>
-              <ion-item>
-                <ion-text>Fecha y hora:</ion-text> {{part.fecha_hora| date:'yyyy-MM-dd HH:mm'}}
-              </ion-item>
-              <ion-item>
-                <ion-text>Cantidad jugadores:</ion-text> {{part.cant_jugadores}}
-              </ion-item>
-              <ion-item>
-                <ion-text>Cancha:</ion-text> {{part.cancha.direccion}}
-              </ion-item>
-              <ion-item>
-                <ion-text>Tipo de partido:</ion-text> {{part.tipo_partido.descripcion}}
-              </ion-item>
-            </ion-list>
-          </ion-card-content>
-        </ion-card>
-      </div>
-    </div>
-  </ion-content>
+        </div>
+    </ion-content>

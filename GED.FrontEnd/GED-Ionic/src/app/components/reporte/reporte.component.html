@@ -1,84 +1,64 @@
-<ion-menu contentId="main-content">
-  <ion-header>
-    <ion-toolbar color="success">
-      <ion-title style="font-weight: 500; font-size: large;">MENU</ion-title>
-    </ion-toolbar>
-  </ion-header>
-  <ion-content>
-    <ion-list>
-        <ion-item [routerLink]="['/profile']"> Mi perfil </ion-item>
-        <ion-item [routerLink]="['/nuevoPartido']"> Nuevo Partido </ion-item>
-        <ion-item [routerLink]="['/unirme']"> Unirme a un partido </ion-item>
-        <ion-item [routerLink]="['/misPartidos']"> Mis partidos </ion-item> 
-        <ion-item [routerLink]="['/invitaciones']"> Invitaciones </ion-item> 
-        <ion-item [routerLink]="['/canjear']"> Canjear puntos </ion-item>
-        <ion-item [routerLink]="['/misVoucher']"> Mis voucher </ion-item>     
-        <!-- <ion-item [routerLink]="['/reporte']">Reporte de partidos</ion-item>    -->
-    </ion-list>
-  </ion-content>
-</ion-menu>
-
 <div class="ion-page" id="main-content">
 
-  <ion-header [translucent]="true">
-    <ion-toolbar color="light">
-      <ion-buttons slot="end">
-        <ion-menu-button></ion-menu-button>
-      </ion-buttons>
-      <ion-buttons slot="start" style="margin-left: 1rem;  font-size: x-large;" [routerLink]="['/home']">
-        <ion-icon name="home-outline"></ion-icon>
-      </ion-buttons>
-      <ion-title>Reporte de partidos</ion-title>
-    </ion-toolbar>
-  </ion-header>
+    <ion-header [translucent]="true">
+        <ion-toolbar color="light">
+            <ion-buttons slot="end">
+                <ion-menu-button></ion-menu-button>
+            </ion-buttons>
+            <ion-buttons slot="start" style="margin-left: 1rem;  font-size: x-large;" [routerLink]="['/home']">
+                <ion-icon name="home-outline"></ion-icon>
+            </ion-buttons>
+            <ion-title>Reporte de partidos</ion-title>
+        </ion-toolbar>
+    </ion-header>
 
-  <ion-card style="background-color: rgb(255, 232, 128);">
-    <ion-card-header>
-      <ion-card-title>Partidos creados</ion-card-title>
-      <div style="display: flex;">
-        <ion-icon style=" font-size: xxx-large; color: rgb(248, 142, 4);" name="pencil-sharp"></ion-icon>
-        <ion-card-content style="font-size:2rem; color:black; font-weight: 700; margin-left: 5rem;">
-          {{reporte[0]}}
-        </ion-card-content>
-      </div>
-    </ion-card-header>
-  </ion-card>
+    <ion-card style="background-color: rgb(255, 232, 128);">
+        <ion-card-header>
+            <ion-card-title>Partidos creados</ion-card-title>
+            <div style="display: flex;">
+                <ion-icon style=" font-size: xxx-large; color: rgb(248, 142, 4);" name="pencil-sharp"></ion-icon>
+                <ion-card-content style="font-size:2rem; color:black; font-weight: 700; margin-left: 5rem;">
+                    {{reporte[0]}}
+                </ion-card-content>
+            </div>
+        </ion-card-header>
+    </ion-card>
 
-  
-  <ion-card style="background-color: rgb(160, 190, 247);">
-    <ion-card-header>
-      <ion-card-title>Partidos a los que te uniste</ion-card-title>
-      <div style="display: flex;">
-        <ion-icon style=" font-size: xxx-large; color: rgb(78, 102, 211);" name="add-circle-sharp"></ion-icon>
-        <ion-card-content style="font-size:2rem; color:black; font-weight: 700; margin-left: 5rem;">
-          {{reporte[1]}}
-        </ion-card-content>
-      </div>
-    </ion-card-header>
-  </ion-card>
 
-  
-  <ion-card style="background-color: rgb(156, 241, 160);">
-    <ion-card-header>
-      <ion-card-title>Partidos jugados</ion-card-title>
-      <div style="display: flex;">
-        <ion-icon style=" font-size: xxx-large; color: rgb(3, 182, 57);" name="checkmark-circle-sharp"></ion-icon>
-        <ion-card-content style="font-size:2rem; color:black; font-weight: 700; margin-left: 5rem;">
-          {{reporte[2]}}
-        </ion-card-content>
-      </div>
-    </ion-card-header>
-  </ion-card>
+    <ion-card style="background-color: rgb(160, 190, 247);">
+        <ion-card-header>
+            <ion-card-title>Partidos a los que te uniste</ion-card-title>
+            <div style="display: flex;">
+                <ion-icon style=" font-size: xxx-large; color: rgb(78, 102, 211);" name="add-circle-sharp"></ion-icon>
+                <ion-card-content style="font-size:2rem; color:black; font-weight: 700; margin-left: 5rem;">
+                    {{reporte[1]}}
+                </ion-card-content>
+            </div>
+        </ion-card-header>
+    </ion-card>
 
-  
-  <ion-card style="background-color: rgb(248, 145, 145);">
-    <ion-card-header>
-      <ion-card-title>Partidos a los que te diste de baja</ion-card-title>
-      <div style="display: flex;">
-        <ion-icon style=" font-size: xxx-large; color: rgb(233, 64, 64);" name="close-circle-sharp"></ion-icon>
-        <ion-card-content style="font-size:2rem; color:black; font-weight: 700; margin-left: 5rem;">
-          {{reporte[3]}}
-        </ion-card-content>
-      </div>
-    </ion-card-header>
-  </ion-card>
+
+    <ion-card style="background-color: rgb(156, 241, 160);">
+        <ion-card-header>
+            <ion-card-title>Partidos jugados</ion-card-title>
+            <div style="display: flex;">
+                <ion-icon style=" font-size: xxx-large; color: rgb(3, 182, 57);" name="checkmark-circle-sharp"></ion-icon>
+                <ion-card-content style="font-size:2rem; color:black; font-weight: 700; margin-left: 5rem;">
+                    {{reporte[2]}}
+                </ion-card-content>
+            </div>
+        </ion-card-header>
+    </ion-card>
+
+
+    <ion-card style="background-color: rgb(248, 145, 145);">
+        <ion-card-header>
+            <ion-card-title>Partidos a los que te diste de baja</ion-card-title>
+            <div style="display: flex;">
+                <ion-icon style=" font-size: xxx-large; color: rgb(233, 64, 64);" name="close-circle-sharp"></ion-icon>
+                <ion-card-content style="font-size:2rem; color:black; font-weight: 700; margin-left: 5rem;">
+                    {{reporte[3]}}
+                </ion-card-content>
+            </div>
+        </ion-card-header>
+    </ion-card>

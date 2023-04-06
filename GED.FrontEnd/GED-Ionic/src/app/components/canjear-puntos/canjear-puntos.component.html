@@ -1,125 +1,100 @@
-<ion-menu contentId="main-content">
-  <ion-header>
-    <ion-toolbar color="success">
-      <ion-title style="font-weight: 500; font-size: large;">MENU</ion-title>
-    </ion-toolbar>
-  </ion-header>
-  <ion-content>
-    <ion-list>
-
-      <ion-item [routerLink]="['/profile']"> Mi perfil </ion-item>
-      <ion-item [routerLink]="['/nuevoPartido']"> Nuevo Partido </ion-item>
-      <ion-item [routerLink]="['/unirme']"> Unirme a un partido </ion-item>
-      <ion-item [routerLink]="['/misPartidos']"> Mis partidos </ion-item>
-      <ion-item [routerLink]="['/invitaciones']"> Invitaciones </ion-item>
-      <!-- <ion-item [routerLink]="['/canjear']"> Canjear puntos </ion-item> -->
-      <ion-item [routerLink]="['/misVoucher']"> Mis voucher </ion-item>
-      <ion-item [routerLink]="['/reporte']">Reporte de partidos</ion-item>
-
-    </ion-list>
-  </ion-content>
-</ion-menu>
-
 <div class="ion-page" id="main-content">
 
-  <ion-header [translucent]="true">
-    <ion-toolbar color="light">
-      <ion-buttons slot="end">
-        <ion-menu-button></ion-menu-button>
-      </ion-buttons>
-      <ion-buttons slot="start" style="margin-left: 1rem;  font-size: x-large;" [routerLink]="['/home']">
-        <ion-icon name="home-outline"></ion-icon>
-      </ion-buttons>
-      <ion-title>Canjear puntos</ion-title>
-    </ion-toolbar>
-  </ion-header>
+    <ion-header [translucent]="true">
+        <ion-toolbar color="light">
+            <ion-buttons slot="end">
+                <ion-menu-button></ion-menu-button>
+            </ion-buttons>
+            <ion-buttons slot="start" style="margin-left: 1rem;  font-size: x-large;" [routerLink]="['/home']">
+                <ion-icon name="home-outline"></ion-icon>
+            </ion-buttons>
+            <ion-title>Canjear puntos</ion-title>
+        </ion-toolbar>
+    </ion-header>
 
-  <ion-content *ngIf="puntos>=30; then ifBlock else elseBlock"> </ion-content>
+    <ion-content *ngIf="puntos>=30; then ifBlock else elseBlock"> </ion-content>
 
-  <ng-template #ifBlock>
-    <ion-text style="display: flex; justify-content: center; font-family: 'Segoe UI'; color: darkslategray;">
-      Al realizar el canje se te restaran 30 puntos
-    </ion-text>
-    <ion-card style="background-color: rgb(255, 232, 128); height: 5rem; width: 15rem; margin-inline: auto;">
-      <ion-card-header>
-        <ion-card-title>Puntos acumulados</ion-card-title>
-        <div style="display: flex;">
-          <ion-icon style=" font-size: xx-large; color: rgb(248, 142, 4);" name="star"></ion-icon>
-          <ion-card-content>
-            {{puntos}}
-          </ion-card-content>
+    <ng-template #ifBlock>
+        <ion-text style="display: flex; justify-content: center; font-family: 'Segoe UI'; color: darkslategray;">
+            Al realizar el canje se te restaran 30 puntos
+        </ion-text>
+        <ion-card style="background-color: rgb(255, 232, 128); height: 5rem; width: 15rem; margin-inline: auto;">
+            <ion-card-header>
+                <ion-card-title>Puntos acumulados</ion-card-title>
+                <div style="display: flex;">
+                    <ion-icon style=" font-size: xx-large; color: rgb(248, 142, 4);" name="star"></ion-icon>
+                    <ion-card-content>
+                        {{puntos}}
+                    </ion-card-content>
+                </div>
+            </ion-card-header>
+        </ion-card>
+        <form [formGroup]="form">
+            <div>
+                <ion-item>
+                    <ion-label position="floating"> Deporte</ion-label>
+                    <ion-select interface="popover" required formControlName="deporte" (ionChange)="seleccionarDeporte($event)">
+                        <ion-select-option *ngFor="let deporte of deportes" [value]="deporte.id">{{ deporte.descripcion }}
+                        </ion-select-option>
+                    </ion-select>
+                </ion-item>
+                <div class="alert alert-danger" *ngIf="deporte.invalid && (deporte.dirty || deporte.touched)">
+                    <div class="container-error-message" *ngIf="deporte.errors.required">
+                        Este campo es obligatorio.
+                    </div>
+                </div>
+                <ion-item style="margin-top: 2rem;">
+                    <ion-label position="floating"> Cancha</ion-label>
+                    <ion-select interface="popover" required formControlName="cancha" (ionChange)="seleccionarCancha($event)">
+                        <ion-select-option *ngFor="let can of canchas" [value]="can">{{ can.nombre }}</ion-select-option>
+                    </ion-select>
+                </ion-item>
+                <div class="alert alert-danger" *ngIf="cancha.invalid && (cancha.dirty || cancha.touched)">
+                    <div class="container-error-message" *ngIf="cancha.errors.required">
+                        Este campo es obligatorio.
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <div style="margin-bottom: 4rem; display: flex;">
+            <ion-col>
+                <ion-button type="submit" class="boton" style="background-color: gray; width: 10rem;" expand="full" strong (click)="cancel()">Cancelar</ion-button>
+            </ion-col>
+            <ion-col>
+                <ion-button [disabled]="!form.valid" type="submit" class="boton" color="success" style="width: 10rem;" expand="full" strong (click)="crearVoucher()">Canjear</ion-button>
+            </ion-col>
         </div>
-      </ion-card-header>
-    </ion-card>
-    <form [formGroup]="form">
-    <div>
-      <ion-item>
-        <ion-label position="floating"> Deporte</ion-label>
-        <ion-select interface="popover" required formControlName="deporte" (ionChange)="seleccionarDeporte($event)">
-          <ion-select-option *ngFor="let deporte of deportes" [value]="deporte.id">{{ deporte.descripcion }}
-          </ion-select-option>
-        </ion-select>
-      </ion-item>
-      <div class="alert alert-danger" *ngIf="deporte.invalid && (deporte.dirty || deporte.touched)">
-        <div class="container-error-message" *ngIf="deporte.errors.required">
-          Este campo es obligatorio.
+    </ng-template>
+
+    <ng-template #elseBlock>
+        <ion-card style="background-color: rgb(187, 187, 187); height: 5rem; width: 15rem; margin-inline: auto;">
+            <ion-card-header>
+                <ion-card-title>Puntos acumulados</ion-card-title>
+                <div style="display: flex;">
+                    <ion-icon style=" font-size: xx-large; color: rgb(99, 97, 96);" name="star"></ion-icon>
+                    <ion-card-content>
+                        {{puntos}}
+                    </ion-card-content>
+                </div>
+            </ion-card-header>
+        </ion-card>
+        <ion-text class="mensaje" style="display: flex; justify-content: center;">
+            No cuentas con puntos suficientes para canjear
+        </ion-text>
+
+        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+            <ion-text class="regla" style="text-align: center;">Cantidad de puntos acumulados:{{puntos}}</ion-text>
+            <ion-text class="regla" style="text-align: center;">Cantidad de puntos necesarios: 30 </ion-text>
+
+            <div style="margin-top: 2rem; text-align: center; margin-bottom: 2rem;">
+                <ion-button type="submit" class="boton" style="background-color: gray; width: 10rem; margin: 0 auto;" expand="full" strong (click)="cancel()">Volver</ion-button>
+            </div>
         </div>
-      </div>
-      <ion-item style="margin-top: 2rem;">
-        <ion-label position="floating"> Cancha</ion-label>
-        <ion-select interface="popover" required formControlName="cancha" (ionChange)="seleccionarCancha($event)">
-          <ion-select-option *ngFor="let can of canchas" [value]="can">{{ can.nombre }}</ion-select-option>
-        </ion-select>
-      </ion-item>
-      <div class="alert alert-danger" *ngIf="cancha.invalid && (cancha.dirty || cancha.touched)">
-        <div class="container-error-message" *ngIf="cancha.errors.required">
-          Este campo es obligatorio.
-        </div>
-      </div>
-    </div>
-  </form>
-
-    <div style="margin-bottom: 4rem; display: flex;">     
-      <ion-col>
-        <ion-button type="submit" class="boton" style="background-color: gray; width: 10rem;" expand="full" strong
-          (click)="cancel()">Cancelar</ion-button>
-      </ion-col>
-      <ion-col>
-        <ion-button  [disabled]="!form.valid" type="submit" class="boton" color="success" style="width: 10rem;" expand="full"
-          strong (click)="crearVoucher()">Canjear</ion-button>
-      </ion-col>
-    </div>
-  </ng-template>
-
-  <ng-template #elseBlock>
-    <ion-card style="background-color: rgb(187, 187, 187); height: 5rem; width: 15rem; margin-inline: auto;">
-      <ion-card-header>
-        <ion-card-title>Puntos acumulados</ion-card-title>
-        <div style="display: flex;">
-          <ion-icon style=" font-size: xx-large; color: rgb(99, 97, 96);" name="star"></ion-icon>
-          <ion-card-content>
-            {{puntos}}
-          </ion-card-content>
-        </div>
-      </ion-card-header>
-    </ion-card>
-    <ion-text class="mensaje" style="display: flex; justify-content: center;">
-      No cuentas con puntos suficientes para canjear
-    </ion-text>
-
-    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
-      <ion-text class="regla" style="text-align: center;">Cantidad de puntos acumulados:{{puntos}}</ion-text>
-      <ion-text class="regla" style="text-align: center;">Cantidad de puntos necesarios: 30 </ion-text>
-
-      <div style="margin-top: 2rem; text-align: center; margin-bottom: 2rem;">
-        <ion-button type="submit" class="boton" style="background-color: gray; width: 10rem; margin: 0 auto;"
-          expand="full" strong (click)="cancel()">Volver</ion-button>
-      </div>
-    </div>
 
 
 
-    <!-- <div>
+        <!-- <div>
       <ion-text>Cantidad de puntos acumulados:{{puntos}}</ion-text>
       <ion-text>Cantidad de puntos necesarios: 30 </ion-text>
     </div>
@@ -130,4 +105,4 @@
           (click)="cancel()">Volver</ion-button>
       </ion-col>
     </div> -->
-  </ng-template>
+    </ng-template>

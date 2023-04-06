@@ -1,3 +1,39 @@
- <ion-app>
-  <ion-router-outlet></ion-router-outlet>
-</ion-app> 
+<ion-app>
+    <ion-menu contentId="main-content">
+        <ion-header>
+            <ion-toolbar color="success">
+                <ion-title style="font-weight: 500; font-size: large;">MENU</ion-title>
+            </ion-toolbar>
+        </ion-header>
+        <ion-content>
+            <ion-list>
+                <ion-item [routerLink]="['/profile']" routerLinkActive="class-active" routerLinkActiveOptions="{exact:true}">
+                    Mi perfil
+                </ion-item>
+                <ion-item [routerLink]="['/nuevoPartido']" routerLinkActive="class-active" routerLinkActiveOptions="{exact:true}">
+                    Nuevo Partido
+                </ion-item>
+                <ion-item [routerLink]="['/unirme']" routerLinkActive="class-active" routerLinkActiveOptions="{exact:true}">
+                    Unirme a un partido
+                </ion-item>
+                <ion-item [routerLink]="['/misPartidos']" routerLinkActive="class-active" routerLinkActiveOptions="{exact:true}">
+                    Mis partidos
+                </ion-item>
+                <ion-item [routerLink]="['/invitaciones']" routerLinkActive="class-active" routerLinkActiveOptions="{exact:true}">
+                    Invitaciones
+                </ion-item>
+                <ion-item [routerLink]="['/canjear']" routerLinkActive="class-active" routerLinkActiveOptions="{exact:true}">
+                    Canjear puntos
+                </ion-item>
+                <ion-item [routerLink]="['/misVoucher']" routerLinkActive="class-active" routerLinkActiveOptions="{exact:true}">
+                    Mis voucher
+                </ion-item>
+                <ion-item [routerLink]="['/reporte']" routerLinkActive="class-active" routerLinkActiveOptions="{exact:true}">
+                    Reporte de partidos
+                </ion-item>
+            </ion-list>
+        </ion-content>
+    </ion-menu>
+
+    <ion-router-outlet id="main-content"></ion-router-outlet>
+</ion-app>
