@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { VoucherService } from 'src/app/services/voucher.service';
 import { AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
 
 
 @Component({
@@ -10,8 +11,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./mis-voucher.component.scss'],
 })
 export class MisVoucherComponent  {
-  vouchers: any[] = []
   hoy: Date = new Date();
+  vouchers$: Observable<any[]>;
 
   constructor(
     private voucherService: VoucherService,
@@ -20,16 +21,8 @@ export class MisVoucherComponent  {
   ) { }
 
   ionViewDidEnter(){
-    console.log(this.hoy)
-    this.voucherService.voucherUser().subscribe(
-      (data: any[]) => {
-        this.vouchers = data;
-        console.log(this.vouchers);
-      },
-      (error: any) => {
-        console.log(error);
-      }
-    );
+    console.log(this.hoy);
+    this.vouchers$ = this.voucherService.voucherUser(); 
   }
 
 

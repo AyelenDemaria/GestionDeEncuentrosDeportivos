@@ -34,7 +34,7 @@ export class VoucherService {
       'Content-Type': 'application/json',
       'Authorization': 'Basic ' + btoa(this.authService.getUsername() + ':' + this.authService.getPassword())
     });
-    return this.http.get<any>(`${this.apiUrl}/vouchers/api`, { headers });
+    return this.http.get<any[]>(`${this.apiUrl}/vouchers/api`, { headers });
   }
 
 
