@@ -7,33 +7,35 @@
         </ion-header>
         <ion-content>
             <ion-list>
-                <ion-item [routerLink]="['/profile']" routerLinkActive="class-active" >
-                    Mi perfil
-                </ion-item>
-                <ion-item [routerLink]="['/nuevoPartido']" routerLinkActive="class-active" >
-                    Nuevo Partido
-                </ion-item>
-                <ion-item [routerLink]="['/unirme']" routerLinkActive="class-active" >
-                    Unirme a un partido
-                </ion-item>
-                <ion-item [routerLink]="['/misPartidos']" routerLinkActive="class-active" >
-                    Mis partidos
-                </ion-item>
-                <ion-item [routerLink]="['/invitaciones']" routerLinkActive="class-active" >
-                    Invitaciones
-                </ion-item>
-                <ion-item [routerLink]="['/canjear']" routerLinkActive="class-active">
-                    Canjear puntos
-                </ion-item>
-                <ion-item [routerLink]="['/misVoucher']" routerLinkActive="class-active" >
-                    Mis voucher
-                </ion-item>
-                <ion-item [routerLink]="['/reporte']" routerLinkActive="class-active" >
-                    Reporte de partidos
-                </ion-item>
-                <ion-item (click)="cerrarSesion()" >
-                    Cerrar sesión
-                </ion-item>
+                <ion-menu-toggle auto-hide="true">
+                    <ion-item [routerLink]="['/profile']" routerLinkActive="class-active">
+                        Mi perfil
+                    </ion-item>
+                    <ion-item [routerLink]="['/nuevoPartido']" routerLinkActive="class-active">
+                        Nuevo Partido
+                    </ion-item>
+                    <ion-item [routerLink]="['/unirme']" routerLinkActive="class-active">
+                        Unirme a un partido
+                    </ion-item>
+                    <ion-item [routerLink]="['/misPartidos']" routerLinkActive="class-active">
+                        Mis partidos
+                    </ion-item>
+                    <ion-item [routerLink]="['/invitaciones']" routerLinkActive="class-active">
+                        Invitaciones
+                    </ion-item>
+                    <ion-item [routerLink]="['/canjear']" routerLinkActive="class-active">
+                        Canjear puntos
+                    </ion-item>
+                    <ion-item [routerLink]="['/misVoucher']" routerLinkActive="class-active">
+                        Mis voucher
+                    </ion-item>
+                    <ion-item [routerLink]="['/reporte']" routerLinkActive="class-active">
+                        Reporte de partidos
+                    </ion-item>
+                    <ion-item (click)="cerrarSesion()">
+                        Cerrar sesión
+                    </ion-item>
+                </ion-menu-toggle>
             </ion-list>
         </ion-content>
     </ion-menu>
