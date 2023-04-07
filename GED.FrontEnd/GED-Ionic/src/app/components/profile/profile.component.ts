@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, NgZone, ChangeDetectorRef} from '@angular/core';
 import { Router } from '@angular/router';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { AlertController } from '@ionic/angular';
@@ -21,7 +21,9 @@ export class ProfileComponent {
   constructor(
     private usuarioService: UsuarioService,
     private router: Router,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private ngZone: NgZone,
+    private changeDetectorRef: ChangeDetectorRef
     
   ) { }
 
@@ -36,6 +38,7 @@ export class ProfileComponent {
         this.perfil = data;
         console.log(this.perfil);
         this.telefonoActual = this.perfil.telefono;
+        this.changeDetectorRef.detectChanges();
       },
       (error) => {
         console.log(error);
@@ -57,6 +60,8 @@ export class ProfileComponent {
         this.telefonoActual = this.nuevoTelefono;
         this.nuevoTelefono = 0;
         this.mostrarInput = false;
+        // this.updateTelefono(this.telefonoActual);
+        window.location.reload(); 
       },
       (error: HttpErrorResponse) => {
         if (error.status === 400 && error.error && error.error.telefono) {
@@ -78,6 +83,13 @@ export class ProfileComponent {
   contrasena(){    
       this.router.navigateByUrl('/contrasena'); 
     }
+
+    // updateTelefono(telefono:number) {
+    //   // ngZone le avisa a ionic que una variable cambió
+    //   this.ngZone.run(() => {
+    //     this.telefonoActual = telefono;
+    //   });
+    // }
   
   
   async mensajeError(error:string) {

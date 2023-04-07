@@ -1,15 +1,18 @@
 ion-text {
-    font-weight: 600;
+    font-weight: 400;
 }
 
-ion-card-title {
-    font-weight: 700;
-    font-size: x-large;
+ion-card-title {    
+    font-size: large;
     font-family: system-ui;
+    text-transform: uppercase;
+    font-weight: 500;
+    color: cadetblue;
 }
+
 
 ion-card-subtitle {
-    font-size: 1rem;
+    font-size: 0.9rem;
     font-family: system-ui;
     font-weight: 600;
     text-transform: uppercase;

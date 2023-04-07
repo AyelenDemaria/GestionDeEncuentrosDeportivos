@@ -8,14 +8,14 @@
             <ion-buttons slot="start" style="margin-left: 1rem;  font-size: x-large;" [routerLink]="['/home']">
                 <ion-icon name="home-outline"></ion-icon>
             </ion-buttons>
-            <ion-title  style="font-family: 'Segoe UI';" >Mi perfil</ion-title>
+            <ion-title style="font-family: 'Segoe UI';">Mi perfil</ion-title>
         </ion-toolbar>
     </ion-header>
 
     <ion-content class="ion-padding">
 
         <div class="container col-md-12 text-center">
-            <div>
+            <div style="display: flex;">
                 <ion-card-title style="text-align:center; ">{{perfil?.user.first_name}}</ion-card-title>
                 <ion-card-title style="text-align:center; ">{{perfil?.user.last_name}}</ion-card-title>
             </div>
@@ -27,7 +27,7 @@
                 <ion-card-content>
                     <ion-list>
                         <ion-item>
-                            <ion-icon name="person-circle" class="icon"></ion-icon>
+                            <ion-icon name="person-circle" class="fig"></ion-icon>
                             <ion-title>{{perfil?.user.username}}</ion-title>
                         </ion-item>
 
@@ -47,7 +47,7 @@
               </div> -->
 
                         <ion-item>
-                            <ion-icon name="call" class="icon"></ion-icon>
+                            <ion-icon name="call" class="fig"></ion-icon>
                             <ng-container *ngIf="!mostrarInput; else inputTemplate">
                                 <ion-title style="padding: 0; margin-left: 1rem;">
                                     {{perfil?.telefono}}</ion-title>
@@ -55,47 +55,56 @@
                             <ng-template #inputTemplate>
                                 <ion-input [(ngModel)]="nuevoTelefono" type="tel"></ion-input>
                             </ng-template>
-                            <ion-button size="small" slot="end" (click)="mostrarInputTelefono()">
+                            <div *ngIf="!mostrarInput">
+                                <button size="small" slot="end" class="edit" (click)="mostrarInputTelefono()">
+                                    Editar
+                                </button>
+                            </div>
+                            <div *ngIf="mostrarInput" style="display: flex;  padding-right: 0;">
+                                <button size="small" slot="end" class="ok" (click)="actualizarTelefono()">
+                                    <ion-icon slot="icon-only" name="checkmark-sharp"></ion-icon>
+                                </button>
+                                <button size="small" slot="end" class="no" (click)="cancelar()">
+                                    <ion-icon slot="icon-only" name="close-sharp"></ion-icon>
+                                </button>
+                            </div>
+                            <!-- <ion-button size="small" slot="end" (click)="mostrarInputTelefono()">
                                 Editar
-                            </ion-button>
+                            </ion-button> -->
                         </ion-item>
-                        <div *ngIf="mostrarInput" class="ion-padding">
-                            <ion-button class="boton" color="success" expand="full" (click)="actualizarTelefono()">
+                        <!-- <div *ngIf="mostrarInput" class="ion-padding">
+                            <ion-button size="small" slot="end"(click)="actualizarTelefono()">
                                 <strong>Guardar cambios</strong>
                             </ion-button>
-                            <ion-button class="boton" color="success" expand="full" (click)="cancelar()">
+                            <ion-button size="small" slot="end"(click)="cancelar()">
                                 <strong>Cancelar</strong>
                             </ion-button>
-                        </div>
+                        </div> -->
 
                         <ion-item>
-                            <ion-icon name="male-female-sharp"></ion-icon>
+                            <ion-icon name="male-female-sharp" class="fig"></ion-icon>
                             <ion-title>{{perfil?.sexo}}</ion-title>
                         </ion-item>
 
                         <ion-item>
-                            <ion-icon name="calendar" class="icon"></ion-icon>
+                            <ion-icon name="calendar" class="fig"></ion-icon>
 
                             <ion-title>{{perfil?.fecha_nacimiento}}</ion-title>
                         </ion-item>
 
                         <ion-item>
-                            <ion-icon name="id-card-sharp"></ion-icon>
+                            <ion-icon name="id-card-sharp" class="fig"></ion-icon>
                             <ion-title type="pass">{{perfil?.documento}}</ion-title>
                         </ion-item>
                     </ion-list>
                 </ion-card-content>
             </ion-card>
-            <ion-row>
-                <ion-col>
-                    <!-- <ion-button class="boton" color="success" expand="full" (click)="mostrarInputTelefono()">
-              <strong>Editar teléfono</strong>
-            </ion-button> -->
-                    <ion-button class="boton" color="success" expand="full" (click)="contrasena()">
-                        <strong>Cambiar contraseña</strong>
-                    </ion-button>
-                </ion-col>
-            </ion-row>
+            <div style="display: grid; justify-content:center ;">
+                <button class="btn" (click)="contrasena()">
+                    Cambiar contraseña
+                </button>
+            </div>
+
         </div>
     </ion-content>
 </div>
