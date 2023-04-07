@@ -16,7 +16,6 @@ export class ReporteComponent {
   }
 
   ionViewDidEnter() {
-
     
     this.usuarioService.getReporteUsuario().subscribe(
       (data: any[]) => {

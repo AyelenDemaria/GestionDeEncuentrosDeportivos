@@ -8,7 +8,7 @@
             <ion-buttons slot="start" style="margin-left: 1rem;  font-size: x-large;" [routerLink]="['/home']">
                 <ion-icon name="home-outline"></ion-icon>
             </ion-buttons>
-            <ion-title>Canjear puntos</ion-title>
+            <ion-title style="font-family: 'Segoe UI';" >Canjear puntos</ion-title>
         </ion-toolbar>
     </ion-header>
 
@@ -32,25 +32,29 @@
         <form [formGroup]="form">
             <div>
                 <ion-item>
-                    <ion-label position="floating"> Deporte</ion-label>
-                    <ion-select interface="popover" required formControlName="deporte" (ionChange)="seleccionarDeporte($event)">
-                        <ion-select-option *ngFor="let deporte of deportes" [value]="deporte.id">{{ deporte.descripcion }}
+                    <ion-label position="floating" style="font-family: 'Segoe UI' ;"> Deporte</ion-label>
+                    <ion-select interface="popover" required formControlName="deporte"
+                        (ionChange)="seleccionarDeporte($event)">
+                        <ion-select-option *ngFor="let deporte of deportes" [value]="deporte.id">{{ deporte.descripcion
+                            }}
                         </ion-select-option>
                     </ion-select>
                 </ion-item>
                 <div class="alert alert-danger" *ngIf="deporte.invalid && (deporte.dirty || deporte.touched)">
-                    <div class="container-error-message" *ngIf="deporte.errors.required">
+                    <div class="container-error-message" style="font-family: 'Segoe UI'; font-size: smaller;" *ngIf="deporte.errors.required">
                         Este campo es obligatorio.
                     </div>
                 </div>
                 <ion-item style="margin-top: 2rem;">
-                    <ion-label position="floating"> Cancha</ion-label>
-                    <ion-select interface="popover" required formControlName="cancha" (ionChange)="seleccionarCancha($event)">
-                        <ion-select-option *ngFor="let can of canchas" [value]="can">{{ can.nombre }}</ion-select-option>
+                    <ion-label position="floating" style="font-family: 'Segoe UI' ;"> Cancha</ion-label>
+                    <ion-select interface="popover" required formControlName="cancha"
+                        (ionChange)="seleccionarCancha($event)">
+                        <ion-select-option *ngFor="let can of canchas" [value]="can">{{ can.nombre
+                            }}</ion-select-option>
                     </ion-select>
                 </ion-item>
                 <div class="alert alert-danger" *ngIf="cancha.invalid && (cancha.dirty || cancha.touched)">
-                    <div class="container-error-message" *ngIf="cancha.errors.required">
+                    <div class="container-error-message" style="font-family: 'Segoe UI'; font-size: smaller;" *ngIf="cancha.errors.required">
                         Este campo es obligatorio.
                     </div>
                 </div>
@@ -58,11 +62,15 @@
         </form>
 
         <div style="margin-bottom: 4rem; display: flex;">
-            <ion-col>
-                <ion-button type="submit" class="boton" style="background-color: gray; width: 10rem;" expand="full" strong (click)="cancel()">Cancelar</ion-button>
+            <ion-col>               
+                    <button class="btn-enabled" [routerLink]="['/register']"(click)="cancel()">
+                        Cancelar                    
+                      </button>
             </ion-col>
-            <ion-col>
-                <ion-button [disabled]="!form.valid" type="submit" class="boton" color="success" style="width: 10rem;" expand="full" strong (click)="crearVoucher()">Canjear</ion-button>
+            <ion-col>                
+                    <button type="submit" class="boton" [disabled]="!form.valid" [ngClass]="{'btn-disabled': !form.valid, 'btn-enabled': form.valid}"(click)="crearVoucher()">
+                        Canjear                        
+                    </button>
             </ion-col>
         </div>
     </ng-template>
@@ -79,7 +87,7 @@
                 </div>
             </ion-card-header>
         </ion-card>
-        <ion-text class="mensaje" style="display: flex; justify-content: center;">
+        <ion-text class="mensaje" style="display: flex; justify-content: center; font-family:  Segoe UI;     font-weight: 500;">
             No cuentas con puntos suficientes para canjear
         </ion-text>
 
@@ -88,21 +96,11 @@
             <ion-text class="regla" style="text-align: center;">Cantidad de puntos necesarios: 30 </ion-text>
 
             <div style="margin-top: 2rem; text-align: center; margin-bottom: 2rem;">
-                <ion-button type="submit" class="boton" style="background-color: gray; width: 10rem; margin: 0 auto;" expand="full" strong (click)="cancel()">Volver</ion-button>
+               
+                <button class="btn-volver" (click)="cancel()">
+                    Volver
+                </button>
             </div>
         </div>
-
-
-
-        <!-- <div>
-      <ion-text>Cantidad de puntos acumulados:{{puntos}}</ion-text>
-      <ion-text>Cantidad de puntos necesarios: 30 </ion-text>
-    </div>
-
-    <div style="margin-bottom: 4rem; display: flex;">
-      <ion-col>
-        <ion-button type="submit" class="boton" style="background-color: gray; width: 10rem;" expand="full" strong
-          (click)="cancel()">Volver</ion-button>
-      </ion-col>
-    </div> -->
+        
     </ng-template>

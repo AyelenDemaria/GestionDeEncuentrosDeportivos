@@ -10,7 +10,7 @@ import { AlertController } from '@ionic/angular';
   templateUrl: './contrasena.component.html',
   styleUrls: ['./contrasena.component.scss'],
 })
-export class ContrasenaComponent {
+export class ContrasenaComponent implements OnInit{
   errorMensaje: string
 
   constructor(private fb: FormBuilder, 
@@ -24,7 +24,7 @@ psw1: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(1
 psw2: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(15)]],
 })
 
-ionViewDidEnter() {}
+ngOnInit()  {}
 
   cancel() {
     this.form.reset({

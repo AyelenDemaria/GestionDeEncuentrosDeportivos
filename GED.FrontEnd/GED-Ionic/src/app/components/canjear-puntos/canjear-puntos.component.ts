@@ -51,6 +51,10 @@ export class CanjearPuntosComponent {
   }
 
   cancel() {
+    this.form.reset({
+      deporte: '',
+      cancha: '',     
+    });
     this.router.navigateByUrl('home')
   }
 

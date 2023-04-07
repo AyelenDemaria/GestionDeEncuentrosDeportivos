@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, NgZone, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth.service';
@@ -21,6 +21,7 @@ export class InvitacionesComponent {
     private authService: AuthService,
     private router: Router,
     private alertController: AlertController,
+    private ngZone: NgZone,
   ) { }
 
   ionViewDidEnter(){
@@ -44,6 +45,7 @@ export class InvitacionesComponent {
     this.invitacionesService.rechazarInvitacion(body).subscribe(
       (data) => {
         this.mensajeRechazo()
+        this.updateInvitaciones(this.invitaciones.filter(p => p.id !== id));
         this.router.navigateByUrl('/invitaciones');
         //console.log(data);
       },
@@ -61,6 +63,7 @@ export class InvitacionesComponent {
     this.invitacionesService.aceptarInvitacion(body).subscribe(
       (data) => {
         this.mensajeAceptar()
+        this.updateInvitaciones(this.invitaciones.filter(p => p.id !== id));
         this.router.navigateByUrl('/invitaciones');
         //console.log(data);
       },
@@ -95,6 +98,13 @@ export class InvitacionesComponent {
       buttons: ['OK'],
     });
     await alert.present();
+  }
+
+  updateInvitaciones (invitaciones: any[]) {
+    // ngZone le avisa a ionic que una variable cambió
+    this.ngZone.run(() => {
+      this.invitaciones = invitaciones;
+    });
   }
 
 }

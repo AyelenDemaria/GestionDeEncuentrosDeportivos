@@ -8,7 +8,7 @@
             <ion-buttons slot="start" style="margin-left: 1rem;  font-size: x-large;" [routerLink]="['/home']">
                 <ion-icon name="home-outline"></ion-icon>
             </ion-buttons>
-            <ion-title>Nuevo partido</ion-title>
+            <ion-title style="font-family: 'Segoe UI';">Nuevo partido</ion-title>
         </ion-toolbar>
     </ion-header>
 
@@ -18,9 +18,11 @@
                 <form [formGroup]="form">
                     <div>
                         <ion-item>
-                            <ion-label position="floating"> Deporte</ion-label>
-                            <ion-select interface="popover" required formControlName="deporte" (ionChange)="seleccionarDeporte($event)">
-                                <ion-select-option *ngFor="let deporte of deportes" [value]="deporte.id">{{ deporte.descripcion }}
+                            <ion-label style="font-family: 'Segoe UI';" position="floating"> Deporte</ion-label>
+                            <ion-select interface="popover" required formControlName="deporte"
+                                (ionChange)="seleccionarDeporte($event)">
+                                <ion-select-option *ngFor="let deporte of deportes" [value]="deporte.id">{{
+                                    deporte.descripcion }}
                                 </ion-select-option>
                             </ion-select>
                         </ion-item>
@@ -30,21 +32,25 @@
                             </div>
                         </div>
                         <ion-item>
-                            <ion-label position="floating"> Tipo de partido</ion-label>
+                            <ion-label style="font-family: 'Segoe UI';" position="floating"> Tipo de partido</ion-label>
                             <ion-select interface="popover" required formControlName="tipoPart">
-                                <ion-select-option *ngFor="let tipo of tiposPartidos" [value]="tipo.id">{{ tipo.descripcion }}
+                                <ion-select-option *ngFor="let tipo of tiposPartidos" [value]="tipo.id">{{
+                                    tipo.descripcion }}
                                 </ion-select-option>
                             </ion-select>
                         </ion-item>
-                        <div class="alert alert-danger" *ngIf="tipoPart.invalid && (tipoPart.dirty || tipoPart.touched)">
+                        <div class="alert alert-danger"
+                            *ngIf="tipoPart.invalid && (tipoPart.dirty || tipoPart.touched)">
                             <div class="container-error-message" *ngIf="tipoPart.errors.required">
                                 Este campo es obligatorio.
                             </div>
                         </div>
                         <ion-item>
-                            <ion-label position="floating"> Cancha</ion-label>
-                            <ion-select interface="popover" required formControlName="cancha" (ionChange)="seleccionarCancha($event)">
-                                <ion-select-option *ngFor="let can of canchas" [value]="can">{{ can.nombre }}</ion-select-option>
+                            <ion-label style="font-family: 'Segoe UI';" position="floating"> Cancha</ion-label>
+                            <ion-select interface="popover" required formControlName="cancha"
+                                (ionChange)="seleccionarCancha($event)">
+                                <ion-select-option *ngFor="let can of canchas" [value]="can">{{ can.nombre
+                                    }}</ion-select-option>
                             </ion-select>
                         </ion-item>
                         <div class="alert alert-danger" *ngIf="cancha.invalid && (cancha.dirty || cancha.touched)">
@@ -54,10 +60,12 @@
                         </div>
 
                         <ion-item lines="full">
-                            <ion-label position="floating">Fecha</ion-label>
-                            <ion-input required formControlName="fecha" (click)="abrirCalendario()" value="{{fecha | date:'yyyy-MM-dd HH:mm'}}" readonly="true"></ion-input>
+                            <ion-label style="font-family: 'Segoe UI';" position="floating">Fecha</ion-label>
+                            <ion-input required formControlName="fecha" (click)="abrirCalendario()"
+                                value="{{fecha | date:'yyyy-MM-dd HH:mm'}}" readonly="true"></ion-input>
                             <ion-icon name="calendar" slot="end" (click)="ocultarCalendario = true"></ion-icon>
-                            <ion-datetime displayFormat="YYYY-MM-DD HH:mm" pickerFormat="YYYY MMM DD HH:mm" *ngIf="!ocultarCalendario" (ionChange)="seleccionarFechaHora($event)"></ion-datetime>
+                            <ion-datetime displayFormat="YYYY-MM-DD HH:mm" pickerFormat="YYYY MMM DD HH:mm"
+                                *ngIf="!ocultarCalendario" (ionChange)="seleccionarFechaHora($event)"></ion-datetime>
                         </ion-item>
                         <!-- 
             <div class="alert alert-danger" *ngIf="fecha.invalid && (fecha.dirty || fecha.touched)">
@@ -66,10 +74,13 @@
               </div>
             </div> -->
                         <ion-item lines="full">
-                            <ion-label position="floating">Cantidad de jugadores</ion-label>
-                            <ion-input required formControlName="cantJugadores" placeholder="Ingrese cantidad" type="number"></ion-input>
+                            <ion-label style="font-family: 'Segoe UI';" position="floating">Cantidad de
+                                jugadores</ion-label>
+                            <ion-input required formControlName="cantJugadores" placeholder="Ingrese cantidad"
+                                type="number"></ion-input>
                         </ion-item>
-                        <div class="alert alert-danger" *ngIf="cantJugadores.invalid && (cantJugadores.dirty || cantJugadores.touched)">
+                        <div class="alert alert-danger"
+                            *ngIf="cantJugadores.invalid && (cantJugadores.dirty || cantJugadores.touched)">
                             <div class="container-error-message" *ngIf="cantJugadores.errors.required">
                                 Este campo es obligatorio.
                             </div>
@@ -85,14 +96,17 @@
                             </div>
                         </div>
                     </div>
-                    <div style=" display: flex; justify-content: space-between;margin-top: 7rem;">
-
-                        <ion-button type="submit" class="boton" color="success" expand="full" strong (click)="cancel()">Cancelar</ion-button>
-
-                        <ion-button type="submit" class="boton" color="success" expand="full" [disabled]="!form.valid" strong (click)="crearPartido()">Crear partido</ion-button>
-
-
-
+                    <div style=" display: flex; justify-content: space-between;margin-top: 10rem;">
+                        <button class="btn-enabled" (click)="cancel()">
+                            Cancelar
+                        </button>
+                        <button type="submit" class="boton" [disabled]="!form.valid"
+                            [ngClass]="{'btn-disabled': !form.valid, 'btn-enabled': form.valid}"
+                            (click)="crearPartido()">
+                            Crear partido
+                        </button>
+                        <!-- <ion-button (click)="cancel()">Cancelar</ion-button>
+                        <ion-button [disabled]="!form.valid" strong (click)="crearPartido()">Crear partido</ion-button> -->
                     </div>
                 </form>
             </ion-card-content>
