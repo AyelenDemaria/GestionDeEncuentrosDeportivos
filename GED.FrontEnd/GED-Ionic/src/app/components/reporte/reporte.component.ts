@@ -6,7 +6,7 @@ import { UsuarioService } from 'src/app/services/usuario.service';
   templateUrl: './reporte.component.html',
   styleUrls: ['./reporte.component.scss'],
 })
-export class ReporteComponent implements OnInit {
+export class ReporteComponent {
   reporte: any[] = []
 
   constructor(
@@ -15,7 +15,7 @@ export class ReporteComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ionViewDidEnter() {
 
     
     this.usuarioService.getReporteUsuario().subscribe(

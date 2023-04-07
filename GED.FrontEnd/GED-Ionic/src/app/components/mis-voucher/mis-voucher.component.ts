@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
   templateUrl: './mis-voucher.component.html',
   styleUrls: ['./mis-voucher.component.scss'],
 })
-export class MisVoucherComponent implements OnInit {
+export class MisVoucherComponent  {
   vouchers: any[] = []
   hoy: Date = new Date();
 
@@ -19,7 +19,7 @@ export class MisVoucherComponent implements OnInit {
     private router: Router
   ) { }
 
-  ngOnInit() {
+  ionViewDidEnter(){
     console.log(this.hoy)
     this.voucherService.voucherUser().subscribe(
       (data: any[]) => {
@@ -36,21 +36,30 @@ export class MisVoucherComponent implements OnInit {
   estadoUsar(canje, venc) {
     const fechaActual = new Date().toISOString().slice(0, 10);
     const rta = canje === undefined || canje === null && venc >= fechaActual;
-    console.log(rta)
+ 
     return (rta)
   }
 
   estadoVencido(canje, venc){
     const fecha = new Date().toISOString().slice(0, 10);
-    const fechaActual = new Date(new Date(fecha).getTime() - (24 * 60 * 60 * 1000)).toISOString().slice(0, 10);
+    const fechaActual = new Date().toISOString().slice(0, 10);
     const rta = canje === undefined || canje === null && venc < fechaActual;
-    console.log('VENCIDO',rta, venc, fechaActual)
+
     return (rta)
   }
 
 
   usarVoucher(voucher_id: number) {
-    this.router.navigate(['/voucher', voucher_id]);
+    setTimeout(() => {
+      this.router.navigate(['/voucher', voucher_id]);
+    }, 1000); // Espera 1 segundo antes de navegar a la nueva ruta
   }
 
-}
+    //tambien probe estas opciones:
+    // this.router.navigate(['/voucher/', voucher_id]);
+    // this.router.navigate(['/voucher', voucher_id], {replaceUrl: true})    
+    // this.router.navigateByUrl('/voucher/' + voucher_id)
+
+  }
+
+

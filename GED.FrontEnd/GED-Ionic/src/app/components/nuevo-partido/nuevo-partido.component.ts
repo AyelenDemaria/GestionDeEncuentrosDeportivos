@@ -6,6 +6,10 @@ import { CanchaService } from 'src/app/services/cancha.service';
 import { DeporteService } from 'src/app/services/deporte.service';
 import { PartidoService } from 'src/app/services/partido.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { NgZone } from '@angular/core';
+import { UsuarioService } from 'src/app/services/usuario.service';
+
+
 
 
 @Component({
@@ -13,7 +17,7 @@ import { HttpErrorResponse } from '@angular/common/http';
   templateUrl: './nuevo-partido.component.html',
   styleUrls: ['./nuevo-partido.component.scss'],
 })
-export class NuevoPartidoComponent implements OnInit {
+export class NuevoPartidoComponent  {
 
 
   deportes: any[];
@@ -24,7 +28,8 @@ export class NuevoPartidoComponent implements OnInit {
 
   fecha: string = new Date().toISOString();
   ocultarCalendario = true;
-  errorMensaje: string
+  errorMensaje: string;
+  puntos: number;
 
   constructor(
     private fb: FormBuilder,
@@ -32,7 +37,11 @@ export class NuevoPartidoComponent implements OnInit {
     private canchaService: CanchaService,
     private partidoService: PartidoService,
     private deporteService: DeporteService,
-    private alertController: AlertController,) { }
+    private alertController: AlertController,
+    private ngZone: NgZone,
+    private usuarioService: UsuarioService,
+  
+    ) { }
 
   public form: FormGroup = this.fb.group({
     deporte: ['', Validators.required],
@@ -43,7 +52,7 @@ export class NuevoPartidoComponent implements OnInit {
   })
 
 
-  ngOnInit() {
+  ionViewDidEnter()  {
     this.getDeportes();
     this.getTiposPartidos();
     this.canchaService.getCanchas().subscribe(res => console.log(res))
@@ -96,7 +105,13 @@ export class NuevoPartidoComponent implements OnInit {
     }    
     this.partidoService.postPartido(body).subscribe(
       (data) => {
-        this.mensajeExito()
+        this.mensajeExito() 
+        this.usuarioService.getPuntosUsuario().subscribe((res) => {
+          // Ejecuta la tarea fuera de la zona de Angular para actualizar los puntos
+          this.ngZone.run(() => {
+            this.puntos = res;
+          });
+        }); 
         this.router.navigateByUrl('/home');
         //console.log(data);
       },
@@ -127,6 +142,14 @@ export class NuevoPartidoComponent implements OnInit {
 
 
    cancel() {
+        this.form.reset({
+        deporte: '',
+        tipoPart: '',
+        cancha: '',
+        fecha: '',
+        cantJugadores: '',
+      });
+    
     this.router.navigateByUrl('home')
   }
 

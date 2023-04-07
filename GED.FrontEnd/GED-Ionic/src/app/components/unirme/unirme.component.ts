@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
   templateUrl: './unirme.component.html',
   styleUrls: ['./unirme.component.scss'],
 })
-export class UnirmeComponent implements OnInit {
+export class UnirmeComponent {
   partidos: any[] = []
   filtro = ''; 
   errorMensaje:string
@@ -27,7 +27,7 @@ export class UnirmeComponent implements OnInit {
     private router: Router,
     ) { }
 
-  ngOnInit() {
+    ionViewDidEnter() {
     this.partidoService.getPartidos().subscribe((data: any[]) => {
       this.partidos = data;
       console.log(this.partidos);

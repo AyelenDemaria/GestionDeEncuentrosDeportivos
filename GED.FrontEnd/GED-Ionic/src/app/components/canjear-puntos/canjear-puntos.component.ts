@@ -13,7 +13,7 @@ import { AlertController } from '@ionic/angular';
   templateUrl: './canjear-puntos.component.html',
   styleUrls: ['./canjear-puntos.component.scss'],
 })
-export class CanjearPuntosComponent implements OnInit {
+export class CanjearPuntosComponent {
 
   deportes: any[];
   canchas: any[];
@@ -38,7 +38,7 @@ export class CanjearPuntosComponent implements OnInit {
     cancha: ['', Validators.required],
   })
 
-  ngOnInit() {
+  ionViewDidEnter() {
     this.puntosUsuario()
     this.getDeportes();
   }

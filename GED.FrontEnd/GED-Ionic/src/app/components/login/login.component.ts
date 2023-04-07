@@ -30,14 +30,20 @@ export class LoginComponent implements OnInit {
     const userValue = this.form.controls['user'].value;
     const userPassword = this.form.controls['psw'].value;
     this.authService.authenticate(userValue, userPassword).subscribe(
-      (data) => {
-      
+      (data) => { this.form.reset({
+        user: '',
+        psw: '',     
+      });      
         this.router.navigateByUrl('/home');
         //console.log(data);
       },
       (error) => {      
         this.mensajeError()
         //console.log(error.error[0]);
+        this.form.reset({
+          user: '',
+          psw: '',     
+        });
       }
     );        
   } 

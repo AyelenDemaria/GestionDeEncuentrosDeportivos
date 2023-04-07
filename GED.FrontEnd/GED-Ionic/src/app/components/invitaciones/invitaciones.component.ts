@@ -10,7 +10,7 @@ import { HttpErrorResponse } from '@angular/common/http';
   templateUrl: './invitaciones.component.html',
   styleUrls: ['./invitaciones.component.scss'],
 })
-export class InvitacionesComponent implements OnInit {
+export class InvitacionesComponent {
 
   invitaciones: any[] = []
   errorMensaje:string
@@ -23,7 +23,7 @@ export class InvitacionesComponent implements OnInit {
     private alertController: AlertController,
   ) { }
 
-  ngOnInit() {
+  ionViewDidEnter(){
     this.invitacionesService.invitacionesUser().subscribe(
       (data: any[]) => {
         this.invitaciones = data;

@@ -16,7 +16,7 @@
             <div style="margin-top: 1rem; text-align: center;">
                 <ion-text style="margin-top: 1rem; font-size: 1.2rem; font-weight:500; text-align: end;">Fecha de emisión: {{voucher.fecha_emision}}</ion-text>
             </div>
-            <ion-card>
+            <ion-card  *ngIf="voucher">
                 <ion-card-header style="padding-bottom: 0;">
                     <div>
                         <ion-card-title class="user">{{ voucher.jugador.user.first_name }} {{ voucher.jugador.user.last_name }}</ion-card-title>
@@ -46,10 +46,11 @@
                 </ion-card-header>
             </ion-card>
         </div>
-        <div style="display: grid; justify-content: center; margin-top:5rem">
+        <div style="display: grid; justify-content: center; margin-top:3rem">
             <ion-text style="font-size: 1.2rem; font-weight:400; margin:0">¿Querés usar este voucher?</ion-text>
             <div style="display: grid; justify-content: center;">
-                <button (click)="usarVoucher()">USAR</button>
+                <button (click)="usarVoucher()">Usar</button>
+                <button (click)="cancelar()">Cancelar</button>
             </div>
         </div>
     </ion-content>

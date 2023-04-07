@@ -16,7 +16,7 @@
         <div class="content boton">
             <div *ngFor="let voucher of vouchers">
 
-                <ion-card>
+                <ion-card >
                     <ion-card-header style="padding-bottom: 0;">
                         <div *ngIf="estadoUsar(voucher.fecha_canje, voucher.fecha_vencimiento)" style="justify-content: end; display: flex;">
                             <button class="button1" (click)="usarVoucher(voucher.id)">USAR</button>

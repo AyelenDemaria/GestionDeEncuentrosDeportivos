@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
   templateUrl: './mis-partidos.component.html',
   styleUrls: ['./mis-partidos.component.scss'],
 })
-export class MisPartidosComponent implements OnInit {
+export class MisPartidosComponent  {
 
   filtro = '';
   partidos: any[] = []
@@ -23,7 +23,7 @@ export class MisPartidosComponent implements OnInit {
    
   ) { }
 
-  ngOnInit() {
+  ionViewDidEnter() {
     this.inscripcionService.getInscripcionesUser().subscribe(
       (data: any[]) => {
         this.partidos = data;

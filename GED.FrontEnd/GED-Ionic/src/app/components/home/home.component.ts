@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, NgZone, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
+
 import { PartidoService } from 'src/app/services/partido.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
@@ -9,7 +10,7 @@ import { UsuarioService } from 'src/app/services/usuario.service';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent {
 
   puntos: number
   recordatorio: number
@@ -19,12 +20,16 @@ export class HomeComponent implements OnInit {
     private router: Router,
     private usuarioService: UsuarioService,
     private partidoService: PartidoService,
+    private ngZone: NgZone,
+    private changeDetectorRef: ChangeDetectorRef
+
   ) { }
 
-  ngOnInit() {
+  ionViewDidEnter() {
  
     this.puntosUsuario()
     this.partidosSemana()
+  
   }
 
   cerrarSesion() {
@@ -39,10 +44,13 @@ export class HomeComponent implements OnInit {
     );
   }
 
-  puntosUsuario() {
+ 
+
+  puntosUsuario() {    
     this.usuarioService.getPuntosUsuario().subscribe(res => {
-      this.puntos = res
-    })
+      this.puntos = res;
+      this.changeDetectorRef.detectChanges();
+    });
   }
 
   partidosSemana(){
