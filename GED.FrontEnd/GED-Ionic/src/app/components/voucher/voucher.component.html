@@ -8,39 +8,39 @@
             <ion-buttons slot="start" style="margin-left: 1rem;  font-size: x-large;" [routerLink]="['/home']">
                 <ion-icon name="home-outline"></ion-icon>
             </ion-buttons>
-            <ion-title  style="font-family: 'Segoe UI';" >Voucher</ion-title>
+            <ion-title style="font-family: 'Segoe UI';">Voucher</ion-title>
         </ion-toolbar>
     </ion-header>
     <ion-content [fullscreen]="true" class="text-center">
         <div class="content boton">
             <div style="margin-top: 1rem; text-align: center;">
-                <ion-text style="margin-top: 1rem; font-size: 1.2rem; font-weight:500; text-align: end;">Fecha de emisión: {{voucher.fecha_emision}}</ion-text>
+                <ion-text style="margin-top: 1rem; font-size: 1.2rem; font-weight:500; text-align: end;">Fecha de emisión: {{voucher?.fecha_emision}}</ion-text>
             </div>
-            <ion-card  *ngIf="voucher">
+            <ion-card *ngIf="voucher">
                 <ion-card-header style="padding-bottom: 0;">
                     <div>
-                        <ion-card-title class="user">{{ voucher.jugador.user.first_name }} {{ voucher.jugador.user.last_name }}</ion-card-title>
+                        <ion-card-title class="user">{{ voucher?.jugador.user.first_name }} {{ voucher?.jugador.user.last_name }}</ion-card-title>
                     </div>
-                    <ion-card-subtitle>DNI: {{ voucher.jugador.documento }}</ion-card-subtitle>
+                    <ion-card-subtitle>DNI: {{ voucher?.jugador.documento }}</ion-card-subtitle>
                 </ion-card-header>
                 <ion-card-content>
                     <ion-list>
                         <ion-item>
-                            <ion-text>Celular</ion-text> {{ voucher.jugador.telefono }}
+                            <ion-text>Celular</ion-text> {{ voucher?.jugador.telefono }}
                         </ion-item>
                         <ion-item>
-                            <ion-text>Fecha de Nacimiento</ion-text> {{ voucher.jugador.fecha_nacimiento }}
+                            <ion-text>Fecha de Nacimiento</ion-text> {{ voucher?.jugador.fecha_nacimiento }}
                         </ion-item>
                     </ion-list>
                 </ion-card-content>
             </ion-card>
             <ion-card style="background-color:#DAF7A6;">
                 <ion-card-header>
-                    <ion-card-title class="cancha">{{ voucher.cancha.nombre}}</ion-card-title>
+                    <ion-card-title class="cancha">{{ voucher?.cancha.nombre}}</ion-card-title>
                     <div style="display: flex;">
                         <ion-card-content style="display: grid;">
-                            <ion-text class="datos">Dirección: {{ voucher.cancha.direccion }}</ion-text>
-                            <ion-text class="datos">Deporte: {{ voucher.cancha.deporte.descripcion }}</ion-text>
+                            <ion-text class="datos">Dirección: {{ voucher?.cancha.direccion }}</ion-text>
+                            <ion-text class="datos">Deporte: {{ voucher?.cancha.deporte.descripcion }}</ion-text>
                         </ion-card-content>
                     </div>
                 </ion-card-header>
