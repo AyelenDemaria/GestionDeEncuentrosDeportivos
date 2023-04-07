@@ -16,8 +16,8 @@
 
         <div class="container col-md-12 text-center">
             <div>
-                <ion-card-title style="text-align:center; ">{{perfil.user.first_name}}</ion-card-title>
-                <ion-card-title style="text-align:center; ">{{perfil.user.last_name}}</ion-card-title>
+                <ion-card-title style="text-align:center; ">{{perfil?.user.first_name}}</ion-card-title>
+                <ion-card-title style="text-align:center; ">{{perfil?.user.last_name}}</ion-card-title>
             </div>
             <ion-card>
 
@@ -28,7 +28,7 @@
                     <ion-list>
                         <ion-item>
                             <ion-icon name="person-circle" class="icon"></ion-icon>
-                            <ion-title>{{perfil.user.username}}</ion-title>
+                            <ion-title>{{perfil?.user.username}}</ion-title>
                         </ion-item>
 
 
@@ -50,7 +50,7 @@
                             <ion-icon name="call" class="icon"></ion-icon>
                             <ng-container *ngIf="!mostrarInput; else inputTemplate">
                                 <ion-title style="padding: 0; margin-left: 1rem;">
-                                    {{perfil.telefono}}</ion-title>
+                                    {{perfil?.telefono}}</ion-title>
                             </ng-container>
                             <ng-template #inputTemplate>
                                 <ion-input [(ngModel)]="nuevoTelefono" type="tel"></ion-input>
@@ -70,18 +70,18 @@
 
                         <ion-item>
                             <ion-icon name="male-female-sharp"></ion-icon>
-                            <ion-title>{{perfil.sexo}}</ion-title>
+                            <ion-title>{{perfil?.sexo}}</ion-title>
                         </ion-item>
 
                         <ion-item>
                             <ion-icon name="calendar" class="icon"></ion-icon>
 
-                            <ion-title>{{perfil.fecha_nacimiento}}</ion-title>
+                            <ion-title>{{perfil?.fecha_nacimiento}}</ion-title>
                         </ion-item>
 
                         <ion-item>
                             <ion-icon name="id-card-sharp"></ion-icon>
-                            <ion-title type="pass">{{perfil.documento}}</ion-title>
+                            <ion-title type="pass">{{perfil?.documento}}</ion-title>
                         </ion-item>
                     </ion-list>
                 </ion-card-content>

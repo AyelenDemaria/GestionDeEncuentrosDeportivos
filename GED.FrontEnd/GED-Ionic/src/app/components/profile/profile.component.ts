@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { AlertController } from '@ionic/angular';
@@ -9,7 +9,7 @@ import { AlertController } from '@ionic/angular';
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss'],
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent {
 
   perfil: any;
   telefonoActual: number;
@@ -25,7 +25,7 @@ export class ProfileComponent implements OnInit {
     
   ) { }
 
-  ngOnInit() {
+  ionViewDidEnter() {
     this.perfilUsuario()
     console.log(this.telefonoActual)
   }
