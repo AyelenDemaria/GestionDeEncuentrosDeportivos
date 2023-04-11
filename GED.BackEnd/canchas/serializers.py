@@ -12,4 +12,4 @@ class CanchaGetSerializer(serializers.ModelSerializer):
     deporte = DeporteSerializer(many=False)
     class Meta:
         model = Cancha
-        fields = ["id","nombre","direccion","deporte", "valor_uso," "valor_referi"]
+        fields = ["id","nombre","direccion","deporte", "valor_uso", "valor_referi"]
