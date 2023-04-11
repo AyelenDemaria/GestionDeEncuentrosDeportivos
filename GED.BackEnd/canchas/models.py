@@ -8,7 +8,7 @@ class Cancha(models.Model):
     direccion = models.CharField(max_length=100)
     deporte = models.ForeignKey(Deporte, on_delete=models.CASCADE)
     valor_uso = models.DecimalField(max_digits = 5 , decimal_places = 2, default=1000)
-    valor_referi = models.DecimalField(max_digits = 5 , decimal_places = 2, blank = True, null = True, default=0)
+    valor_referi = models.DecimalField(max_digits = 5 , decimal_places = 2, default=0)
     abono_mensual = models.DecimalField(max_digits = 5 , decimal_places = 2, default=1500)
 
     def __str__(self):
