@@ -11,6 +11,7 @@
   <!-- Main -->
   <div id="main">
   <h1>Reporte de ingresos</h1>
+  <h3>Mes: {{ mes_actual }}</h3>
 
   <table class="table table-striped">
    <thead align="center">
@@ -34,9 +35,11 @@
           {% endfor %}
           <tfoot>
             <tr>
-              <th scope="row">Totals</th>
-              <td align=char.1>{{ total_abono }}</td>
-              <td align=char.3>{{ total_voucher }}</td>
+              <th scope="row">Totales</th>
+
+              <td align=center>{{ total_abono }}</td>
+              <td></td>
+              <td align=center>{{ total_voucher }}</td>
             </tr>
           </tfoot>
 

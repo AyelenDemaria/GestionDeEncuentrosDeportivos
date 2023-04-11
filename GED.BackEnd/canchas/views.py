@@ -91,4 +91,4 @@ def reporte_ingresos(request):
             cant_vouchers = 0
             total_vouchers_cancha = 0
         resultado.append([i,i.abono_mensual,cant_vouchers,total_vouchers_cancha])
-    return render(request, 'canchas/reporte_ingresos.html', {'resultado': resultado, 'total_abono': total_abono, 'total_voucher': total_voucher})
+    return render(request, 'canchas/reporte_ingresos.html', {'resultado': resultado, 'total_abono': total_abono, 'total_voucher': total_voucher, "mes_actual":mes_actual})
