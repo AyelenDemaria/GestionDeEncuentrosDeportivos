@@ -1,0 +1,53 @@
+{% extends '../base.html' %}
+
+{% load static %}
+
+{% load bootstrap5 %}
+
+{% block title %}Reporte de ingresos{% endblock %}
+
+{% block content %}
+<div id="wrapper" class="fade-in">
+  <!-- Main -->
+  <div id="main">
+  <h1>Reporte de ingresos</h1>
+
+  <table class="table table-striped">
+   <thead align="center">
+
+      <tr>
+        <th>Cancha</th>
+        <th>Abono mensual</th>
+        <th>Cantidad de vouchers</th>
+        <th>Valor en vouchers</th>
+      </tr>
+      </thead>
+      <tbody>
+      <section class="post">
+          {% for r in resultado %}
+            <tr>
+              <td align="center">{{ r.0.nombre }}</td>
+              <td align="center" style="background-color: green">{{ r.1 }}</td>
+              <td align="center"> {{ r.2 }}</td>
+              <td align="center"  style="background-color: red"> {{ r.3 }}</td>
+            </tr>
+          {% endfor %}
+          <tfoot>
+            <tr>
+              <th scope="row">Totals</th>
+              <td align=char.1>{{ total_abono }}</td>
+              <td align=char.3>{{ total_voucher }}</td>
+            </tr>
+          </tfoot>
+
+      </section>
+    </tbody>
+
+  </table>
+
+  </div>
+  <a href="http://127.0.0.1:8000/admin/" type="button" class="btn btn-primary">Volver</a>
+
+</div>
+
+{% endblock %}

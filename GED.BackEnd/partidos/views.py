@@ -47,47 +47,54 @@ class PartidoListApiView(APIView):
         '''
         Create partido
         '''
-        print("hola")
-        print(request.user)
+
         id_user = User.objects.get(username = request.user)
         perfil = Perfil.objects.get(user_id=id_user)
         print("fecha_hora:",request.data.get('fecha_hora'))
         print("cancha:",request.data.get('cancha'))
-        partido_existente = Partido.objects.filter(fecha_hora=request.data.get('fecha_hora'),
-                                            cancha=request.data.get('cancha'))
-        if not partido_existente:
-            inscripcion_existente = Inscripcion.objects.filter(partido__fecha_hora=request.data.get('fecha_hora'),
-                                                                fecha_hora_baja__isnull=True, jugador_id=perfil.id)
-            if not inscripcion_existente:
-                data = {
-                    'fecha_hora': request.data.get('fecha_hora'),
-                    'cant_jugadores': request.data.get('cant_jugadores'),
-                    'tipo_partido': request.data.get('tipo_partido'),
-                    'cancha': request.data.get('cancha'),
-                    'creador': perfil.id
-                }
-                serializer_partido = PartidoSerializer(data=data)
-                if serializer_partido.is_valid():
-                    serializer_partido.save()
-                    perfil.puntos_acum += 10
-                    perfil.save()
-                    partido_creado = Partido.objects.get(fecha_hora=request.data.get('fecha_hora'),
-                                                        cancha=request.data.get('cancha'),
-                                                        creador=perfil.id)
-                    data_inscripcion = {
-                            'jugador': perfil.id,
-                            'fecha_hora_inscripcion': timezone.localtime(timezone.now()),
-                            'partido': partido_creado.id
-                        }
-                    serializer_inscripcion = InscripcionSerializer(data=data_inscripcion)
-                    if serializer_inscripcion.is_valid():
-                            serializer_inscripcion.save()
-                    return Response(serializer_partido.data, status=status.HTTP_201_CREATED)
-                return Response(serializer_partido.errors, status=status.HTTP_400_BAD_REQUEST)
+        #fecha_hora_partido = datetime(request.data.get('fecha_hora'))
+        fecha_hora_part = datetime.strptime(request.data.get('fecha_hora'), '%Y-%m-%d %H:%M:%S')
+        fecha_hora_actual = timezone.localtime(timezone.now())
+        fecha_hora_partido = fecha_hora_part.astimezone(fecha_hora_actual.tzinfo)
+        if not (fecha_hora_partido <= fecha_hora_actual):
+            partido_existente = Partido.objects.filter(fecha_hora=request.data.get('fecha_hora'),
+                                                cancha=request.data.get('cancha'))
+            if not partido_existente:
+                inscripcion_existente = Inscripcion.objects.filter(partido__fecha_hora=request.data.get('fecha_hora'),
+                                                                    fecha_hora_baja__isnull=True, jugador_id=perfil.id)
+                if not inscripcion_existente:
+                    data = {
+                        'fecha_hora': request.data.get('fecha_hora'),
+                        'cant_jugadores': request.data.get('cant_jugadores'),
+                        'tipo_partido': request.data.get('tipo_partido'),
+                        'cancha': request.data.get('cancha'),
+                        'creador': perfil.id
+                    }
+                    serializer_partido = PartidoSerializer(data=data)
+                    if serializer_partido.is_valid():
+                        serializer_partido.save()
+                        perfil.puntos_acum += 10
+                        perfil.save()
+                        partido_creado = Partido.objects.get(fecha_hora=request.data.get('fecha_hora'),
+                                                            cancha=request.data.get('cancha'),
+                                                            creador=perfil.id)
+                        data_inscripcion = {
+                                'jugador': perfil.id,
+                                'fecha_hora_inscripcion': timezone.localtime(timezone.now()),
+                                'partido': partido_creado.id
+                            }
+                        serializer_inscripcion = InscripcionSerializer(data=data_inscripcion)
+                        if serializer_inscripcion.is_valid():
+                                serializer_inscripcion.save()
+                        return Response(serializer_partido.data, status=status.HTTP_201_CREATED)
+                    return Response(serializer_partido.errors, status=status.HTTP_400_BAD_REQUEST)
+                else:
+                    raise serializers.ValidationError('Ya estas inscripto a otro partido en esa fecha y hora')
             else:
-                raise serializers.ValidationError('Ya estas inscripto a otro partido en esa fecha y hora')
+                raise serializers.ValidationError('Ya existe un partido para esa fecha y hora en esa cancha')
         else:
-            raise serializers.ValidationError('Ya existe un partido para esa fecha y hora en esa cancha')
+            raise serializers.ValidationError('La fecha y hora del partido no puede ser menor a la actual')
+
 
     """def delete(self, request, *args, **kwargs):
         pk = int(request.data["partido_id"])

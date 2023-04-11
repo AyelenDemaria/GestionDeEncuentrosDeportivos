@@ -7,6 +7,7 @@ from rest_framework import status
 from rest_framework import permissions
 from .models import Inscripcion
 from .serializers import InscripcionSerializer, InscripcionGetSerializer
+from usuarios.serializers import PerfilSerializer
 from django.contrib.auth.models import User
 from usuarios.models import Perfil
 from django.shortcuts import get_object_or_404
@@ -152,3 +153,30 @@ class InscripcionByUserApiView(APIView):
         inscripciones = Inscripcion.objects.filter(jugador_id = perfil.id, fecha_hora_baja__isnull=True).order_by("partido__fecha_hora")
         serializer = InscripcionGetSerializer(inscripciones, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)"""
+
+
+class InscriptosByPartidoApiView(APIView):
+    # add permission to check if user is authenticated
+    permission_classes = [permissions.IsAuthenticated]
+
+    # 1. List all
+    def get(self, request, *args, **kwargs):
+        '''
+        Lista de todos los inscriptos de un partido
+        '''
+        #print(request.GET.get('partido_id'))
+        #print("body:",request.body)
+        pk = int(request.GET.get('partido_id'))
+
+        inscripciones = Inscripcion.objects.filter(partido_id=pk, fecha_hora_baja__isnull=True)
+        if inscripciones:
+            inscriptos = []
+            for i in inscripciones:
+                print('hola')
+                inscripto = Perfil.objects.get(id=i.jugador_id)
+                print("inscripto:",inscripto)
+                inscriptos.append(inscripto)
+            serializer = PerfilSerializer(inscriptos, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            raise serializers.ValidationError('No hay inscriptos')
