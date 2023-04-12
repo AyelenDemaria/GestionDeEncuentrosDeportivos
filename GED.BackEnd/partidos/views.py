@@ -25,7 +25,7 @@ class PartidoListApiView(APIView):
         '''
         Lista de todos los partidos con fecha y hora mayor a la actual y cupo disponible
         '''
-        partidos = Partido.objects.all()
+        partidos = Partido.objects.filter(suspendido=False)
 
         fecha_hora_actual =  timezone.localtime(timezone.now())
         partidos_mayor_hoy = []
@@ -95,6 +95,26 @@ class PartidoListApiView(APIView):
         #else:
         #    raise serializers.ValidationError('La fecha y hora del partido no puede ser menor a la actual')
 
+    def put(self, request, *args, **kwargs):
+        '''
+        Updates the partido with given partido_id if exists
+        '''
+
+        pk = int(request.data["partido_id"])
+        partido = Partido.objects.get(id = pk)
+        if not partido:
+            return Response(
+                {"res": "Object with todo id does not exists"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        data = {
+            'suspendido': True
+        }
+        serializer = PartidoSerializer(instance = partido, data=data, partial = True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     """def delete(self, request, *args, **kwargs):
         pk = int(request.data["partido_id"])
@@ -130,7 +150,7 @@ class PartidoSemanaApiView(APIView):
         perfil = Perfil.objects.get(user_id=id_user)
         fecha_hora_actual = timezone.localtime(timezone.now())
         fecha_actual = fecha_hora_actual.date()
-        partidos = Inscripcion.objects.filter(jugador_id = perfil.id, fecha_hora_baja__isnull=True, partido__fecha_hora__gt=fecha_hora_actual)
+        partidos = Inscripcion.objects.filter(jugador_id = perfil.id, fecha_hora_baja__isnull=True, suspendido=False, partido__fecha_hora__gt=fecha_hora_actual)
         if partidos:
             for i in partidos:
                 partido = Partido.objects.get(id=i.partido_id)

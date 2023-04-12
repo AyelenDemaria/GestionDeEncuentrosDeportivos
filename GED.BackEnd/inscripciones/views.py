@@ -180,3 +180,48 @@ class InscriptosByPartidoApiView(APIView):
             return Response(serializer.data, status=status.HTTP_200_OK)
         else:
             raise serializers.ValidationError('No hay inscriptos')
+
+
+class PartidosSuspendidosApiView(APIView):
+    # add permission to check if user is authenticated
+    permission_classes = [permissions.IsAuthenticated]
+
+    def put(self, request, *args, **kwargs):
+        ''''
+        Updates the inscripcion  with given inscripcion_id if exists
+        '''
+
+        pk = int(request.data["inscripcion_id"])
+        inscripcion = Inscripcion.objects.get(id = pk)
+        if not inscripcion:
+            return Response(
+                {"res": "Object with todo id does not exists"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        data = {
+            'notificado': True
+        }
+        serializer = InscripcionSerializer(instance = inscripcion, data=data, partial = True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    # 1. List all
+    def get(self, request, *args, **kwargs):
+        '''
+        Lista de todos los inscriptos de un partido
+        '''
+        #print(request.GET.get('partido_id'))
+        #print("body:",request.body)
+        id_user = User.objects.get(username = request.user)
+        perfil = Perfil.objects.get(user_id=id_user)
+        jugador = perfil.id
+
+
+        inscripciones = Inscripcion.objects.filter(fecha_hora_baja__isnull=True, notificado=False, jugador_id=jugador, partido__suspendido=True)
+        if inscripciones:
+            serializer = InscripcionGetSerializer(inscripciones, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            raise serializers.ValidationError('No hay partidos suspendidos sin notificar')

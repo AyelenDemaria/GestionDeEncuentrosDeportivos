@@ -3,7 +3,8 @@ from django.urls import path, include
 from .views import (
     InscripcionListApiView,
     InscripcionByUserApiView,
-    InscriptosByPartidoApiView
+    InscriptosByPartidoApiView,
+    PartidosSuspendidosApiView
 )
 
 urlpatterns = [
@@ -11,4 +12,6 @@ urlpatterns = [
     path('api/<int:pk>/', InscripcionListApiView.as_view()),
     path('api/inscripcion/', InscripcionByUserApiView.as_view()),
     path('api/inscriptos/', InscriptosByPartidoApiView.as_view()),
+    path('api/partidos_suspendidos/', PartidosSuspendidosApiView.as_view()),
+
 ]

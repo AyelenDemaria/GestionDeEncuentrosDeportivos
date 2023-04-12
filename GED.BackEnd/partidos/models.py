@@ -11,6 +11,7 @@ class Partido(models.Model):
     tipo_partido = models.ForeignKey(Tipo_partido, on_delete=models.CASCADE)
     creador = models.ForeignKey(Perfil, on_delete=models.CASCADE)
     cancha = models.ForeignKey(Cancha, on_delete=models.CASCADE)
+    suspendido = models.BooleanField(default=False)
 
     def __str__(self):
         return str(self.fecha_hora) + ' - ' + str(self.cancha) + ' - ' + str(self.tipo_partido)
