@@ -22,6 +22,7 @@ import { InvitarComponent } from './components/invitar/invitar.component';
 import { CanjearPuntosComponent } from './components/canjear-puntos/canjear-puntos.component';
 import { VoucherComponent } from './components/voucher/voucher.component';
 import { ContrasenaComponent } from './components/contrasena/contrasena.component';
+import { CommonModule,DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -39,11 +40,11 @@ import { ContrasenaComponent } from './components/contrasena/contrasena.componen
     InvitarComponent,
     CanjearPuntosComponent,
     VoucherComponent,
-    ContrasenaComponent
+    ContrasenaComponent   
     ],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, FormsModule, ReactiveFormsModule, 
+  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, FormsModule, ReactiveFormsModule,  CommonModule,
     HttpClientModule],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
+  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy },DatePipe],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

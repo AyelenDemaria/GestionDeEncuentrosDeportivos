@@ -8,6 +8,7 @@ import { PartidoService } from 'src/app/services/partido.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NgZone } from '@angular/core';
 import { UsuarioService } from 'src/app/services/usuario.service';
+import { DatePipe } from '@angular/common';
 
 
 
@@ -30,6 +31,7 @@ export class NuevoPartidoComponent  {
   ocultarCalendario = true;
   errorMensaje: string;
   puntos: number;
+  minFechaHora: string;
 
   constructor(
     private fb: FormBuilder,
@@ -40,8 +42,12 @@ export class NuevoPartidoComponent  {
     private alertController: AlertController,
     private ngZone: NgZone,
     private usuarioService: UsuarioService,
+    private datePipe: DatePipe,
   
-    ) { }
+    ) {
+      const fechaHoraActual = new Date().toISOString();
+      this.minFechaHora = fechaHoraActual;
+     }
 
   public form: FormGroup = this.fb.group({
     deporte: ['', Validators.required],
@@ -62,6 +68,8 @@ export class NuevoPartidoComponent  {
 
   abrirCalendario() {
     this.ocultarCalendario = false;
+    const ahora = this.datePipe.transform(new Date(), 'yyyy-MM-ddTHH:mm:ss');
+    this.minFechaHora = ahora;
 
   }
   seleccionarFechaHora(evento: any) {
