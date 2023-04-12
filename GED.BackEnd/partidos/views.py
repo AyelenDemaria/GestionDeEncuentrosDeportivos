@@ -53,7 +53,7 @@ class PartidoListApiView(APIView):
         print("fecha_hora:",request.data.get('fecha_hora'))
         print("cancha:",request.data.get('cancha'))
         #fecha_hora_partido = datetime(request.data.get('fecha_hora'))
-        fecha_hora_part = datetime.strptime(request.data.get('fecha_hora'), '%Y-%m-%d %H:%M:%S')
+        #fecha_hora_part = datetime.strptime(request.data.get('fecha_hora'), '%Y-%m-%d %H:%M:%S')
         #fecha_hora_actual = timezone.localtime(timezone.now())
         #fecha_hora_partido = fecha_hora_part.astimezone(fecha_hora_actual.tzinfo)
         #if not (fecha_hora_partido <= fecha_hora_actual):
