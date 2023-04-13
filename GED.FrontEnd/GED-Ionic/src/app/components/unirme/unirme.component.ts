@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { AlertController } from '@ionic/angular';
+import { Component } from '@angular/core';
+import { AlertController} from '@ionic/angular';
 import { InscripcionService } from 'src/app/services/inscripcion.service';
 import { PartidoService } from 'src/app/services/partido.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
-
+import { PopoverController } from '@ionic/angular';
+import { InscriptosPopoverComponent } from '../inscriptos-popover/inscriptos-popover.component';
 
 @Component({
   selector: 'app-unirme',
@@ -18,13 +19,15 @@ export class UnirmeComponent {
 
   fecha: string = new Date().toISOString();
   ocultarCalendario = true;
+  inscriptos: any[];
   
 
   constructor(
     private partidoService: PartidoService,
     private inscripcionService: InscripcionService,
     private alertController: AlertController,
-    private router: Router,
+    private router: Router,  
+    private popoverController: PopoverController,  
     ) { }
 
     ionViewDidEnter() {
@@ -91,5 +94,14 @@ export class UnirmeComponent {
     await alert.present();
   }
 
+  async mostrarInscriptos(idPartido: number) {
+    const inscriptos = await this.inscripcionService.getInscriptos(idPartido).toPromise();
+    const popover = await this.popoverController.create({
+      component: InscriptosPopoverComponent,
+      componentProps: {
+        inscriptos: inscriptos
+      }
+    });
+    await popover.present();
+  }
 }
-

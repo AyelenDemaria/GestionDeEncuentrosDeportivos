@@ -39,4 +39,14 @@ export class InscripcionService {
     });
     return this.http.get<any>(`${this.apiUrl}/inscripciones/api/inscripcion/`,{ headers });
   }
+
+ 
+  getInscriptos(idPartido:number): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Basic ' + btoa(this.authService.getUsername() + ':' + this.authService.getPassword()),
+    });
+    return this.http.get<any>(`${this.apiUrl}/inscripciones/api/inscriptos?partido_id=${idPartido}`, { headers });
+  }  
+
 }

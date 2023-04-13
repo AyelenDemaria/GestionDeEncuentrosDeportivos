@@ -23,6 +23,7 @@ import { CanjearPuntosComponent } from './components/canjear-puntos/canjear-punt
 import { VoucherComponent } from './components/voucher/voucher.component';
 import { ContrasenaComponent } from './components/contrasena/contrasena.component';
 import { CommonModule,DatePipe } from '@angular/common';
+import { InscriptosPopoverComponent } from './components/inscriptos-popover/inscriptos-popover.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { CommonModule,DatePipe } from '@angular/common';
     InvitarComponent,
     CanjearPuntosComponent,
     VoucherComponent,
-    ContrasenaComponent   
+    ContrasenaComponent,
+    InscriptosPopoverComponent   
     ],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, FormsModule, ReactiveFormsModule,  CommonModule,
     HttpClientModule],

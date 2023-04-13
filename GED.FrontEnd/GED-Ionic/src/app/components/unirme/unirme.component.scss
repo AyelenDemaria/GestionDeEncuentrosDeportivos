@@ -24,7 +24,7 @@ ion-text {
     margin-right: 0.75rem;
 }
 
-button {
+.unirme {
     color: white;
     background-color: rgb(72, 185, 44);
     font-size: 1rem;
@@ -43,4 +43,12 @@ button {
     border-radius: 0.5rem;
     margin-top: 0.75rem;
 
+}
+.insc{
+    font-size: 0.8rem;
+    font-family: system-ui;
+    width: 5rem;
+    height: 1.5rem;
+    font-weight: 500;
+    background-color:rgb(167, 212, 156);
 }

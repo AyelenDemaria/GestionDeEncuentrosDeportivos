@@ -2,6 +2,8 @@ import { Component, NgZone, OnInit } from '@angular/core';
 import { AlertController } from '@ionic/angular';
 import { InscripcionService } from 'src/app/services/inscripcion.service';
 import { Router } from '@angular/router';
+import { PopoverController } from '@ionic/angular';
+import { InscriptosPopoverComponent } from '../inscriptos-popover/inscriptos-popover.component';
 
 
 @Component({
@@ -20,6 +22,7 @@ export class MisPartidosComponent  {
     private inscripcionService: InscripcionService,
     private router: Router,
     private ngZone: NgZone,
+    private popoverController: PopoverController,  
    
   ) { }
 
@@ -105,6 +108,17 @@ export class MisPartidosComponent  {
     this.ngZone.run(() => {
       this.partidos = partidos;
     });
+  }
+
+  async mostrarInscriptos(idPartido: number) {
+    const inscriptos = await this.inscripcionService.getInscriptos(idPartido).toPromise();
+    const popover = await this.popoverController.create({
+      component: InscriptosPopoverComponent,
+      componentProps: {
+        inscriptos: inscriptos
+      }
+    });
+    await popover.present();
   }
 
 
