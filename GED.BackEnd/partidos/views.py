@@ -150,7 +150,7 @@ class PartidoSemanaApiView(APIView):
         perfil = Perfil.objects.get(user_id=id_user)
         fecha_hora_actual = timezone.localtime(timezone.now())
         fecha_actual = fecha_hora_actual.date()
-        partidos = Inscripcion.objects.filter(jugador_id = perfil.id, fecha_hora_baja__isnull=True, suspendido=False, partido__fecha_hora__gt=fecha_hora_actual)
+        partidos = Inscripcion.objects.filter(jugador_id = perfil.id, fecha_hora_baja__isnull=True, partido__fecha_hora__gt=fecha_hora_actual,  partido__suspendido=False)
         if partidos:
             for i in partidos:
                 partido = Partido.objects.get(id=i.partido_id)
