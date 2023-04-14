@@ -15,6 +15,7 @@ import { RegisterComponent } from './components/register/register.component';
 import { ReporteComponent } from './components/reporte/reporte.component';
 import { UnirmeComponent } from './components/unirme/unirme.component';
 import { VoucherComponent } from './components/voucher/voucher.component';
+import { PartidosSuspendidosComponent } from './components/partidos-suspendidos/partidos-suspendidos.component';
 
 const routes: Routes = [
   // {path: 'home' , component: AppComponent},
@@ -32,7 +33,8 @@ const routes: Routes = [
   {path: 'invitar/:id_partido', component: InvitarComponent},
   {path: 'canjear', component:CanjearPuntosComponent},
   {path: 'voucher/:voucher_id', component:VoucherComponent},
-  {path: 'contrasena', component: ContrasenaComponent}
+  {path: 'contrasena', component: ContrasenaComponent},
+  {path: 'suspendidos', component: PartidosSuspendidosComponent}
 ];
 
 @NgModule({

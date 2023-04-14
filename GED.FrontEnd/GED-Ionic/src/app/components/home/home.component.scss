@@ -22,4 +22,15 @@ ion-item{
 font-family:'Segoe UI';
 }
 
-
+.my-alert .alert-wrapper {
+    background-color: #ffffff;
+    border-radius: 10px;
+  }
+  
+  .my-alert .alert-header {
+    color: #ff0000;
+  }
+  
+  .my-alert .alert-button-group {
+    justify-content: center;
+  }

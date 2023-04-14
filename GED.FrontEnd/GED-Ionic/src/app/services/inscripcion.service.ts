@@ -49,4 +49,22 @@ export class InscripcionService {
     return this.http.get<any>(`${this.apiUrl}/inscripciones/api/inscriptos?partido_id=${idPartido}`, { headers });
   }  
 
+
+  getPartidosSuspendidos(): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Basic ' + btoa(this.authService.getUsername() + ':' + this.authService.getPassword())
+    });
+    return this.http.get<any>(`${this.apiUrl}/inscripciones/api/partidos_suspendidos/`,{ headers });
+  }
+
+  setNotificado(body:any){
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Basic ' + btoa(this.authService.getUsername() + ':' + this.authService.getPassword())
+    });    
+    return this.http.put<any>(`${this.apiUrl}/inscripciones/api/partidos_suspendidos/`, body, { headers });
+  }
+
+
 }

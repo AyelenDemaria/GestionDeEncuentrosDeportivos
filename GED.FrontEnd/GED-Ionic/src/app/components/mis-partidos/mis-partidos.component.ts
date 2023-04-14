@@ -5,6 +5,8 @@ import { Router } from '@angular/router';
 import { PopoverController } from '@ionic/angular';
 import { InscriptosPopoverComponent } from '../inscriptos-popover/inscriptos-popover.component';
 import { PartidoService } from 'src/app/services/partido.service';
+import { AuthService } from 'src/app/services/auth.service';
+import { UsuarioService } from 'src/app/services/usuario.service';
 
 
 @Component({
@@ -15,7 +17,8 @@ import { PartidoService } from 'src/app/services/partido.service';
 export class MisPartidosComponent {
 
   filtro = '';
-  partidos: any[] = []
+  partidos: any[] = [];
+  perfil: any;
 
 
   constructor(
@@ -25,6 +28,8 @@ export class MisPartidosComponent {
     private ngZone: NgZone,
     private popoverController: PopoverController,
     private partidoService: PartidoService,
+    private authService: AuthService,
+    private usuarioService: UsuarioService,
 
   ) { }
 
@@ -38,6 +43,7 @@ export class MisPartidosComponent {
         console.log(error);
       }
     );
+    this.perfilUsuario()
   }
 
 
@@ -167,6 +173,25 @@ export class MisPartidosComponent {
     window.location.reload(); 
   }
 
+  perfilUsuario() {
+    this.usuarioService.getDataUsuario().subscribe(
+      (data: any[]) => {
+        this.perfil = data;
+        console.log(this.perfil);     
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  validaCreador(idUser:number): boolean{    
+    // console.log(this.perfil?.id,'perfil')
+    // console.log(idUser,'creador')
+    // console.log(this.perfil?.id  === idUser)
+    return this.perfil?.id  === idUser
+
+  }
 
 
 

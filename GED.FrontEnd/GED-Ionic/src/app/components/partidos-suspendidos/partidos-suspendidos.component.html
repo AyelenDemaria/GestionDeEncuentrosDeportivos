@@ -1,3 +1,52 @@
-<p>
-  partidos-suspendidos works!
-</p>
+<div class="ion-page" id="main-content">
+
+  <ion-header [translucent]="true">
+    <ion-toolbar color="light">
+
+      <ion-buttons slot="start" style="margin-left: 1rem;  font-size: x-large;" [routerLink]="['/home']">
+        <ion-icon name="arrow-back-outline"></ion-icon>
+      </ion-buttons>
+      <ion-title style="font-family: 'Segoe UI'">Partidos suspendidos</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <div class="content boton">
+      <div *ngIf="todasLeidas; else mostrarPartidos">
+        <p>No tenes partidos suspendidos.</p>
+      </div>
+      <ng-template #mostrarPartidos>
+        <div *ngFor="let part of partidos">
+          <ion-card style="background-color:#e9e9e9; padding-bottom: 1rem;">
+            <ion-card-header>
+              <div style="justify-content: end; display: flex;">
+                <button (click)="marcarLeido(part.id)">Marcar leído</button>
+              </div>
+              <div style="display: flex; justify-content: space-around;">
+                <ion-card-title class="cancha">Partido de {{part.partido.cancha.deporte.descripcion}}</ion-card-title>
+              </div>
+            </ion-card-header>
+            <div style="display: flex; flex-direction: column;">
+              <ion-card-content style="padding: 0rem;font-size: 1rem; color: rgb(105, 104, 104);">
+                <ion-text class="datos">Fecha y hora:</ion-text> {{part.partido.fecha_hora | date:'yyyy-MM-dd HH:mm'}}
+              </ion-card-content>
+              <ion-card-content style="padding: 0rem; font-size: 1rem; color: rgb(105, 104, 104);">
+                <ion-text class="datos">Cantidad jugadores:</ion-text> {{part.partido.cant_jugadores}}
+              </ion-card-content>
+              <ion-card-content style="padding: 0rem; font-size: 1rem; color:  rgb(105, 104, 104);">
+                <ion-text class="datos">Cancha:</ion-text> {{part.partido.cancha.direccion}}
+              </ion-card-content>
+              <ion-card-content style="padding: 0rem;  font-size: 1rem; color:  rgb(105, 104, 104);">
+                <ion-text class="datos">Valor de la cancha:</ion-text> ${{part.partido.cancha.valor_uso}}
+              </ion-card-content>
+              <ion-card-content style="padding: 0rem;  font-size: 1rem; color: rgb(105, 104, 104);">
+                <ion-text class="datos">Valor del referí:</ion-text> ${{part.partido.cancha.valor_referi}}
+              </ion-card-content>
+              <ion-card-content style="padding: 0rem; font-size: 1rem; color: rgb(105, 104, 104);">
+                <ion-text class="datos">Tipo de partido:</ion-text> {{part.partido.tipo_partido.descripcion}}
+              </ion-card-content>
+            </div>
+          </ion-card>
+        </div>
+      </ng-template>
+    </div>
+  </ion-content>

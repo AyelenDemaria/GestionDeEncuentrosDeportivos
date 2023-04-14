@@ -1,0 +1,46 @@
+
+
+ion-text {
+    color: darkslategray;
+    font-weight: 700;
+    font-family: system-ui;
+    margin-right: 0.75rem;
+}
+
+ion-item {
+    --border-style: none;
+  }
+
+  .datos{
+    font-family: system-ui;
+    font-weight: 600;
+    font-size: 1rem;
+    text-transform: uppercase;
+    margin-left: 0.80rem;  
+  }
+
+  .cancha{
+    font-weight: 700;
+    font-size: x-large;
+    font-family: system-ui;
+    text-align: start;
+     color: rgb(206, 53, 53);
+}
+
+button{
+    width: auto;
+    height: 1.5rem;
+    background-color: rgb(113, 204, 113);
+    font-size: 0.8REM;
+    font-family: system-ui;
+    color:white;
+    font-weight: 700;
+}
+
+p{
+  text-align: center;  
+  margin-top: 10rem;
+  font-size: x-large;
+  font-family: system-ui;
+  color: cadetblue;
+}
