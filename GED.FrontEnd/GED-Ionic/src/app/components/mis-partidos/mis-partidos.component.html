@@ -32,6 +32,11 @@
                                 <ion-icon class="no" name="person-remove"></ion-icon>
                             </ion-buttons>
 
+                            <ion-buttons *ngIf="partidoFechaPasada(part.partido.fecha_hora)&&(!part.partido.suspendido)" style="font-size: x-large;"
+                                (click)="mensajeSuspender(part.partido.id)">
+                                <ion-icon class="trash" name="trash-outline"></ion-icon>
+                            </ion-buttons>
+
                             <button *ngIf="!partidoFechaPasada(part.partido.fecha_hora)"
                                 style="font-size: small; width: min-content; font-family: system-ui;">
                                 FINALIZADO

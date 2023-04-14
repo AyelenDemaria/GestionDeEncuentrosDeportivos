@@ -4,6 +4,7 @@ import { InscripcionService } from 'src/app/services/inscripcion.service';
 import { Router } from '@angular/router';
 import { PopoverController } from '@ionic/angular';
 import { InscriptosPopoverComponent } from '../inscriptos-popover/inscriptos-popover.component';
+import { PartidoService } from 'src/app/services/partido.service';
 
 
 @Component({
@@ -11,7 +12,7 @@ import { InscriptosPopoverComponent } from '../inscriptos-popover/inscriptos-pop
   templateUrl: './mis-partidos.component.html',
   styleUrls: ['./mis-partidos.component.scss'],
 })
-export class MisPartidosComponent  {
+export class MisPartidosComponent {
 
   filtro = '';
   partidos: any[] = []
@@ -22,8 +23,9 @@ export class MisPartidosComponent  {
     private inscripcionService: InscripcionService,
     private router: Router,
     private ngZone: NgZone,
-    private popoverController: PopoverController,  
-   
+    private popoverController: PopoverController,
+    private partidoService: PartidoService,
+
   ) { }
 
   ionViewDidEnter() {
@@ -70,8 +72,9 @@ export class MisPartidosComponent  {
 
   bajaInscripcion(inscripcion_id: number) {
 
-    const body = { 
-      inscripcion_id: inscripcion_id    }
+    const body = {
+      inscripcion_id: inscripcion_id
+    }
     this.inscripcionService.bajaInscripcionPartido(body).subscribe(
       (data) => {
         this.mensajeExito()
@@ -120,6 +123,53 @@ export class MisPartidosComponent  {
     });
     await popover.present();
   }
+
+  async mensajeSuspender(partidoId: number) {
+    const alert = await this.alertController.create({
+      header: '¿Estas seguro que querés suspender el partido?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+        },
+        {
+          text: 'OK',
+          handler: () => {
+            this.suspender(partidoId);
+          },
+        },
+      ],
+    });
+    await alert.present();
+  }
+
+  suspender(idPartido: number) {
+    const body = {
+      partido_id: idPartido      
+    }
+    this.partidoService.suspenderPartido(body).subscribe(
+      (data) => {
+        this.mensajeExitoSusp()
+        // este método actualiza la lista de mis partidos, quitando el id de la inscripción eliminada
+        // this.updatePartidos(this.partidos.filter(p => p.id !== inscripcion_id));
+        
+      },
+      (error) => {
+        console.log(error)
+      });
+  } 
+
+  async mensajeExitoSusp() {
+    const alert = await this.alertController.create({
+      header: 'Partido suspendido',     
+    });
+    await alert.present();
+    window.location.reload(); 
+  }
+
+
+
+
 
 
 }

@@ -53,4 +53,14 @@ export class PartidoService {
     return this.http.get<any>(`${this.apiUrl}/partidos/api/partidoSemana/`, { headers });
   }
 
-}
+  suspenderPartido(body:any) {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Basic ' + btoa(this.authService.getUsername() + ':' + this.authService.getPassword())
+    });    
+    return this.http.put<any>(`${this.apiUrl}/partidos/api`, body, { headers });
+  }
+  }
+
+
+  
