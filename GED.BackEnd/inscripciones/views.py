@@ -220,8 +220,6 @@ class PartidosSuspendidosApiView(APIView):
 
 
         inscripciones = Inscripcion.objects.filter(fecha_hora_baja__isnull=True, notificado=False, jugador_id=jugador, partido__suspendido=True)
-        if inscripciones:
-            serializer = InscripcionGetSerializer(inscripciones, many=True)
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        else:
-            raise serializers.ValidationError('No hay partidos suspendidos sin notificar')
+        serializer = InscripcionGetSerializer(inscripciones, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+        
