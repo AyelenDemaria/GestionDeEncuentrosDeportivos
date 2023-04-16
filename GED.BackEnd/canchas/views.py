@@ -66,7 +66,7 @@ def reporte_ingresos(request):
                 vouchers.append(v)
         if vouchers:
             for j in vouchers:
-                subtotal = v.cancha.valor_uso + v.cancha.valor_referi
+                subtotal = j.cancha.valor_uso + j.cancha.valor_referi
                 total_voucher += subtotal
         else:
             total_voucher = 0
@@ -76,13 +76,16 @@ def reporte_ingresos(request):
     for i in canchas:
         vouchers_cancha = Voucher.objects.filter(cancha_id=i.id)
         if vouchers_cancha:
-            for j in vouchers_cancha:
-                total_vouchers = []
+            total_vouchers = []
+            for j in vouchers_cancha:    
                 mes_voucher = int(j.fecha_emision.strftime('%m'))
                 if mes_actual == mes_voucher:
+                    #print("------voucher: ",j)
                     total_vouchers.append(j)
             if total_vouchers:
                 cant_vouchers =  len(total_vouchers)
+                print("---vouchers: ",total_vouchers)
+                print("--total_vouchers: ",cant_vouchers)
                 total_vouchers_cancha = cant_vouchers * (i.valor_uso + i.valor_referi)
             else:
                 cant_vouchers = 0
