@@ -48,7 +48,7 @@ class InscripcionListApiView(APIView):
         user_inscripto = Inscripcion.objects.filter(jugador_id=perfil.id, partido_id=pk, fecha_hora_baja__isnull=True)
         if not user_inscripto:
             #busco si ya esta el usuario inscripto a otro partido en esa fecha y hora:
-            partido_inscripto = Inscripcion.objects.filter(partido__fecha_hora=fecha_hora_partido, jugador_id=perfil.id, fecha_hora_baja__isnull=True)
+            partido_inscripto = Inscripcion.objects.filter(partido__fecha_hora=fecha_hora_partido, jugador_id=perfil.id, fecha_hora_baja__isnull=True, partido__suspendido=False)
             if not partido_inscripto:
                 #print(fecha_partido)
                 data = {
@@ -222,4 +222,3 @@ class PartidosSuspendidosApiView(APIView):
         inscripciones = Inscripcion.objects.filter(fecha_hora_baja__isnull=True, notificado=False, jugador_id=jugador, partido__suspendido=True)
         serializer = InscripcionGetSerializer(inscripciones, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
-        

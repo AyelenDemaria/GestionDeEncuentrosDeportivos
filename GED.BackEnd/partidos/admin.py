@@ -12,7 +12,7 @@ class PartidoAdmin(admin.ModelAdmin):
         print("fecha y hora partido: ",fecha_hora_partido)
         fecha_hora_actual = timezone.localtime(timezone.now())
         print("fecha y hora actual: ",fecha_hora_actual)
-        if (fecha_hora_actual <= fecha_hora_partido) or (obj.confirmado == False and obj.fecha_hora_confirmado is not None and fecha_hora_partido < fecha_hora_actual):
+        if (fecha_hora_actual <= fecha_hora_partido) or (obj.confirmado == False and obj.fecha_hora_confirmado is not None and fecha_hora_partido < fecha_hora_actual) or obj.suspendido==True:
             #exclude = ('confirmado')
             #readonly_fields = ["confirmado"]
             return  ["confirmado"]

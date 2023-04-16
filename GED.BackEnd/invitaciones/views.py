@@ -32,7 +32,7 @@ class InvitacionListApiView(APIView):
         id_user = User.objects.get(username = request.user)
         perfil = Perfil.objects.get(user_id=id_user)
 
-        invitaciones = Invitacion.objects.filter(usuario_invitado = perfil.id).order_by("-partido__fecha_hora")
+        invitaciones = Invitacion.objects.filter(usuario_invitado = perfil.id, partido__suspendido=False).order_by("-partido__fecha_hora")
         serializer = InvitacionGetSerializer(invitaciones, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -82,7 +82,7 @@ class AceptarInvitacionApiView(APIView):
             #busco si el usuario está  inscripto a otro partido en esa fecha y hora:
             partido=Partido.objects.get(id=invitacion.partido_id)
             fecha_hora_partido = partido.fecha_hora
-            partido_inscripto = Inscripcion.objects.filter(partido__fecha_hora=fecha_hora_partido, jugador_id=perfil.id)
+            partido_inscripto = Inscripcion.objects.filter(partido__fecha_hora=fecha_hora_partido, jugador_id=perfil.id, partido__suspendido=False)
             if not partido_inscripto:
                 data_invitacion = {
                     'estado': 'aceptada'

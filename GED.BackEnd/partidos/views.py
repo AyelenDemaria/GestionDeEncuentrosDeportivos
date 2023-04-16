@@ -58,10 +58,10 @@ class PartidoListApiView(APIView):
         #fecha_hora_partido = fecha_hora_part.astimezone(fecha_hora_actual.tzinfo)
         #if not (fecha_hora_partido <= fecha_hora_actual):
         partido_existente = Partido.objects.filter(fecha_hora=request.data.get('fecha_hora'),
-                                            cancha=request.data.get('cancha'))
+                                            cancha=request.data.get('cancha'),suspendido=False)
         if not partido_existente:
             inscripcion_existente = Inscripcion.objects.filter(partido__fecha_hora=request.data.get('fecha_hora'),
-                                                                fecha_hora_baja__isnull=True, jugador_id=perfil.id)
+                                                                fecha_hora_baja__isnull=True, jugador_id=perfil.id, partido__suspendido=False)
             if not inscripcion_existente:
                 data = {
                     'fecha_hora': request.data.get('fecha_hora'),
