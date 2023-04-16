@@ -12,6 +12,8 @@ from .serializers import CanchaSerializer, CanchaGetSerializer
 from django.utils import timezone
 from datetime import datetime
 
+meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
+
 class CanchaListApiView(APIView):
     # add permission to check if user is authenticated
     permission_classes = [permissions.IsAuthenticated]
@@ -55,6 +57,7 @@ def reporte_ingresos(request):
     fecha_actual = fecha_hora_actual.date()
     #mes_actual = fecha_actual.month()
     mes_actual = datetime.today().month
+    anio_actual = datetime.today().year
     vouchers_all = Voucher.objects.all()
     vouchers = []
     if vouchers_all:
@@ -77,7 +80,7 @@ def reporte_ingresos(request):
         vouchers_cancha = Voucher.objects.filter(cancha_id=i.id)
         if vouchers_cancha:
             total_vouchers = []
-            for j in vouchers_cancha:    
+            for j in vouchers_cancha:
                 mes_voucher = int(j.fecha_emision.strftime('%m'))
                 if mes_actual == mes_voucher:
                     #print("------voucher: ",j)
@@ -93,5 +96,5 @@ def reporte_ingresos(request):
         else:
             cant_vouchers = 0
             total_vouchers_cancha = 0
-        resultado.append([i,i.abono_mensual,cant_vouchers,total_vouchers_cancha])
-    return render(request, 'canchas/reporte_ingresos.html', {'resultado': resultado, 'total_abono': total_abono, 'total_voucher': total_voucher, "mes_actual":mes_actual})
+        resultado.append([i,i.abono_mensual,i.valor_uso,i.valor_referi,cant_vouchers,total_vouchers_cancha])
+    return render(request, 'canchas/reporte_ingresos.html', {'resultado': resultado, 'total_abono': total_abono, 'total_voucher': total_voucher, "mes_actual": meses[mes_actual-1], 'anio_actual': anio_actual})

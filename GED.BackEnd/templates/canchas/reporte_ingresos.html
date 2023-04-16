@@ -11,7 +11,7 @@
   <!-- Main -->
   <div id="main">
   <h1>Reporte de ingresos</h1>
-  <h3>Mes: {{ mes_actual }}</h3>
+  <h3>Mes: {{ mes_actual }} -  {{ anio_actual }} </h3>
 
   <table class="table table-striped">
    <thead align="center">
@@ -19,6 +19,8 @@
       <tr>
         <th>Cancha</th>
         <th>Abono mensual</th>
+        <th>Valor uso</th>
+        <th>Valor referi</th>
         <th>Cantidad de vouchers</th>
         <th>Valor en vouchers</th>
       </tr>
@@ -30,7 +32,9 @@
               <td align="center">{{ r.0.nombre }}</td>
               <td align="center" style="background-color: green">{{ r.1 }}</td>
               <td align="center"> {{ r.2 }}</td>
-              <td align="center"  style="background-color: red"> {{ r.3 }}</td>
+              <td align="center"> {{ r.3 }}</td>
+              <td align="center"> {{ r.4 }}</td>
+              <td align="center"  style="background-color: red"> {{ r.5 }}</td>
             </tr>
           {% endfor %}
           <tfoot>
@@ -38,6 +42,8 @@
               <th scope="row">Totales</th>
 
               <td align=center>{{ total_abono }}</td>
+              <td></td>
+              <td></td>
               <td></td>
               <td align=center>{{ total_voucher }}</td>
             </tr>
