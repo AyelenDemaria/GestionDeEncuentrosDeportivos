@@ -44,6 +44,7 @@ export class MisPartidosComponent {
       }
     );
     this.perfilUsuario()
+    this.getCantInscriptos()
   }
 
 
@@ -119,8 +120,21 @@ export class MisPartidosComponent {
     });
   }
 
+  // async mostrarInscriptos(idPartido: number) {
+  //   const inscriptos = await this.inscripcionService.getInscriptos(idPartido).toPromise();
+  //   const popover = await this.popoverController.create({
+  //     component: InscriptosPopoverComponent,
+  //     componentProps: {
+  //       inscriptos: inscriptos
+  //     }
+  //   });
+  //   await popover.present();
+  // }
+
+
   async mostrarInscriptos(idPartido: number) {
     const inscriptos = await this.inscripcionService.getInscriptos(idPartido).toPromise();
+    const cantInscriptos = inscriptos.length;
     const popover = await this.popoverController.create({
       component: InscriptosPopoverComponent,
       componentProps: {
@@ -128,7 +142,15 @@ export class MisPartidosComponent {
       }
     });
     await popover.present();
+
+    // Actualiza la propiedad 'cantInscriptos' del objeto 'part' correspondiente
+    const index = this.partidos.findIndex(p => p.partido.id === idPartido);
+    if (index > -1) {
+
+      this.partidos[index].inscriptos = inscriptos;  
+    }
   }
+
 
   async mensajeSuspender(partidoId: number) {
     const alert = await this.alertController.create({
@@ -151,33 +173,33 @@ export class MisPartidosComponent {
 
   suspender(idPartido: number) {
     const body = {
-      partido_id: idPartido      
+      partido_id: idPartido
     }
     this.partidoService.suspenderPartido(body).subscribe(
       (data) => {
         this.mensajeExitoSusp()
         // este método actualiza la lista de mis partidos, quitando el id de la inscripción eliminada
         // this.updatePartidos(this.partidos.filter(p => p.id !== inscripcion_id));
-        
+
       },
       (error) => {
         console.log(error)
       });
-  } 
+  }
 
   async mensajeExitoSusp() {
     const alert = await this.alertController.create({
-      header: 'Partido suspendido',     
+      header: 'Partido suspendido',
     });
     await alert.present();
-    window.location.reload(); 
+    window.location.reload();
   }
 
   perfilUsuario() {
     this.usuarioService.getDataUsuario().subscribe(
       (data: any[]) => {
         this.perfil = data;
-        console.log(this.perfil);     
+        console.log(this.perfil);
       },
       (error) => {
         console.log(error);
@@ -185,16 +207,26 @@ export class MisPartidosComponent {
     );
   }
 
-  validaCreador(idUser:number): boolean{    
-    // console.log(this.perfil?.id,'perfil')
-    // console.log(idUser,'creador')
-    // console.log(this.perfil?.id  === idUser)
-    return this.perfil?.id  === idUser
+  validaCreador(idUser: number): boolean {    
+    return this.perfil?.id === idUser
+  }
 
+  async getCantInscriptos() {
+    this.partidos = await  this.inscripcionService.getInscripcionesUser().toPromise();
+    for (let i = 0; i < this.partidos.length; i++) {
+      const idPartido = this.partidos[i].partido.id;
+      const inscriptos = await this.inscripcionService.getInscriptos(idPartido).toPromise();
+      const cantInscriptos = inscriptos.length;  
+      this.partidos[i].cantInscriptos = cantInscriptos;
+      this.partidos[i].inscriptos = inscriptos;
+    }
   }
 
 
-
-
-
 }
+
+
+
+
+
+

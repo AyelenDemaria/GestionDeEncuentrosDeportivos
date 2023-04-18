@@ -53,13 +53,16 @@
                     <ion-card-content>
                         <ion-list>
                             <ion-item>
-                                <ion-text>Fecha y hora:</ion-text> {{part.fecha_hora| date:'yyyy-MM-dd HH:mm'}}
+                                <ion-text>Fecha y hora:</ion-text> {{part?.fecha_hora| date:'yyyy-MM-dd HH:mm'}}
                             </ion-item>
                             <ion-item>
-                                <ion-text>Cantidad jugadores:</ion-text> {{part.cant_jugadores}}
-                                <button size="small" slot="end" class="insc" (click)="mostrarInscriptos(part.id)">
-                                    Inscriptos
-                                </button>
+                                <ion-text>Cantidad jugadores:</ion-text> {{part.cant_jugadores}}                                
+                            </ion-item>
+                            <ion-item>
+                                <ion-text>Cantidad inscriptos:</ion-text> {{part.cantInscriptos}} 
+                                 <button size="small" slot="end" class="insc" (click)="mostrarInscriptos(part.id)">
+                                Inscriptos
+                            </button>                            
                             </ion-item>
                             <ion-item>
                                 <ion-text>Cancha:</ion-text> {{part.cancha.direccion}}

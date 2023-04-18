@@ -38,6 +38,7 @@ export class UnirmeComponent {
     (error) => {
       console.log(error);
     })
+    this.getCantInscriptos()
    } 
 
    get filteredPartidos() {
@@ -104,4 +105,20 @@ export class UnirmeComponent {
     });
     await popover.present();
   }
+
+  async getCantInscriptos() {
+    this.partidos = await  this.partidoService.getPartidos().toPromise();
+    for (let i = 0; i < this.partidos.length; i++) {
+      const idPartido = this.partidos[i].id;
+      const inscriptos = await this.inscripcionService.getInscriptos(idPartido).toPromise();
+      const cantInscriptos = inscriptos.length;  
+      this.partidos[i].cantInscriptos = cantInscriptos;
+      this.partidos[i].inscriptos = inscriptos;
+    }
+  }
+
+
+
+
+
 }

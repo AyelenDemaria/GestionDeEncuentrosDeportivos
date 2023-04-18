@@ -21,56 +21,66 @@
                 <ion-card>
                     <ion-card-header style="padding-bottom: 0;">
                         <div style="display: flex; justify-content: space-around;">
-                            <ion-card-title>Partido de {{part.partido.cancha.deporte.descripcion}}</ion-card-title>
-                            <ion-buttons *ngIf="partidoFechaPasada(part.partido.fecha_hora)&&(!part.partido.suspendido)" style="font-size: x-large;"
-                                (click)="invitar(part.partido.id)">
+                            <ion-card-title>Partido de {{part.partido?.cancha?.deporte.descripcion}}</ion-card-title>
+                            <ion-buttons *ngIf="part?.partido && partidoFechaPasada(part.partido.fecha_hora)&&(!part.partido.suspendido)"
+                                style="font-size: x-large;" (click)="invitar(part.partido.id)">
                                 <ion-icon class="yes" name="person-add"></ion-icon>
                             </ion-buttons>
 
-                            <ion-buttons *ngIf="partidoFechaPasada(part.partido.fecha_hora)&&(!part.partido.suspendido)" style="font-size: x-large;"
-                                (click)="mensajeBaja(part.id)">
+                            <ion-buttons *ngIf="part?.partido && partidoFechaPasada(part.partido.fecha_hora)&&(!part.partido.suspendido)"
+                                style="font-size: x-large;" (click)="mensajeBaja(part.id)">
                                 <ion-icon class="no" name="person-remove"></ion-icon>
                             </ion-buttons>
 
-                            <ion-buttons *ngIf="partidoFechaPasada(part.partido.fecha_hora)&&(!part.partido.suspendido)&&validaCreador(part.partido.creador)" style="font-size: x-large;"
-                                (click)="mensajeSuspender(part.partido.id)">
+                            <ion-buttons
+                                *ngIf="part?.partido && partidoFechaPasada(part.partido.fecha_hora)&&(!part.partido.suspendido)&&validaCreador(part.partido.creador)"
+                                style="font-size: x-large;" (click)="mensajeSuspender(part.partido.id)">
                                 <ion-icon class="trash" name="trash-outline"></ion-icon>
                             </ion-buttons>
 
-                            <button *ngIf="!partidoFechaPasada(part.partido.fecha_hora)"
+                            <button *ngIf="part?.partido && !partidoFechaPasada(part.partido.fecha_hora)"
                                 style="font-size: small; width: min-content; font-family: system-ui;">
                                 FINALIZADO
                             </button>
-                            <button *ngIf="part.partido.suspendido"
+                            <button *ngIf="part?.partido && part.partido.suspendido"
                                 style="font-size: small; width: min-content; font-family: system-ui; background-color:rgb(231, 146, 139);">
                                 SUSPENDIDO
                             </button>
                         </div>
-                        <!-- <ion-card-subtitle>{{8}} inscriptos</ion-card-subtitle> -->
                     </ion-card-header>
                     <ion-card-content>
                         <ion-list>
                             <ion-item>
-                                <ion-text>Fecha y hora:</ion-text> {{part.partido.fecha_hora | date:'yyyy-MM-dd HH:mm'}}
+                                <ion-text>Fecha y hora:</ion-text> {{part.partido?.fecha_hora | date:'yyyy-MM-dd HH:mm'}}
                             </ion-item>
                             <ion-item>
-                                <ion-text>Cantidad jugadores:</ion-text> {{part.partido.cant_jugadores}}
-                                <button *ngIf="partidoFechaPasada(part.partido.fecha_hora)&&(!part.partido.suspendido)" size="small" slot="end"
-                                    class="insc" (click)="mostrarInscriptos(part.partido.id)">
-                                    Inscriptos
+                                <ion-text>Cantidad jugadores:</ion-text>{{part.partido?.cant_jugadores}}                              
+                            </ion-item>
+                            <ion-item>
+                                <ion-text>Cantidad inscriptos:</ion-text> {{part.cantInscriptos}}  <button *ngIf="part?.partido && partidoFechaPasada(part.partido.fecha_hora)&&(!part.partido.suspendido)"
+                                size="small" slot="end" class="insc" (click)="mostrarInscriptos(part.partido.id)">
+                                Inscriptos
+                            </button>
+                            </ion-item>
+                            <!-- <ion-item>
+                                <ion-text>Cantidad jugadores:</ion-text>{{part.inscriptos.length}} / {{part.partido.cant_jugadores}}
+                                <ion-badge *ngIf="part.inscriptos" slot="end">{{part.inscriptos.length}}</ion-badge>
+                                <button *ngIf="partidoFechaPasada(part.partido.fecha_hora)&&(!part.partido.suspendido)"
+                                        size="small" slot="end" class="insc" (click)="mostrarInscriptos(part.partido.id)">
+                                  Inscriptos
                                 </button>
+                              </ion-item> -->
+                            <ion-item>
+                                <ion-text>Cancha:</ion-text> {{part.partido?.cancha?.direccion}}
                             </ion-item>
                             <ion-item>
-                                <ion-text>Cancha:</ion-text> {{part.partido.cancha.direccion}}
+                                <ion-text>Valor de la cancha:</ion-text> ${{part.partido?.cancha?.valor_uso}}
                             </ion-item>
                             <ion-item>
-                                <ion-text>Valor de la cancha:</ion-text> ${{part.partido.cancha.valor_uso}}
+                                <ion-text>Valor del referí:</ion-text> ${{part.partido?.cancha?.valor_referi}}
                             </ion-item>
                             <ion-item>
-                                <ion-text>Valor del referí:</ion-text> ${{part.partido.cancha.valor_referi}}
-                            </ion-item>
-                            <ion-item>
-                                <ion-text>Tipo de partido:</ion-text> {{part.partido.tipo_partido.descripcion}}
+                                <ion-text>Tipo de partido:</ion-text> {{part.partido?.tipo_partido.descripcion}}
                             </ion-item>
                         </ion-list>
                     </ion-card-content>
