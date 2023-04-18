@@ -12,6 +12,14 @@
   <div id="main">
   <h1>Reporte de ingresos</h1>
   <h3>Mes: {{ mes_actual }} -  {{ anio_actual }} </h3>
+  <form method="POST">
+      {% csrf_token %}
+      <table>
+          {{ form.as_table }}
+      </table>
+      <button type="submit" class="btn btn-success">Buscar</button>
+  </form>
+  <br>
 
   <table class="table table-striped">
    <thead align="center">

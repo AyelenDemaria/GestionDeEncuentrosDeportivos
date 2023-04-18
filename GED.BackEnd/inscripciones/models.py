@@ -2,6 +2,7 @@ from django.db import models
 from django.conf import settings
 from partidos.models import Partido
 from usuarios.models import Perfil
+from django.contrib import admin
 
 # Create your models here.
 class Inscripcion(models.Model):
@@ -13,3 +14,6 @@ class Inscripcion(models.Model):
 
     def __str__(self):
         return str(self.jugador) + ' / ' + str(self.partido)
+
+class InscripcionAdmin(admin.ModelAdmin):
+    fields =  ['id', 'jugador', 'cant_jugadores', 'partido', 'fecha_hora_inscripcion', 'fecha_hora_baja']

@@ -2,6 +2,7 @@ from django.db import models
 from django.conf import settings
 from canchas.models import Cancha
 from usuarios.models import Perfil
+from django.contrib import admin
 
 # Create your models here.
 class Voucher(models.Model):
@@ -13,3 +14,6 @@ class Voucher(models.Model):
 
     def __str__(self):
         return str(self.jugador) + '-' + str(self.cancha) + str(self.fecha_emision)
+
+class VoucerAdmin(admin.ModelAdmin):
+    fields =  ['id', 'fecha_canje', 'fecha_emision', 'fecha_vencimiento', 'jugador','cancha']

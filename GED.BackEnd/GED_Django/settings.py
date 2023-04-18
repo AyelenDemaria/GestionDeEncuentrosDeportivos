@@ -56,6 +56,8 @@ CORS_ALLOW_CREDENTIALS = False
 INSTALLED_APPS = [
     #'django.contrib.admin',
     'django.contrib.admin.apps.SimpleAdminConfig',
+    'django_admin_listfilter_dropdown',
+    'rangefilter',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -73,6 +75,7 @@ INSTALLED_APPS = [
     'partidos.apps.PartidosConfig',
     'inscripciones.apps.InscripcionesConfig',
     'invitaciones.apps.InvitacionesConfig',
+
 
 ]
 

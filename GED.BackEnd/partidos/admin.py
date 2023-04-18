@@ -3,8 +3,17 @@ from .models import Partido
 from inscripciones.models import Inscripcion
 from usuarios.models import Perfil
 from django.utils import timezone
+from django_admin_listfilter_dropdown.filters import RelatedDropdownFilter
+from rangefilter.filters import DateRangeFilterBuilder
 
 class PartidoAdmin(admin.ModelAdmin):
+    list_display = ('id', 'fecha_hora', 'cant_jugadores', 'tipo_partido', 'creador', 'cancha', 'suspendido', 'fecha_hora_suspendido','confirmado','fecha_hora_confirmado')
+    search_fields = ('cancha__nombre', 'cancha__deporte__descripcion', 'creador__user__first_name')
+    list_filter = (
+        ('cancha', RelatedDropdownFilter),
+        ('creador', RelatedDropdownFilter),
+        ("fecha_hora", DateRangeFilterBuilder(title="Fecha del partido")),
+    )
     exclude = ('fecha_hora_suspendido', 'fecha_hora_confirmado')
     #readonly_fields = self.get_readonly(self, request)
     def get_readonly_fields(self,request, obj=None):

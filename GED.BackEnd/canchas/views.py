@@ -11,6 +11,7 @@ from vouchers.models import Voucher
 from .serializers import CanchaSerializer, CanchaGetSerializer
 from django.utils import timezone
 from datetime import datetime
+from .forms import ReporteMesAnio
 
 meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
 
@@ -49,53 +50,57 @@ class CanchaByDeporteListApiView(APIView):
 
 
 def reporte_ingresos(request):
-    canchas = Cancha.objects.all()
-    total_abono = 0
-    for c in canchas:
-        total_abono += c.abono_mensual
-    fecha_hora_actual = timezone.localtime(timezone.now())
-    fecha_actual = fecha_hora_actual.date()
-    #mes_actual = fecha_actual.month()
-    mes_actual = datetime.today().month
-    anio_actual = datetime.today().year
-    vouchers_all = Voucher.objects.all()
-    vouchers = []
-    if vouchers_all:
-        total_voucher = 0
-        for v in vouchers_all:
-            mes_voucher = int(v.fecha_emision.strftime('%m'))
-            #mes_voucher = v.fecha_emision.month
-            if mes_actual == mes_voucher:
-                vouchers.append(v)
-        if vouchers:
-            for j in vouchers:
-                subtotal = j.cancha.valor_uso + j.cancha.valor_referi
-                total_voucher += subtotal
+    if request.method == "POST":
+        form = ReporteMesAnio(request.POST)
+        if form.is_valid():
+            mes_actual = int(form.cleaned_data["mes"])
+            anio_actual = int(form.cleaned_data["anio"])
+
+        canchas = Cancha.objects.all()
+        total_abono = 0
+        for c in canchas:
+            total_abono += c.abono_mensual
+        vouchers_all = Voucher.objects.all()
+        vouchers = []
+        if vouchers_all:
+            total_voucher = 0
+            for v in vouchers_all:
+                mes_voucher = int(v.fecha_emision.strftime('%m'))
+                #mes_voucher = v.fecha_emision.month
+                if mes_actual == mes_voucher:
+                    vouchers.append(v)
+            if vouchers:
+                for j in vouchers:
+                    subtotal = j.cancha.valor_uso + j.cancha.valor_referi
+                    total_voucher += subtotal
+            else:
+                total_voucher = 0
         else:
             total_voucher = 0
-    else:
-        total_voucher = 0
-    resultado =  []
-    for i in canchas:
-        vouchers_cancha = Voucher.objects.filter(cancha_id=i.id)
-        if vouchers_cancha:
-            total_vouchers = []
-            for j in vouchers_cancha:
-                mes_voucher = int(j.fecha_emision.strftime('%m'))
-                if mes_actual == mes_voucher:
-                    #print("------voucher: ",j)
-                    total_vouchers.append(j)
-            if total_vouchers:
-                cant_vouchers =  len(total_vouchers)
-                print("---vouchers: ",total_vouchers)
-                print("--total_vouchers: ",cant_vouchers)
-                total_vouchers_cancha = cant_vouchers * (i.valor_uso + i.valor_referi)
+        resultado =  []
+        for i in canchas:
+            vouchers_cancha = Voucher.objects.filter(cancha_id=i.id)
+            if vouchers_cancha:
+                total_vouchers = []
+                for j in vouchers_cancha:
+                    mes_voucher = int(j.fecha_emision.strftime('%m'))
+                    if mes_actual == mes_voucher:
+                        #print("------voucher: ",j)
+                        total_vouchers.append(j)
+                if total_vouchers:
+                    cant_vouchers =  len(total_vouchers)
+                    print("---vouchers: ",total_vouchers)
+                    print("--total_vouchers: ",cant_vouchers)
+                    total_vouchers_cancha = cant_vouchers * (i.valor_uso + i.valor_referi)
+                else:
+                    cant_vouchers = 0
+                    total_vouchers_cancha = 0
             else:
                 cant_vouchers = 0
                 total_vouchers_cancha = 0
-        else:
-            cant_vouchers = 0
-            total_vouchers_cancha = 0
-        ganancia = total_abono - total_voucher
-        resultado.append([i,i.abono_mensual,i.valor_uso,i.valor_referi,cant_vouchers,total_vouchers_cancha])
-    return render(request, 'canchas/reporte_ingresos.html', {'resultado': resultado, 'total_abono': total_abono, 'total_voucher': total_voucher, "mes_actual": meses[mes_actual-1], 'anio_actual': anio_actual, 'ganancia' : ganancia})
+            ganancia = total_abono - total_voucher
+            resultado.append([i,i.abono_mensual,i.valor_uso,i.valor_referi,cant_vouchers,total_vouchers_cancha])
+        return render(request, 'canchas/reporte_ingresos.html', {'form': form, 'resultado': resultado, 'total_abono': total_abono, 'total_voucher': total_voucher, "mes_actual": meses[mes_actual-1], 'anio_actual': anio_actual, 'ganancia' : ganancia})
+    else:
+        form = ReporteMesAnio()
+    return render(request, 'canchas/reporte_ingresos.html', {'form': form})
