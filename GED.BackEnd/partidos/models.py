@@ -1,6 +1,6 @@
 from django.db import models
 from django.conf import settings
-from canchas.models import Cancha
+from canchas.models import CanchaPrecio
 from usuarios.models import Perfil
 from tipos_partidos.models import Tipo_partido
 from django.contrib import admin
@@ -11,7 +11,7 @@ class Partido(models.Model):
     cant_jugadores = models.BigIntegerField()
     tipo_partido = models.ForeignKey(Tipo_partido, on_delete=models.CASCADE)
     creador = models.ForeignKey(Perfil, on_delete=models.CASCADE)
-    cancha = models.ForeignKey(Cancha, on_delete=models.CASCADE)
+    cancha = models.ForeignKey(CanchaPrecio, on_delete=models.CASCADE)
     suspendido = models.BooleanField(default=False)
     fecha_hora_suspendido = models.DateTimeField(null=True)
     confirmado =  models.BooleanField(default=True)

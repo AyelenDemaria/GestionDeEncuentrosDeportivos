@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import Partido, InscriptosPartido
-from canchas.serializers import  CanchaGetSerializer
+from canchas.serializers import  CanchaPrecioSerializer
 from tipos_partidos.serializers import Tipo_partidoSerializer
 
 class PartidoSerializer(serializers.ModelSerializer):
@@ -9,7 +9,7 @@ class PartidoSerializer(serializers.ModelSerializer):
         fields = ["id","fecha_hora","cant_jugadores","tipo_partido","cancha","creador","suspendido"]
 
 class PartidoGetSerializer(serializers.ModelSerializer):
-    cancha = CanchaGetSerializer(many=False)
+    cancha = CanchaPrecioSerializer(many=False)
     tipo_partido = Tipo_partidoSerializer(many=False)
     class Meta:
         model = Partido

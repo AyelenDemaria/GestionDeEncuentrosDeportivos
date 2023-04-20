@@ -6,7 +6,9 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import permissions
 from .models import Partido
+from canchas.models import Cancha,CanchaPrecio
 from inscripciones.models import Inscripcion
+from deportes.models import Deporte
 from .serializers import PartidoSerializer, PartidoGetSerializer, InscriptosPartidoSerializer
 from inscripciones.serializers import InscripcionSerializer
 from django.utils import timezone
@@ -17,6 +19,7 @@ from django.shortcuts import get_object_or_404
 from django.db.models import Q
 from rest_framework import serializers
 from django.contrib.auth import authenticate
+from canchas.forms import ReporteMesAnio
 
 class PartidoListApiView(APIView):
     # 1. List all
@@ -57,8 +60,13 @@ class PartidoListApiView(APIView):
         #fecha_hora_actual = timezone.localtime(timezone.now())
         #fecha_hora_partido = fecha_hora_part.astimezone(fecha_hora_actual.tzinfo)
         #if not (fecha_hora_partido <= fecha_hora_actual):
+        cancha_id = request.data.get('cancha')
+        cancha_r = Cancha.objects.get(id=cancha_id)
+        fecha_hora_actual = timezone.localtime(timezone.now())
+        fecha_actual = fecha_hora_actual.date()
+        cancha_precio = CanchaPrecio.objects.filter(cancha = cancha_r, fecha__lte=fecha_actual).latest('fecha')
         partido_existente = Partido.objects.filter(fecha_hora=request.data.get('fecha_hora'),
-                                            cancha=request.data.get('cancha'),suspendido=False)
+                                            cancha__cancha=cancha_r,suspendido=False)
         if not partido_existente:
             inscripcion_existente = Inscripcion.objects.filter(partido__fecha_hora=request.data.get('fecha_hora'),
                                                                 fecha_hora_baja__isnull=True, jugador_id=perfil.id, partido__suspendido=False)
@@ -67,7 +75,7 @@ class PartidoListApiView(APIView):
                     'fecha_hora': request.data.get('fecha_hora'),
                     'cant_jugadores': request.data.get('cant_jugadores'),
                     'tipo_partido': request.data.get('tipo_partido'),
-                    'cancha': request.data.get('cancha'),
+                    'cancha': cancha_precio.id,
                     'creador': perfil.id
                 }
                 serializer_partido = PartidoSerializer(data=data)
@@ -76,7 +84,7 @@ class PartidoListApiView(APIView):
                     perfil.puntos_acum += 10
                     perfil.save()
                     partido_creado = Partido.objects.get(fecha_hora=request.data.get('fecha_hora'),
-                                                        cancha=request.data.get('cancha'),
+                                                        cancha__cancha=cancha_r,
                                                         creador=perfil.id)
                     data_inscripcion = {
                             'jugador': perfil.id,
@@ -191,3 +199,40 @@ class InscritosByPartidoApiView(APIView):
             partidos_disp.append({'partido':i, 'cant_insc': cant_insc})
         serializer = InscriptosPartidoSerializer(partidos_disp, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+def reporte_partidos_deportes(request):
+    if request.method == "POST":
+        form = ReporteMesAnio(request.POST)
+        if form.is_valid():
+            mes_actual = int(form.cleaned_data["mes"])
+            anio_actual = int(form.cleaned_data["anio"])
+            deportes = Deporte.objects.all()
+            resultado = []
+            for d in deportes:
+                partidos = Partido.objects.filter(cancha__deporte=d, fecha_hora__date__year=anio_actual, fecha_hora__date__month=mes_actual)
+                print("---partidos:",partidos)
+                cant_partidos = len(partidos)
+                resultado.append([d,cant_partidos])
+            return render(request, 'partidos/reporte_partidos_deportes.html', {'form': form, 'resultado': resultado})
+    else:
+        form = ReporteMesAnio()
+    return render(request, 'partidos/reporte_partidos_deportes.html', {'form': form})
+
+def reporte_partidos_canchas(request):
+    if request.method == "POST":
+        form = ReporteMesAnio(request.POST)
+        if form.is_valid():
+            mes_actual = int(form.cleaned_data["mes"])
+            anio_actual = int(form.cleaned_data["anio"])
+            canchas = Cancha.objects.all()
+            resultado = []
+            for c in canchas:
+                partidos = Partido.objects.filter(cancha=c, fecha_hora__date__year=anio_actual, fecha_hora__date__month=mes_actual)
+                print("---partidos:",partidos)
+                cant_partidos = len(partidos)
+                resultado.append([c,cant_partidos])
+            return render(request, 'partidos/reporte_partidos_canchas.html', {'form': form, 'resultado': resultado})
+    else:
+        form = ReporteMesAnio()
+    return render(request, 'partidos/reporte_partidos_canchas.html', {'form': form})

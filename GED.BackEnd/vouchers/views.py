@@ -7,6 +7,7 @@ from rest_framework import status
 from rest_framework import permissions
 from .models import Voucher
 from usuarios.models import Perfil
+from canchas.models import Cancha,CanchaPrecio
 from django.contrib.auth.models import User
 from .serializers import VoucherSerializer,VoucherGetSerializer
 from django.utils import timezone
@@ -25,7 +26,7 @@ class  VoucherListApiView(APIView):
         #vouchers = Voucher.objects.all()
         id_user = User.objects.get(username = request.user)
         perfil = Perfil.objects.get(user_id=id_user)
-        vouchers = Voucher.objects.filter(jugador = perfil.id)
+        vouchers = Voucher.objects.filter(jugador = perfil.id).order_by("-fecha_emision")
         serializer = VoucherGetSerializer(vouchers, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -41,10 +42,15 @@ class  VoucherListApiView(APIView):
         fecha_vencimiento = fecha_actual + timedelta(days=30)
         print("fecha actual:",fecha_actual)
         print("fecha_vencimiento:",fecha_vencimiento)
-
+        cancha_id = request.data.get('cancha_id')
+        cancha_r = Cancha.objects.get(id=cancha_id)
+        fecha_hora_actual = timezone.localtime(timezone.now())
+        fecha_actual = fecha_hora_actual.date()
+        cancha_precio = CanchaPrecio.objects.filter(cancha = cancha_r, fecha__lte=fecha_actual).latest('fecha')
+        print('-------cancha precio:',cancha_precio.valor_uso)
         data = {
             'jugador': perfil.id,
-            'cancha': request.data.get('cancha_id'),
+            'cancha': cancha_precio.id,
             'fecha_emision': fecha_actual,
             'fecha_vencimiento': fecha_vencimiento,
 

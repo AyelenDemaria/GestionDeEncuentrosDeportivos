@@ -6,9 +6,9 @@ from rest_framework.response import Response
 from django.http import JsonResponse
 from rest_framework import status
 from rest_framework import permissions
-from .models import Cancha
+from .models import Cancha, CanchaPrecio
 from vouchers.models import Voucher
-from .serializers import CanchaSerializer, CanchaGetSerializer
+from .serializers import CanchaSerializer, CanchaGetSerializer, CanchaPrecioSerializer
 from django.utils import timezone
 from datetime import datetime
 from .forms import ReporteMesAnio
@@ -26,8 +26,14 @@ class CanchaListApiView(APIView):
         '''
         #canchas = Cancha.objects.all().values()
         canchas = Cancha.objects.all()
-        print (canchas)
-        serializer = CanchaGetSerializer(canchas, many=True)
+        if canchas:
+            canchas_rta = []
+            fecha_hora_actual = timezone.localtime(timezone.now())
+            fecha_actual = fecha_hora_actual.date()
+            for c in canchas:
+                cancha_precio = CanchaPrecio.objects.filter(cancha = c, fecha__lte=fecha_actual).latest('fecha')
+                canchas_rta.append(cancha_precio)
+        serializer = CanchaPrecioSerializer(canchas_rta, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
         #return JsonResponse(list(canchas), safe=False, status=status.HTTP_200_OK)
 
@@ -43,9 +49,15 @@ class CanchaByDeporteListApiView(APIView):
         print(request.GET.get('deporte_id'))
         #print("body:",request.body)
         pk = int(request.GET.get('deporte_id'))
-
         canchas = Cancha.objects.filter(deporte_id=pk)
-        serializer = CanchaGetSerializer(canchas, many=True)
+        if canchas:
+            canchas_rta = []
+            fecha_hora_actual = timezone.localtime(timezone.now())
+            fecha_actual = fecha_hora_actual.date()
+            for c in canchas:
+                cancha_precio = CanchaPrecio.objects.filter(cancha = c, fecha__lte=fecha_actual).latest('fecha')
+                canchas_rta.append(cancha_precio)
+            serializer = CanchaPrecioSerializer(canchas_rta, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
@@ -59,6 +71,8 @@ def reporte_ingresos(request):
         canchas = Cancha.objects.all()
         total_abono = 0
         for c in canchas:
+            #ultimo_abono = CanchaPrecio.objects.filter(cancha=c, fecha__year__lte=anio_actual, fecha__month__lte=mes_actual).latest('fecha')
+            #total_abono += ultimo_abono.abono_mensual
             total_abono += c.abono_mensual
         vouchers_all = Voucher.objects.all()
         vouchers = []
@@ -79,6 +93,8 @@ def reporte_ingresos(request):
             total_voucher = 0
         resultado =  []
         for i in canchas:
+            #ultimo_abono_i = CanchaPrecio.objects.filter(cancha=i, fecha__year__lte=anio_actual, fecha__month__lte=mes_actual).latest('fecha')
+            #abono_mensual_i = ultimo_abono_i.abono_mensual
             vouchers_cancha = Voucher.objects.filter(cancha_id=i.id)
             if vouchers_cancha:
                 total_vouchers = []

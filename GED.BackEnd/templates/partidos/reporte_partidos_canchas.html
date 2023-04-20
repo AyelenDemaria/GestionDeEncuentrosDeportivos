@@ -1,0 +1,53 @@
+{% extends '../base.html' %}
+
+{% load static %}
+
+{% load bootstrap5 %}
+
+{% block title %}Reporte de partidos por deporte{% endblock %}
+
+{% block content %}
+<div id="wrapper" class="fade-in">
+  <!-- Main -->
+  <div id="main">
+  <h1>Reporte de partidos por cancha</h1>
+
+  <form method="POST">
+      {% csrf_token %}
+      <table>
+          {{ form.as_table }}
+      </table>
+      <button type="submit" class="btn btn-success">Buscar</button>
+  </form>
+  <br>
+
+  <table class="table table-striped">
+   <thead align="center">
+
+      <tr>
+        <th>Cancha</th>
+        <th>Cantidad de partidos</th>
+      </tr>
+      </thead>
+      <tbody>
+      <section class="post">
+          {% for r in resultado %}
+            <tr>
+              <td align="center">{{ r.0.nombre }}</td>
+              <td align="center">{{ r.1 }}</td>
+
+            </tr>
+          {% endfor %}
+
+
+      </section>
+    </tbody>
+
+  </table>
+
+  </div>
+  <a href="http://127.0.0.1:8000/admin/" type="button" class="btn btn-primary">Volver</a>
+
+</div>
+
+{% endblock %}

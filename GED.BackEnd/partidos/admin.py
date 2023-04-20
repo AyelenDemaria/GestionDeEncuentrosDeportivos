@@ -5,6 +5,10 @@ from usuarios.models import Perfil
 from django.utils import timezone
 from django_admin_listfilter_dropdown.filters import RelatedDropdownFilter
 from rangefilter.filters import DateRangeFilterBuilder
+from .views import reporte_partidos_deportes, reporte_partidos_canchas
+
+admin.site.register_view('reporte-partidos-deportes', 'Reporte de partidos por deporte', view=reporte_partidos_deportes)
+admin.site.register_view('reporte-partidos-canchas', 'Reporte de partidos por cancha', view=reporte_partidos_canchas)
 
 class PartidoAdmin(admin.ModelAdmin):
     list_display = ('id', 'fecha_hora', 'cant_jugadores', 'tipo_partido', 'creador', 'cancha', 'suspendido', 'fecha_hora_suspendido','confirmado','fecha_hora_confirmado')
