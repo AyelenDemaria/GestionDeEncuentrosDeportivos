@@ -12,9 +12,9 @@
     </ion-header>
 
     <ion-content [fullscreen]="true" class="text-center">
-
+        <ion-searchbar placeholder="Buscar voucher" [(ngModel)]="filtro"></ion-searchbar>
         <div class="content boton">
-            <div *ngFor="let voucher of vouchers$ | async">
+            <div *ngFor="let voucher of filteredVouchers">
                 <ion-card>
                     <ion-card-header style="padding-bottom: 0;">
                         <div *ngIf="estadoUsar(voucher.fecha_canje, voucher.fecha_vencimiento)" style="justify-content: end; display: flex;">
@@ -39,6 +39,12 @@
                             </ion-item>
                             <ion-item>
                                 <ion-text>Fecha vencimiento:</ion-text> {{voucher.fecha_vencimiento}}
+                            </ion-item>
+                            <ion-item>
+                                <ion-text>Valor de la cancha:</ion-text> ${{voucher.cancha.valor_uso}}
+                            </ion-item>
+                            <ion-item>
+                                <ion-text>Valor referí:</ion-text> ${{voucher.cancha.valor_referi}}
                             </ion-item>
                         </ion-list>
                     </ion-card-content>

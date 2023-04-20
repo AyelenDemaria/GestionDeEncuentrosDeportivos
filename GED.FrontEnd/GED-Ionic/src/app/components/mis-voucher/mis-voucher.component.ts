@@ -12,7 +12,8 @@ import { Observable } from 'rxjs';
 })
 export class MisVoucherComponent  {
   hoy: Date = new Date();
-  vouchers$: Observable<any[]>;
+  vouchers:  any[] = []
+  filtro = ''; 
 
   constructor(
     private voucherService: VoucherService,
@@ -22,9 +23,26 @@ export class MisVoucherComponent  {
 
   ionViewDidEnter(){
     console.log(this.hoy);
-    this.vouchers$ = this.voucherService.voucherUser(); 
-  }
+    // this.vouchers$ = this.voucherService.voucherUser(); 
 
+    this.voucherService.voucherUser().subscribe((data: any[]) => {
+      this.vouchers = data;
+      console.log(this.vouchers);
+    },
+    (error) => {
+      console.log(error);
+    })    
+   } 
+  
+
+  get filteredVouchers() {
+    if (this.filtro != "") {
+      return this.vouchers.filter(x => (x.cancha.nombre.toLowerCase() + x.cancha.valor_uso + x.cancha.valor_referi + x.cancha.deporte.descripcion.toLowerCase()
+        + x.cancha.direccion.toLowerCase() + x.fecha_emision + x.fecha_vencimiento).
+        includes(this.filtro.toLowerCase()));
+    }
+    return this.vouchers;
+  }  
 
   estadoUsar(canje, venc) {
     const fechaActual = new Date().toISOString().slice(0, 10);
