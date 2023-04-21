@@ -43,8 +43,8 @@ export class UnirmeComponent {
 
    get filteredPartidos() {
     if (this.filtro != "") {
-      return this.partidos.filter(x => (x.fecha_hora + x.cant_jugadores + x.cancha.deporte.descripcion.toLowerCase()
-        + x.cancha.direccion.toLowerCase() + x.tipo_partido.descripcion.toLowerCase()).
+      return this.partidos.filter(x => (x.fecha_hora + x.cant_jugadores + x.cancha.cancha.deporte.descripcion.toLowerCase()
+        + x.cancha.cancha.direccion.toLowerCase() + x.tipo_partido.descripcion.toLowerCase() + x.cancha.valor_uso + x.cancha.valor_referi).
         includes(this.filtro.toLowerCase()));
     }
     return this.partidos;

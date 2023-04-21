@@ -37,8 +37,8 @@ export class MisVoucherComponent  {
 
   get filteredVouchers() {
     if (this.filtro != "") {
-      return this.vouchers.filter(x => (x.cancha.nombre.toLowerCase() + x.cancha.valor_uso + x.cancha.valor_referi + x.cancha.deporte.descripcion.toLowerCase()
-        + x.cancha.direccion.toLowerCase() + x.fecha_emision + x.fecha_vencimiento).
+      return this.vouchers.filter(x => (x.cancha.cancha.nombre.toLowerCase() + x.cancha.valor_uso + x.cancha.valor_referi + x.cancha.cancha.deporte.descripcion.toLowerCase()
+        + x.cancha.cancha.direccion.toLowerCase() + x.fecha_emision + x.fecha_vencimiento + x.cancha.valor_uso + x.cancha.valor_referi).
         includes(this.filtro.toLowerCase()));
     }
     return this.vouchers;

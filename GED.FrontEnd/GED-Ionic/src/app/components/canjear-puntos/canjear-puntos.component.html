@@ -49,7 +49,7 @@
                     <ion-label position="floating" style="font-family: 'Segoe UI' ;"> Cancha</ion-label>
                     <ion-select interface="popover" required formControlName="cancha"
                         (ionChange)="seleccionarCancha($event)">
-                        <ion-select-option *ngFor="let can of canchas" [value]="can">{{ can.nombre
+                        <ion-select-option *ngFor="let can of canchas" [value]="can">{{ can.cancha.nombre
                             }}</ion-select-option>
                     </ion-select>
                 </ion-item>

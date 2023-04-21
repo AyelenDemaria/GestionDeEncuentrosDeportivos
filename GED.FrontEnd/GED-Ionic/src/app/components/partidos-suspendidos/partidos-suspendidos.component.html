@@ -22,7 +22,7 @@
                 <button (click)="marcarLeido(part.id)">Marcar leído</button>
               </div>
               <div style="display: flex; justify-content: space-around;">
-                <ion-card-title class="cancha">Partido de {{part.partido.cancha.deporte.descripcion}}</ion-card-title>
+                <ion-card-title class="cancha">Partido de {{part.partido.cancha.cancha.deporte.descripcion}}</ion-card-title>
               </div>
             </ion-card-header>
             <div style="display: flex; flex-direction: column;">
@@ -33,7 +33,7 @@
                 <ion-text class="datos">Cantidad jugadores:</ion-text> {{part.partido.cant_jugadores}}
               </ion-card-content>
               <ion-card-content style="padding: 0rem; font-size: 1rem; color:  rgb(105, 104, 104);">
-                <ion-text class="datos">Cancha:</ion-text> {{part.partido.cancha.direccion}}
+                <ion-text class="datos">Cancha:</ion-text> {{part.partido.cancha.cancha.direccion}}
               </ion-card-content>
               <ion-card-content style="padding: 0rem;  font-size: 1rem; color:  rgb(105, 104, 104);">
                 <ion-text class="datos">Valor de la cancha:</ion-text> ${{part.partido.cancha.valor_uso}}

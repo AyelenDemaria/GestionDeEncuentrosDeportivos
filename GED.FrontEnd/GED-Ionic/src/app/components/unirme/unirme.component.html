@@ -19,7 +19,7 @@
                 <ion-card>
                     <ion-card-header style="padding-bottom: 0;">
                         <div style="display: flex; justify-content: space-between;">
-                            <ion-card-title>Partido de {{part.cancha.deporte.descripcion}}</ion-card-title><button
+                            <ion-card-title>Partido de {{part.cancha.cancha.deporte.descripcion}}</ion-card-title><button
                                 class="unirme" (click)="unirme(part.id)">UNIRME</button>
                         </div>
                         <!-- <ion-card-subtitle>{{part.cantInscriptos}} inscriptos</ion-card-subtitle> -->
@@ -39,7 +39,7 @@
                                 </button>
                             </ion-item>
                             <ion-item>
-                                <ion-text>Cancha:</ion-text> {{part.cancha.direccion}}
+                                <ion-text>Cancha:</ion-text> {{part.cancha.cancha.direccion}}
                             </ion-item>
                             <ion-item>
                                 <ion-text>Valor de la cancha:</ion-text> ${{part.cancha.valor_uso}}

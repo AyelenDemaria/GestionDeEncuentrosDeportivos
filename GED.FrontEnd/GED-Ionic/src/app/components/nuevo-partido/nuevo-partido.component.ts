@@ -101,7 +101,8 @@ export class NuevoPartidoComponent  {
 
 
   seleccionarCancha(event: any) {
-    this.idCancha = Number(event.detail.value['id'])
+    this.idCancha = Number(event.detail.value.cancha.id)
+    console.log(this.idCancha)
   }
 
   crearPartido() {

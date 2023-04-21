@@ -49,7 +49,7 @@
                             <ion-label style="font-family: 'Segoe UI';" position="floating"> Cancha</ion-label>
                             <ion-select interface="popover" required formControlName="cancha"
                                 (ionChange)="seleccionarCancha($event)">
-                                <ion-select-option  *ngFor="let can of canchas" [value]="can">{{ can.nombre }} - ${{can.valor_uso}}- Ref. ${{can.valor_referi}}</ion-select-option>
+                                <ion-select-option  *ngFor="let can of canchas" [value]="can">{{ can.cancha.nombre }} - ${{can.valor_uso}}- Ref. ${{can.valor_referi}}</ion-select-option>
                             </ion-select>
                         </ion-item>
                         <div class="alert alert-danger" *ngIf="cancha.invalid && (cancha.dirty || cancha.touched)">
