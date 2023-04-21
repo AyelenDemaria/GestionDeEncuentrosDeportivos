@@ -134,7 +134,13 @@ class InscripcionByUserApiView(APIView):
         perfil = Perfil.objects.get(user_id=id_user)
 
         #pk = self.kwargs.get('pk')
-        inscripciones = Inscripcion.objects.filter(jugador_id = perfil.id).order_by("-partido__fecha_hora")
+        #inscripciones_all = Inscripcion.objects.filter(jugador_id = perfil.id).order_by("-partido__fecha_hora")
+        inscripciones_sus = Inscripcion.objects.filter(jugador_id = perfil.id, suspendido=1).order_by("-partido__fecha_hora")
+        inscripciones_vig = Inscripcion.objects.filter(jugador_id = perfil.id, suspendido=0).order_by("-partido__fecha_hora")
+        for i in inscripciones_vig:
+            inscripciones.append(i)
+        for j in inscripciones_sus:
+            inscripciones.append(j)
         serializer = InscripcionGetSerializer(inscripciones, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
