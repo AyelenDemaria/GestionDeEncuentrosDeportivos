@@ -132,11 +132,11 @@ class InscripcionByUserApiView(APIView):
         '''
         id_user = User.objects.get(username = request.user)
         perfil = Perfil.objects.get(user_id=id_user)
-
+        inscripciones = []
         #pk = self.kwargs.get('pk')
         #inscripciones_all = Inscripcion.objects.filter(jugador_id = perfil.id).order_by("-partido__fecha_hora")
-        inscripciones_sus = Inscripcion.objects.filter(jugador_id = perfil.id, suspendido=1).order_by("-partido__fecha_hora")
-        inscripciones_vig = Inscripcion.objects.filter(jugador_id = perfil.id, suspendido=0).order_by("-partido__fecha_hora")
+        inscripciones_sus = Inscripcion.objects.filter(jugador_id = perfil.id, partido__suspendido=1).order_by("-partido__fecha_hora")
+        inscripciones_vig = Inscripcion.objects.filter(jugador_id = perfil.id, partido__suspendido=0).order_by("-partido__fecha_hora")
         for i in inscripciones_vig:
             inscripciones.append(i)
         for j in inscripciones_sus:

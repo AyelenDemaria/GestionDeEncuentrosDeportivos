@@ -28,7 +28,13 @@ class  VoucherListApiView(APIView):
         #vouchers = Voucher.objects.all()
         id_user = User.objects.get(username = request.user)
         perfil = Perfil.objects.get(user_id=id_user)
-        vouchers = Voucher.objects.filter(jugador = perfil.id).order_by("-fecha_emision")
+        vouchers = []
+        vouchers_gen = Voucher.objects.filter(jugador = perfil.id, fecha_canje__isnull=True).order_by("-fecha_emision")
+        vouchers_canj = Voucher.objects.filter(jugador = perfil.id, fecha_canje__isnull=False).order_by("-fecha_emision")
+        for i in vouchers_gen:
+            vouchers.append(i)
+        for j in vouchers_canj:
+            vouchers.append(j)
         serializer = VoucherGetSerializer(vouchers, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
