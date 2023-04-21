@@ -7,11 +7,11 @@ from usuarios.serializers import PerfilSerializer
 class VoucherSerializer(serializers.ModelSerializer):
     class Meta:
         model = Voucher
-        fields = ["id","fecha_canje", "fecha_emision", "fecha_vencimiento", "jugador", "cancha"]
+        fields = ["id","fecha_canje", "fecha_emision", "fecha_vencimiento", "jugador", "cancha", "codigo"]
 
 class VoucherGetSerializer(serializers.ModelSerializer):
     cancha = CanchaPrecioSerializer(many=False)
     jugador = PerfilSerializer(many=False)
     class Meta:
         model = Voucher
-        fields = ["id","fecha_canje", "fecha_emision", "fecha_vencimiento", "jugador", "cancha"]
+        fields = ["id","fecha_canje", "fecha_emision", "fecha_vencimiento", "jugador", "cancha","codigo"]

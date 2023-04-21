@@ -15,5 +15,6 @@ urlpatterns = [
     path('api/inscriptos/', InscritosByPartidoApiView.as_view()),
     path('partidos/', views.reporte_partidos_deportes, name='reporte_partidos_deportes'),
     path('partidos/', views.reporte_partidos_canchas, name='reporte_partidos_canchas'),
+    path('partidos/', views.reporte_partidos_tipos, name='reporte_partidos_tipos'),
 
 ]

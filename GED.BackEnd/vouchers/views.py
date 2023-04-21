@@ -13,6 +13,7 @@ from .serializers import VoucherSerializer,VoucherGetSerializer
 from django.utils import timezone
 from datetime import datetime
 from datetime import timedelta
+import random
 
 class  VoucherListApiView(APIView):
     # add permission to check if user is authenticated
@@ -52,9 +53,7 @@ class  VoucherListApiView(APIView):
             'jugador': perfil.id,
             'cancha': cancha_precio.id,
             'fecha_emision': fecha_actual,
-            'fecha_vencimiento': fecha_vencimiento,
-
-
+            'fecha_vencimiento': fecha_vencimiento
         }
 
         serializer = VoucherSerializer(data=data)
@@ -82,7 +81,8 @@ class  VoucherListApiView(APIView):
                 status=status.HTTP_400_BAD_REQUEST
             )
         data = {
-            'fecha_canje': timezone.localtime(timezone.now()).date()
+            'fecha_canje': timezone.localtime(timezone.now()).date(),
+            'codigo': random.randrange(1, 99999)
         }
         serializer = VoucherSerializer(instance = voucher, data=data, partial = True)
         if serializer.is_valid():

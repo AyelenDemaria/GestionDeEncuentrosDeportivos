@@ -9,6 +9,7 @@ from .models import Partido
 from canchas.models import Cancha,CanchaPrecio
 from inscripciones.models import Inscripcion
 from deportes.models import Deporte
+from tipos_partidos.models import Tipo_partido
 from .serializers import PartidoSerializer, PartidoGetSerializer, InscriptosPartidoSerializer
 from inscripciones.serializers import InscripcionSerializer
 from django.utils import timezone
@@ -211,16 +212,41 @@ def reporte_partidos_deportes(request):
             resultado = []
             for d in deportes:
                 #partidos = Partido.objects.filter(cancha__deporte=d, fecha_hora__date__year=anio_actual, fecha_hora__date__month=mes_actual)
-                partidos_res = []
+                partidos_totales = []
+                partidos_jugados = []
+                partidos_suspendidos = []
+                partidos_noconfirmados = []
                 #partidos = Partido.objects.filter(cancha__cancha=c, fecha_hora__year=anio_actual, fecha_hora__month=mes_actual)
-                partidos = Partido.objects.filter(cancha__cancha__deporte=d, confirmado=1, suspendido=0)
-                for p in partidos:
-                    anio = int(p.fecha_hora.strftime('%Y'))
-                    mes = int(p.fecha_hora.strftime('%m'))
+                partidos_j = Partido.objects.filter(cancha__cancha__deporte=d, confirmado=1, suspendido=0)
+                partidos_t = Partido.objects.filter(cancha__cancha__deporte=d)
+                partidos_s = Partido.objects.filter(cancha__cancha__deporte=d,confirmado=1, suspendido=1 )
+                partidos_nc = Partido.objects.filter(cancha__cancha__deporte=d, confirmado=0, suspendido=0)
+                for t in partidos_t:
+                    anio = int(t.fecha_hora.strftime('%Y'))
+                    mes = int(t.fecha_hora.strftime('%m'))
                     if anio == anio_actual and mes == mes_actual:
-                        partidos_res.append(p)
-                cant_partidos = len(partidos_res)
-                resultado.append([d,cant_partidos])
+                        partidos_totales.append(t)
+                cant_partidos_totales = len(partidos_totales)
+                for j in partidos_j:
+                    anio = int(j.fecha_hora.strftime('%Y'))
+                    mes = int(j.fecha_hora.strftime('%m'))
+                    if anio == anio_actual and mes == mes_actual:
+                        partidos_jugados.append(j)
+                cant_partidos_jugados = len(partidos_jugados)
+                for s in partidos_s:
+                    anio = int(s.fecha_hora.strftime('%Y'))
+                    mes = int(s.fecha_hora.strftime('%m'))
+                    if anio == anio_actual and mes == mes_actual:
+                        partidos_suspendidos.append(s)
+                cant_partidos_suspendidos = len(partidos_suspendidos)
+                for nc in partidos_nc:
+                    anio = int(nc.fecha_hora.strftime('%Y'))
+                    mes = int(nc.fecha_hora.strftime('%m'))
+                    if anio == anio_actual and mes == mes_actual:
+                        partidos_noconfirmados.append(nc)
+                cant_partidos_noconfirmados = len(partidos_noconfirmados)
+                resultado.append([d,cant_partidos_totales, cant_partidos_jugados, cant_partidos_suspendidos, cant_partidos_noconfirmados])
+            resultado.sort(key = lambda resultado: resultado[2], reverse=True)
             return render(request, 'partidos/reporte_partidos_deportes.html', {'form': form, 'resultado': resultado})
     else:
         form = ReporteMesAnio()
@@ -235,17 +261,91 @@ def reporte_partidos_canchas(request):
             canchas = Cancha.objects.all()
             resultado = []
             for c in canchas:
-                partidos_res = []
+                partidos_jugados = []
+                partidos_totales = []
+                partidos_suspendidos = []
+                partidos_noconfirmados = []
                 #partidos = Partido.objects.filter(cancha__cancha=c, fecha_hora__year=anio_actual, fecha_hora__month=mes_actual)
-                partidos = Partido.objects.filter(cancha__cancha=c, confirmado=1, suspendido=0)
-                for p in partidos:
-                    anio = int(p.fecha_hora.strftime('%Y'))
-                    mes = int(p.fecha_hora.strftime('%m'))
+                partidos_j = Partido.objects.filter(cancha__cancha=c, confirmado=1, suspendido=0)
+                partidos_t = Partido.objects.filter(cancha__cancha=c)
+                partidos_s = Partido.objects.filter(cancha__cancha=c,confirmado=1, suspendido=1 )
+                partidos_nc = Partido.objects.filter(cancha__cancha=c, confirmado=0, suspendido=0)
+                for j in partidos_j:
+                    anio = int(j.fecha_hora.strftime('%Y'))
+                    mes = int(j.fecha_hora.strftime('%m'))
                     if anio == anio_actual and mes == mes_actual:
-                        partidos_res.append(p)
-                cant_partidos = len(partidos_res)
-                resultado.append([c,cant_partidos])
+                        partidos_jugados.append(j)
+                cant_partidos_jugados = len(partidos_jugados)
+                for t in partidos_t:
+                    anio = int(t.fecha_hora.strftime('%Y'))
+                    mes = int(t.fecha_hora.strftime('%m'))
+                    if anio == anio_actual and mes == mes_actual:
+                        partidos_totales.append(t)
+                cant_partidos_totales = len(partidos_totales)
+                for s in partidos_s:
+                    anio = int(s.fecha_hora.strftime('%Y'))
+                    mes = int(s.fecha_hora.strftime('%m'))
+                    if anio == anio_actual and mes == mes_actual:
+                        partidos_suspendidos.append(s)
+                cant_partidos_suspendidos = len(partidos_suspendidos)
+                for nc in partidos_nc:
+                    anio = int(nc.fecha_hora.strftime('%Y'))
+                    mes = int(nc.fecha_hora.strftime('%m'))
+                    if anio == anio_actual and mes == mes_actual:
+                        partidos_noconfirmados.append(nc)
+                cant_partidos_noconfirmados = len(partidos_noconfirmados)
+                resultado.append([c, cant_partidos_totales, cant_partidos_jugados, cant_partidos_suspendidos, cant_partidos_noconfirmados])
+            resultado.sort(key = lambda resultado: resultado[2], reverse=True)
             return render(request, 'partidos/reporte_partidos_canchas.html', {'form': form, 'resultado': resultado})
     else:
         form = ReporteMesAnio()
     return render(request, 'partidos/reporte_partidos_canchas.html', {'form': form})
+
+def reporte_partidos_tipos(request):
+    if request.method == "POST":
+        form = ReporteMesAnio(request.POST)
+        if form.is_valid():
+            mes_actual = int(form.cleaned_data["mes"])
+            anio_actual = int(form.cleaned_data["anio"])
+            tipos_partidos = Tipo_partido.objects.all()
+            resultado = []
+            for c in tipos_partidos:
+                partidos_jugados = []
+                partidos_totales = []
+                partidos_suspendidos = []
+                partidos_noconfirmados = []
+                #partidos = Partido.objects.filter(cancha__cancha=c, fecha_hora__year=anio_actual, fecha_hora__month=mes_actual)
+                partidos_j = Partido.objects.filter(tipo_partido=c, confirmado=1, suspendido=0)
+                partidos_t = Partido.objects.filter(tipo_partido=c)
+                partidos_s = Partido.objects.filter(tipo_partido=c,confirmado=1, suspendido=1 )
+                partidos_nc = Partido.objects.filter(tipo_partido=c, confirmado=0, suspendido=0)
+                for j in partidos_j:
+                    anio = int(j.fecha_hora.strftime('%Y'))
+                    mes = int(j.fecha_hora.strftime('%m'))
+                    if anio == anio_actual and mes == mes_actual:
+                        partidos_jugados.append(j)
+                cant_partidos_jugados = len(partidos_jugados)
+                for t in partidos_t:
+                    anio = int(t.fecha_hora.strftime('%Y'))
+                    mes = int(t.fecha_hora.strftime('%m'))
+                    if anio == anio_actual and mes == mes_actual:
+                        partidos_totales.append(t)
+                cant_partidos_totales = len(partidos_totales)
+                for s in partidos_s:
+                    anio = int(s.fecha_hora.strftime('%Y'))
+                    mes = int(s.fecha_hora.strftime('%m'))
+                    if anio == anio_actual and mes == mes_actual:
+                        partidos_suspendidos.append(s)
+                cant_partidos_suspendidos = len(partidos_suspendidos)
+                for nc in partidos_nc:
+                    anio = int(nc.fecha_hora.strftime('%Y'))
+                    mes = int(nc.fecha_hora.strftime('%m'))
+                    if anio == anio_actual and mes == mes_actual:
+                        partidos_noconfirmados.append(nc)
+                cant_partidos_noconfirmados = len(partidos_noconfirmados)
+                resultado.append([c, cant_partidos_totales, cant_partidos_jugados, cant_partidos_suspendidos, cant_partidos_noconfirmados])
+            resultado.sort(key = lambda resultado: resultado[2], reverse=True)
+            return render(request, 'partidos/reporte_partidos_tipos.html', {'form': form, 'resultado': resultado})
+    else:
+        form = ReporteMesAnio()
+    return render(request, 'partidos/reporte_partidos_tipos.html', {'form': form})

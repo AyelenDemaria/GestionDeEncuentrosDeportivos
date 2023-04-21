@@ -26,7 +26,10 @@
 
       <tr>
         <th>Cancha</th>
-        <th>Cantidad de partidos</th>
+        <th>Cantidad de partidos generados</th>
+        <th>Cantidad de partidos jugados</th>
+        <th>Cantidad de partidos suspendidos</th>
+        <th>Cantidad de partidos marcados no jugados</th>
       </tr>
       </thead>
       <tbody>
@@ -35,6 +38,9 @@
             <tr>
               <td align="center">{{ r.0.nombre }}</td>
               <td align="center">{{ r.1 }}</td>
+              <td align="center">{{ r.2 }}</td>
+              <td align="center">{{ r.3 }}</td>
+              <td align="center">{{ r.4}}</td>
 
             </tr>
           {% endfor %}
