@@ -11,7 +11,7 @@ class CanchaAdmin(admin.ModelAdmin):
 
 class CanchaPrecioAdmin(admin.ModelAdmin):
     list_display = ('id', 'cancha', 'fecha', 'abono_mensual','valor_uso','valor_referi')
-    search_fields = ('cancha',)
+    search_fields = ('cancha__nombre',)
 
 admin.site.register(Cancha, CanchaAdmin)
 admin.site.register(CanchaPrecio, CanchaPrecioAdmin)

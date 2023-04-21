@@ -67,56 +67,85 @@ def reporte_ingresos(request):
         if form.is_valid():
             mes_actual = int(form.cleaned_data["mes"])
             anio_actual = int(form.cleaned_data["anio"])
-
         canchas = Cancha.objects.all()
         total_abono = 0
         for c in canchas:
-            #ultimo_abono = CanchaPrecio.objects.filter(cancha=c, fecha__year__lte=anio_actual, fecha__month__lte=mes_actual).latest('fecha')
-            #total_abono += ultimo_abono.abono_mensual
-            total_abono += c.abono_mensual
+            ultimo_abono = CanchaPrecio.objects.filter(cancha=c, fecha__year__lte=anio_actual, fecha__month__lte=mes_actual).latest('fecha')
+            total_abono += ultimo_abono.abono_mensual
+            #total_abono += c.abono_mensual
         vouchers_all = Voucher.objects.all()
-        vouchers = []
+        vouchers_emitidos = []
+        vouchers_canjeados = []
         if vouchers_all:
-            total_voucher = 0
+            total_vouchers_emitidos = 0
+            total_vouchers_canjeados = 0
             for v in vouchers_all:
                 mes_voucher = int(v.fecha_emision.strftime('%m'))
                 #mes_voucher = v.fecha_emision.month
                 if mes_actual == mes_voucher:
-                    vouchers.append(v)
-            if vouchers:
-                for j in vouchers:
+                    vouchers_emitidos.append(v)
+                if v.fecha_canje is not None:
+                    mes_canjeo = int(v.fecha_canje.strftime('%m'))
+                    if mes_actual == mes_canjeo:
+                        vouchers_canjeados.append(v)
+            if vouchers_emitidos:
+                for j in vouchers_emitidos:
                     subtotal = j.cancha.valor_uso + j.cancha.valor_referi
-                    total_voucher += subtotal
+                    total_vouchers_emitidos += subtotal
             else:
-                total_voucher = 0
+                total_vouchers_emitidos = 0
+            if vouchers_canjeados:
+                for v in vouchers_canjeados:
+                    subtotal = v.cancha.valor_uso + v.cancha.valor_referi
+                    total_vouchers_canjeados += subtotal
+            else:
+                total_vouchers_canjeados = 0
         else:
-            total_voucher = 0
+            total_voucher_emitidos = 0
+            total_vouchers_canjeados = 0
         resultado =  []
         for i in canchas:
-            #ultimo_abono_i = CanchaPrecio.objects.filter(cancha=i, fecha__year__lte=anio_actual, fecha__month__lte=mes_actual).latest('fecha')
-            #abono_mensual_i = ultimo_abono_i.abono_mensual
-            vouchers_cancha = Voucher.objects.filter(cancha_id=i.id)
+            ultimo_abono_i = CanchaPrecio.objects.filter(cancha=i, fecha__year__lte=anio_actual, fecha__month__lte=mes_actual).latest('fecha')
+            print("-----------------ultimo abono:",ultimo_abono_i,i.nombre)
+            abono_mensual_i = ultimo_abono_i.abono_mensual
+            vouchers_cancha = Voucher.objects.filter(cancha__cancha=i)
             if vouchers_cancha:
-                total_vouchers = []
+                total_vouchers_cancha = 0
+                total_vouchers_canj = 0
+                vouchers_emitidos = []
+                vouchers_canjeados = []
                 for j in vouchers_cancha:
                     mes_voucher = int(j.fecha_emision.strftime('%m'))
                     if mes_actual == mes_voucher:
-                        #print("------voucher: ",j)
-                        total_vouchers.append(j)
-                if total_vouchers:
-                    cant_vouchers =  len(total_vouchers)
-                    print("---vouchers: ",total_vouchers)
-                    print("--total_vouchers: ",cant_vouchers)
-                    total_vouchers_cancha = cant_vouchers * (i.valor_uso + i.valor_referi)
+                        vouchers_emitidos.append(j)
+                    if j.fecha_canje is not None:
+                        mes_canjeo = int(j.fecha_canje.strftime('%m'))
+                        if mes_actual == mes_canjeo:
+                            vouchers_canjeados.append(j)
+                if vouchers_emitidos:
+                    for v in vouchers_emitidos:
+                        subtotal = v.cancha.valor_uso + v.cancha.valor_referi
+                        total_vouchers_cancha += subtotal
+                    cant_vouchers =  len(vouchers_emitidos)
                 else:
                     cant_vouchers = 0
                     total_vouchers_cancha = 0
+                if vouchers_canjeados:
+                    for v in vouchers_canjeados:
+                        subtotal = v.cancha.valor_uso + v.cancha.valor_referi
+                        total_vouchers_canj += subtotal
+                    cant_vouchers_canjeados =  len(vouchers_canjeados)
+                else:
+                    cant_vouchers_canjeados = 0
+                    total_vouchers_canj = 0
             else:
                 cant_vouchers = 0
                 total_vouchers_cancha = 0
-            ganancia = total_abono - total_voucher
-            resultado.append([i,i.abono_mensual,i.valor_uso,i.valor_referi,cant_vouchers,total_vouchers_cancha])
-        return render(request, 'canchas/reporte_ingresos.html', {'form': form, 'resultado': resultado, 'total_abono': total_abono, 'total_voucher': total_voucher, "mes_actual": meses[mes_actual-1], 'anio_actual': anio_actual, 'ganancia' : ganancia})
+                cant_vouchers_canjeados = 0
+                total_vouchers_canj = 0
+            ganancia = total_abono - total_vouchers_canjeados
+            resultado.append([i,abono_mensual_i,cant_vouchers,total_vouchers_cancha,cant_vouchers_canjeados,total_vouchers_canj])
+        return render(request, 'canchas/reporte_ingresos.html', {'form': form, 'resultado': resultado, 'total_abono': total_abono, 'total_vouchers_emitidos': total_vouchers_emitidos,"total_vouchers_canjeados": total_vouchers_canjeados, 'ganancia' : ganancia})
     else:
         form = ReporteMesAnio()
     return render(request, 'canchas/reporte_ingresos.html', {'form': form})

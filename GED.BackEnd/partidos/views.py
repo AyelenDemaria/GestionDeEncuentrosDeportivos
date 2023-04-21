@@ -210,9 +210,16 @@ def reporte_partidos_deportes(request):
             deportes = Deporte.objects.all()
             resultado = []
             for d in deportes:
-                partidos = Partido.objects.filter(cancha__deporte=d, fecha_hora__date__year=anio_actual, fecha_hora__date__month=mes_actual)
-                print("---partidos:",partidos)
-                cant_partidos = len(partidos)
+                #partidos = Partido.objects.filter(cancha__deporte=d, fecha_hora__date__year=anio_actual, fecha_hora__date__month=mes_actual)
+                partidos_res = []
+                #partidos = Partido.objects.filter(cancha__cancha=c, fecha_hora__year=anio_actual, fecha_hora__month=mes_actual)
+                partidos = Partido.objects.filter(cancha__cancha__deporte=d, confirmado=1, suspendido=0)
+                for p in partidos:
+                    anio = int(p.fecha_hora.strftime('%Y'))
+                    mes = int(p.fecha_hora.strftime('%m'))
+                    if anio == anio_actual and mes == mes_actual:
+                        partidos_res.append(p)
+                cant_partidos = len(partidos_res)
                 resultado.append([d,cant_partidos])
             return render(request, 'partidos/reporte_partidos_deportes.html', {'form': form, 'resultado': resultado})
     else:
@@ -228,9 +235,15 @@ def reporte_partidos_canchas(request):
             canchas = Cancha.objects.all()
             resultado = []
             for c in canchas:
-                partidos = Partido.objects.filter(cancha=c, fecha_hora__date__year=anio_actual, fecha_hora__date__month=mes_actual)
-                print("---partidos:",partidos)
-                cant_partidos = len(partidos)
+                partidos_res = []
+                #partidos = Partido.objects.filter(cancha__cancha=c, fecha_hora__year=anio_actual, fecha_hora__month=mes_actual)
+                partidos = Partido.objects.filter(cancha__cancha=c, confirmado=1, suspendido=0)
+                for p in partidos:
+                    anio = int(p.fecha_hora.strftime('%Y'))
+                    mes = int(p.fecha_hora.strftime('%m'))
+                    if anio == anio_actual and mes == mes_actual:
+                        partidos_res.append(p)
+                cant_partidos = len(partidos_res)
                 resultado.append([c,cant_partidos])
             return render(request, 'partidos/reporte_partidos_canchas.html', {'form': form, 'resultado': resultado})
     else:

@@ -27,10 +27,10 @@
       <tr>
         <th>Cancha</th>
         <th>Abono mensual</th>
-        <th>Valor uso</th>
-        <th>Valor referi</th>
-        <th>Cantidad de vouchers</th>
-        <th>Valor en vouchers</th>
+        <th>Cantidad de vouchers Emitidos</th>
+        <th>Valor en vouchers Emitidos</th>
+        <th>Cantidad de vouchers Canjeados</th>
+        <th>Valor en vouchers Canjeados</th>
       </tr>
       </thead>
       <tbody>
@@ -39,10 +39,10 @@
             <tr>
               <td align="center">{{ r.0.nombre }}</td>
               <td align="center" style="background-color: green">{{ r.1 }}</td>
-              <td align="center"> {{ r.2 }}</td>
-              <td align="center"> {{ r.3 }}</td>
-              <td align="center"> {{ r.4 }}</td>
-              <td align="center"  style="background-color: red"> {{ r.5 }}</td>
+              <td align="center">{{ r.2 }}</td>
+              <td align="center">{{ r.3 }}</td>
+              <td align="center">{{ r.4 }}</td>
+              <td align="center" style="background-color: red">{{ r.5 }}</td>
             </tr>
           {% endfor %}
           <tfoot>
@@ -51,9 +51,9 @@
 
               <td align=center>{{ total_abono }}</td>
               <td></td>
+              <td align=center>{{ total_vouchers_emitidos }}</td>
               <td></td>
-              <td></td>
-              <td align=center>{{ total_voucher }}</td>
+              <td align=center>{{ total_vouchers_canjeados}}</td>
             </tr>
             <tr>
               <th scope="row">Ganancia</th>
