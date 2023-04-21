@@ -43,12 +43,13 @@ export class VoucherComponent {
     }
     this.VoucherService.usarVoucher(body).subscribe(
       (data) => {
-        this.mensajeExito()
+        console.log(data)
+        const codigo = data.codigo; 
+        this.mensajeExito(codigo)
         this.router.navigate(['/misVoucher'])
         this.router.navigateByUrl('/misVoucher', { skipLocationChange: true }).then(() => {
           this.router.navigate(['/misVoucher']);
-        });
-        //console.log(data);
+        });       
       },
       (error) => {
         console.log(error)
@@ -56,13 +57,18 @@ export class VoucherComponent {
     );        
   }
 
-  async mensajeExito() {
-    const alert = await this.alertController.create({
-      header: 'Voucher usado con éxito!',      
-      buttons: ['OK'],
-    });
-    await alert.present();
+
+
+    async mensajeExito(codigo:number) {
+      const alert = await this.alertController.create({
+        subHeader: `${codigo}`,
+        message: 'Este es tu código de uso, debes mostrarlo en la cancha.',   
+     
+        buttons: ['OK'],
+      });
+      await alert.present();
   }
+
 
   cancelar(){
    this.router.navigateByUrl('/misVoucher', { replaceUrl: true });
