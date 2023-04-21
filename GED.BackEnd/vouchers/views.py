@@ -13,6 +13,7 @@ from .serializers import VoucherSerializer,VoucherGetSerializer
 from django.utils import timezone
 from datetime import datetime
 from datetime import timedelta
+from django.shortcuts import get_object_or_404
 import random
 
 class  VoucherListApiView(APIView):
@@ -75,6 +76,7 @@ class  VoucherListApiView(APIView):
         #pk = self.kwargs.get('pk') #obtengo la pk de la url que es la inscripcion
         pk = int(request.data["voucher_id"])
         voucher = Voucher.objects.get(id = pk)
+        cod = CodigoRandom()
         if not voucher:
             return Response(
                 {"res": "Object with todo id does not exists"},
@@ -82,7 +84,7 @@ class  VoucherListApiView(APIView):
             )
         data = {
             'fecha_canje': timezone.localtime(timezone.now()).date(),
-            'codigo': random.randrange(1, 99999)
+            'codigo': cod
         }
         serializer = VoucherSerializer(instance = voucher, data=data, partial = True)
         if serializer.is_valid():
@@ -105,3 +107,11 @@ class VoucherByIDApiView(APIView):
         voucher = Voucher.objects.get(id=pk)
         serializer = VoucherGetSerializer(voucher, many=False)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+def CodigoRandom():
+    cod = random.randrange(1, 99999)
+    cod_repetido = Voucher.objects.filter(codigo=cod)
+    if cod_repetido:
+        CodigoRandom()
+    else:
+        return cod
