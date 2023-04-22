@@ -28,3 +28,16 @@ class ReporteMesAnio(forms.Form):
 
     anio = forms.ChoiceField(label="Seleccione año", choices=year_selection)
     mes = forms.ChoiceField(label="Seleccione mes", choices=months_selection)
+
+
+class ReporteAnio(forms.Form):
+    y = int(date.today().year)
+    y1 = y - 1
+    y2 = y - 2
+    year_selection = (
+        (y, y),
+        (y1, y1),
+        (y2, y2),
+    )
+
+    anio = forms.ChoiceField(label="Seleccione año", choices=year_selection)

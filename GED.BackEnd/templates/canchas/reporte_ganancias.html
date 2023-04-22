@@ -4,13 +4,13 @@
 
 {% load bootstrap5 %}
 
-{% block title %}Reporte de partidos por deporte{% endblock %}
+{% block title %}Reporte de ganancias {% endblock %}
 
 {% block content %}
 <div id="wrapper" class="fade-in">
   <!-- Main -->
   <div id="main">
-  <h1>Reporte de partidos por deporte</h1>
+  <h1>Reporte de ganancias</h1>
 
   <form method="POST">
       {% csrf_token %}
@@ -25,26 +25,33 @@
    <thead align="center">
 
       <tr>
-        <th>Deporte</th>
-        <th>Cantidad de partidos generados</th>
-        <th>Cantidad de partidos jugados</th>
-        <th>Cantidad de partidos suspendidos</th>
-        <th>Cantidad de partidos marcados no jugados</th>
+        <th>Mes</th>
+        <th>Ingreso en abonos</th>
+        <th>Egreso en vouchers</th>
+        <th>Ganancia</th>
       </tr>
       </thead>
       <tbody>
       <section class="post">
           {% for r in resultado %}
             <tr>
-              <td align="center">{{ r.0.descripcion }}</td>
+              <td align="center">{{ r.0 }}</td>
               <td align="center">{{ r.1 }}</td>
               <td align="center">{{ r.2 }}</td>
-              <td align="center">{{ r.3 }}</td>
-              <td align="center">{{ r.4 }}</td>
-
+              <td align="center" style="background-color: green">{{ r.3 }}</td>
             </tr>
           {% endfor %}
+          <tfoot>
+            <tr>
+              <th scope="row">Ganancia total: </th>
 
+              <td></td>
+              <td></td>
+              <td align=center>{{ ganancia_total}}</td>
+
+            </tr>
+
+          </tfoot>
 
       </section>
     </tbody>

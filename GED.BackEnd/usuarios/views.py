@@ -21,6 +21,7 @@ from django.utils import timezone
 from django.shortcuts import get_object_or_404
 from django.db.models import Q
 from django.contrib.auth.hashers import make_password
+from canchas.forms import ReporteMesAnio
 
 
 class PerfilListApiView(APIView):
@@ -206,6 +207,7 @@ class PuntosUsertApiView(APIView):
 
 
 def reporte_usuarios(request):
+
     usuarios = Perfil.objects.all()
     resultado = []
     for k in usuarios:
@@ -249,8 +251,45 @@ def reporte_usuarios(request):
             cant_no_jugados = no_jugados.count()
         else:
             cant_no_jugados = 0
-        vouchers = Voucher.objects.filter(jugador_id = k.id)
-        cant_vouchers = vouchers.count()
-        resultado.append([k,k.puntos_acum,cant_partidos_creados, cant_unidos,cant_jugados,cant_no_jugados,cant_vouchers])
+
+        resultado.append([k,k.puntos_acum,cant_partidos_creados, cant_unidos,cant_jugados,cant_no_jugados])
     resultado.sort(key = lambda resultado: resultado[1], reverse=True)
     return render(request, 'usuarios/reporte_usuarios.html', {'resultado': resultado})
+
+
+def reporte_vouchers(request):
+    if request.method == "POST":
+        form = ReporteMesAnio(request.POST)
+        if form.is_valid():
+            mes_actual = int(form.cleaned_data["mes"])
+            anio_actual = int(form.cleaned_data["anio"])
+        usuarios = Perfil.objects.all()
+        resultado = []
+        for i in usuarios:
+            total_vouchers_emitidos = 0
+            cant_vouchers_emitidos = 0
+            total_vouchers_canjeados = 0
+            cant_vouchers_canjeados = 0
+            vouchers_emitidos = Voucher.objects.filter(jugador_id = i.id)
+            vouchers_canjeados = Voucher.objects.filter(jugador_id = i.id,fecha_canje__isnull=False)
+            if vouchers_emitidos:
+                for ve in vouchers_emitidos:
+                    mes_voucher = int(ve.fecha_emision.strftime('%m'))
+                    anio_voucher = int(ve.fecha_emision.strftime('%Y'))
+                    if mes_voucher == mes_actual and anio_voucher == anio_actual:
+                        subtotal = ve.cancha.valor_uso + ve.cancha.valor_referi
+                        total_vouchers_emitidos += subtotal
+                        cant_vouchers_emitidos += 1
+            if vouchers_canjeados:
+                for vc in vouchers_canjeados:
+                    mes_canjeo = int(vc.fecha_canje.strftime('%m'))
+                    anio_canjeo = int(vc.fecha_canje.strftime('%Y'))
+                    if mes_canjeo == mes_actual and anio_canjeo== anio_actual:
+                        subtotal = vc.cancha.valor_uso + vc.cancha.valor_referi
+                        total_vouchers_canjeados += subtotal
+                        cant_vouchers_canjeados += 1
+            resultado.append([i,total_vouchers_emitidos,cant_vouchers_emitidos,total_vouchers_canjeados,cant_vouchers_canjeados])
+        return render(request, 'usuarios/reporte_vouchers.html', {'form': form, 'resultado': resultado})
+    else:
+        form = ReporteMesAnio()
+    return render(request, 'usuarios/reporte_vouchers.html', {'form': form})

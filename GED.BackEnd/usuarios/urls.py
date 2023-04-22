@@ -8,6 +8,7 @@ from .views import (
     UserLoginApiView,
     PuntosUsertApiView,
     reporte_usuarios,
+    reporte_vouchers,
     UserLogoutApiView,
     CambioClaveAPIVIew,
 
@@ -24,6 +25,7 @@ urlpatterns = [
     path('api/reporteUsuario/', ReporteByUserApiView.as_view()),
     path('api/puntosUsuario/', PuntosUsertApiView.as_view()),
     path('usuarios/', reporte_usuarios, name='reporte_usuarios'),
+    path('usuarios/', reporte_vouchers, name='reporte_vouchers'),
     path('api/cambiarClave/', CambioClaveAPIVIew.as_view()),
 
     #path('login/', include(router.urls))

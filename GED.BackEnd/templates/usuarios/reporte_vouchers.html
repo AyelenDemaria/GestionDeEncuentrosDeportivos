@@ -4,24 +4,32 @@
 
 {% load bootstrap5 %}
 
-{% block title %}Reporte de partidos por usuario{% endblock %}
+{% block title %}Reporte de vouchers por usuario{% endblock %}
 
 {% block content %}
 <div id="wrapper" class="fade-in">
   <!-- Main -->
   <div id="main">
-  <h1>Reporte de partidos por usuario</h1>
+  <h1>Reporte de vouchers por usuario</h1>
+
+  <form method="POST">
+      {% csrf_token %}
+      <table>
+          {{ form.as_table }}
+      </table>
+      <button type="submit" class="btn btn-primary ">Buscar</button>
+  </form>
+  <br>
 
   <table class="table table-striped">
    <thead align="center">
 
       <tr>
-        <th>DNI Usuario</th>
-        <th>Puntos</th>
-        <th>Partidos creados</th>
-        <th>Partidos a los que se unio</th>
-        <th>Partidos jugados</th>
-        <th>Partidos en los que se dio de baja</th>
+        <th>Usuario</th>
+        <th>Cantidad vouchers Emitidos</th>
+        <th>Valor en vouchers Emitidos</th>
+        <th>Cantidad de vouchers Canjeados</th>
+        <th>Valor en vouchers Canjeados</th>
       </tr>
       </thead>
       <tbody>
@@ -29,12 +37,10 @@
           {% for r in resultado %}
             <tr>
               <td align="center">{{ r.0.documento }}</td>
+              <td align="center" >{{ r.2 }}</td>
               <td align="center">{{ r.1 }}</td>
-              <td align="center"> {{ r.2 }}</td>
-              <td align="center"> {{ r.3 }}</td>
-              <td align="center" style="background-color: green"> {{ r.4 }}</td>
-              <td align="center" style="background-color: red"> {{ r.5 }}</td>
-
+              <td align="center">{{ r.4 }}</td>
+              <td align="center">{{ r.3 }}</td>
             </tr>
           {% endfor %}
 

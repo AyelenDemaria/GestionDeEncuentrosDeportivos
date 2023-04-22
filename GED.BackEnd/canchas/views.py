@@ -11,7 +11,7 @@ from vouchers.models import Voucher
 from .serializers import CanchaSerializer, CanchaGetSerializer, CanchaPrecioSerializer
 from django.utils import timezone
 from datetime import datetime
-from .forms import ReporteMesAnio
+from .forms import ReporteMesAnio, ReporteAnio
 
 meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
 
@@ -70,8 +70,12 @@ def reporte_ingresos(request):
         canchas = Cancha.objects.all()
         total_abono = 0
         for c in canchas:
-            ultimo_abono = CanchaPrecio.objects.filter(cancha=c, fecha__year__lte=anio_actual, fecha__month__lte=mes_actual).latest('fecha')
-            total_abono += ultimo_abono.abono_mensual
+            try:
+                ultimo_abono = CanchaPrecio.objects.filter(cancha=c, fecha__year__lte=anio_actual, fecha__month__lte=mes_actual).latest('fecha')
+            except CanchaPrecio.DoesNotExist:
+                ultimo_abono = None
+            if ultimo_abono is not None:
+                total_abono += ultimo_abono.abono_mensual
             #total_abono += c.abono_mensual
         vouchers_all = Voucher.objects.all()
         vouchers_emitidos = []
@@ -81,12 +85,14 @@ def reporte_ingresos(request):
             total_vouchers_canjeados = 0
             for v in vouchers_all:
                 mes_voucher = int(v.fecha_emision.strftime('%m'))
+                anio_voucher = int(v.fecha_emision.strftime('%Y'))
                 #mes_voucher = v.fecha_emision.month
-                if mes_actual == mes_voucher:
+                if mes_actual == mes_voucher and anio_voucher == anio_actual:
                     vouchers_emitidos.append(v)
                 if v.fecha_canje is not None:
                     mes_canjeo = int(v.fecha_canje.strftime('%m'))
-                    if mes_actual == mes_canjeo:
+                    anio_canjeo = int(v.fecha_canje.strftime('%Y'))
+                    if mes_actual == mes_canjeo and anio_canjeo == anio_actual:
                         vouchers_canjeados.append(v)
             if vouchers_emitidos:
                 for j in vouchers_emitidos:
@@ -105,9 +111,13 @@ def reporte_ingresos(request):
             total_vouchers_canjeados = 0
         resultado =  []
         for i in canchas:
-            ultimo_abono_i = CanchaPrecio.objects.filter(cancha=i, fecha__year__lte=anio_actual, fecha__month__lte=mes_actual).latest('fecha')
-            print("-----------------ultimo abono:",ultimo_abono_i,i.nombre)
-            abono_mensual_i = ultimo_abono_i.abono_mensual
+            abono_mensual_i = 0
+            try:
+                ultimo_abono_i = CanchaPrecio.objects.filter(cancha=i, fecha__year__lte=anio_actual, fecha__month__lte=mes_actual).latest('fecha')
+            except CanchaPrecio.DoesNotExist:
+                ultimo_abono_i = None
+            if ultimo_abono_i is not None:
+                abono_mensual_i = ultimo_abono_i.abono_mensual
             vouchers_cancha = Voucher.objects.filter(cancha__cancha=i)
             if vouchers_cancha:
                 total_vouchers_cancha = 0
@@ -116,11 +126,13 @@ def reporte_ingresos(request):
                 vouchers_canjeados = []
                 for j in vouchers_cancha:
                     mes_voucher = int(j.fecha_emision.strftime('%m'))
-                    if mes_actual == mes_voucher:
+                    anio_voucher = int(j.fecha_emision.strftime('%Y'))
+                    if mes_actual == mes_voucher  and anio_voucher == anio_actual:
                         vouchers_emitidos.append(j)
                     if j.fecha_canje is not None:
                         mes_canjeo = int(j.fecha_canje.strftime('%m'))
-                        if mes_actual == mes_canjeo:
+                        anio_canjeo = int(j.fecha_canje.strftime('%Y'))
+                        if mes_actual == mes_canjeo and anio_canjeo == anio_actual:
                             vouchers_canjeados.append(j)
                 if vouchers_emitidos:
                     for v in vouchers_emitidos:
@@ -149,3 +161,56 @@ def reporte_ingresos(request):
     else:
         form = ReporteMesAnio()
     return render(request, 'canchas/reporte_ingresos.html', {'form': form})
+
+def reporte_ganancias(request):
+    if request.method == "POST":
+        form = ReporteAnio(request.POST)
+        if form.is_valid():
+            #mes_actual = int(form.cleaned_data["mes"])
+            anio_actual = int(form.cleaned_data["anio"])
+        canchas = Cancha.objects.all()
+        vouchers_all = Voucher.objects.all()
+        ganancia_total = 0
+        resultado = []
+        fecha_hora_actual = timezone.localtime(timezone.now())
+        fecha_actual = fecha_hora_actual.date()
+        mes_actual = fecha_actual.strftime('%m')
+        anio_actual_2 = fecha_actual.strftime('%Y')
+        if int(anio_actual_2) == anio_actual:
+            fin = int(mes_actual) + 1
+        else:
+            fin = 13
+        for i in range(1,fin):
+            total_abono = 0
+            for c in canchas:
+                try:
+                    ultimo_abono = CanchaPrecio.objects.filter(cancha=c, fecha__year__lte=anio_actual, fecha__month__lte=i).latest('fecha')
+                except CanchaPrecio.DoesNotExist:
+                    ultimo_abono = None
+                if ultimo_abono is not None:
+                    total_abono += ultimo_abono.abono_mensual
+                #total_abono += c.abono_mensual
+            vouchers_canjeados = []
+            if vouchers_all:
+                total_vouchers_canjeados = 0
+                for v in vouchers_all:
+                    if v.fecha_canje is not None:
+                        mes_canjeo = int(v.fecha_canje.strftime('%m'))
+                        anio_canjeo = int(v.fecha_canje.strftime('%Y'))
+                        if i == mes_canjeo and anio_canjeo == anio_actual:
+                            vouchers_canjeados.append(v)
+                if vouchers_canjeados:
+                    for k in vouchers_canjeados:
+                        subtotal = k.cancha.valor_uso + k.cancha.valor_referi
+                        total_vouchers_canjeados += subtotal
+                else:
+                    total_vouchers_canjeados = 0
+            else:
+                total_vouchers_canjeados = 0
+            ganancia_mes = total_abono - total_vouchers_canjeados
+            ganancia_total += ganancia_mes
+            resultado.append([meses[i-1], total_abono, total_vouchers_canjeados, ganancia_mes])
+        return render(request, 'canchas/reporte_ganancias.html', {'form': form, 'resultado': resultado, 'ganancia_total': ganancia_total})
+    else:
+        form = ReporteAnio()
+    return render(request, 'canchas/reporte_ganancias.html', {'form': form})

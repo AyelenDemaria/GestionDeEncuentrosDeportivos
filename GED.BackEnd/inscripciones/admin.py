@@ -11,6 +11,7 @@ class InscripcionAdmin(admin.ModelAdmin):
         ('partido', RelatedDropdownFilter),
         ('jugador', RelatedDropdownFilter),
         ("fecha_hora_inscripcion", DateRangeFilterBuilder(title="Fecha de inscripcion")),
+        ("fecha_hora_baja", DateRangeFilterBuilder(title="Fecha de baja")),
     )
 
     #search_fields = ('partido','jugador')

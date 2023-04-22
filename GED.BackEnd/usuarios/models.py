@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.db import models
 from django.utils import timezone
+from django.contrib import admin
 from django.contrib.auth.models import User
 
 class Perfil(models.Model):
@@ -12,4 +13,7 @@ class Perfil(models.Model):
     puntos_acum = models.BigIntegerField()
 
     def __str__(self):
-        return str(self.documento) + " - " + str(self.user.first_name) + " " + str(self.user.last_name) + " - " + str(self.puntos_acum) 
+        return str(self.documento) + " - " + str(self.user.first_name) + " " + str(self.user.last_name) + " - " + str(self.puntos_acum)
+
+class PerfilAdmin(admin.ModelAdmin):
+    fields =  ['id', 'user' 'documento', 'telefono', 'fecha_nacimiento', 'sexo', 'puntos_acum']
