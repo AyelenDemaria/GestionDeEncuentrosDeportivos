@@ -212,7 +212,12 @@ def reporte_usuarios(request):
     resultado = []
     for k in usuarios:
         #partidos creados: busca los partidos donde creado_id sea el del usuario logueado
-        partidos_creados = Partido.objects.filter(creador_id = k.id)
+        inscripciones = Inscripcion.objects.filter(jugador_id = k.id)
+        if inscripciones:
+            cant_inscripciones = len(inscripciones)
+        else:
+            cant_inscripciones = 0
+        """partidos_creados = Partido.objects.filter(creador_id = k.id)
         if partidos_creados:
             cant_partidos_creados = partidos_creados.count()
         else:
@@ -226,10 +231,10 @@ def reporte_usuarios(request):
                 for i in inscripciones:
                     if not i.partido in partidos_creados:
                         part_no_creados.append(i.partido)
-                    """for j in partidos_creados:
-                        if i.partido_id != j.id:
-                            print(j.id)
-                            part_no_creados.append(j)"""
+                    #for j in partidos_creados:
+                        #if i.partido_id != j.id:
+                            #print(j.id)
+                            #part_no_creados.append(j)
                 if part_no_creados:
                     cant_unidos =  len(part_no_creados)
                 else:
@@ -237,7 +242,7 @@ def reporte_usuarios(request):
             else:
                 cant_unidos = inscripciones.count()
         else:
-            cant_unidos = 0
+            cant_unidos = 0"""
         #partidos jugados: busca inscripciones con fecha y hora de baja que NO esten en null en partidos ya pasados
         fecha_hora_actual =  timezone.localtime(timezone.now())
         jugados = Inscripcion.objects.filter(jugador_id = k.id, fecha_hora_baja__isnull=True, partido__fecha_hora__lt=fecha_hora_actual, partido__suspendido=False, partido__confirmado=True)
@@ -252,7 +257,7 @@ def reporte_usuarios(request):
         else:
             cant_no_jugados = 0
 
-        resultado.append([k,k.puntos_acum,cant_partidos_creados, cant_unidos,cant_jugados,cant_no_jugados])
+        resultado.append([k,k.puntos_acum,cant_inscripciones,cant_jugados,cant_no_jugados])
     resultado.sort(key = lambda resultado: resultado[1], reverse=True)
     return render(request, 'usuarios/reporte_usuarios.html', {'resultado': resultado})
 
