@@ -19,7 +19,7 @@ class Partido(models.Model):
 
 
     def __str__(self):
-        return str(self.fecha_hora) + ' - ' + str(self.cancha) + ' - ' + str(self.tipo_partido)
+        return str(self.fecha_hora) + ' - ' + str(self.cancha.cancha) + ' - ' + str(self.tipo_partido)
 
 class PartidoAdmin(admin.ModelAdmin):
     fields =  ['id', 'fecha_hora', 'cant_jugadores', 'tipo_partido', 'creador', 'cancha', 'suspendido', 'fecha_hora_suspendido','confirmado','fecha_hora_confirmado']

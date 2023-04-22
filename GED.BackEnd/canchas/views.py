@@ -156,8 +156,9 @@ def reporte_ingresos(request):
                 cant_vouchers_canjeados = 0
                 total_vouchers_canj = 0
             ganancia = total_abono - total_vouchers_canjeados
+            ganancia_posible = total_abono - total_vouchers_emitidos
             resultado.append([i,abono_mensual_i,cant_vouchers,total_vouchers_cancha,cant_vouchers_canjeados,total_vouchers_canj])
-        return render(request, 'canchas/reporte_ingresos.html', {'form': form, 'resultado': resultado, 'total_abono': total_abono, 'total_vouchers_emitidos': total_vouchers_emitidos,"total_vouchers_canjeados": total_vouchers_canjeados, 'ganancia' : ganancia})
+        return render(request, 'canchas/reporte_ingresos.html', {'form': form, 'resultado': resultado, 'total_abono': total_abono, 'total_vouchers_emitidos': total_vouchers_emitidos,"total_vouchers_canjeados": total_vouchers_canjeados, 'ganancia' : ganancia,'ganancia_posible': ganancia_posible})
     else:
         form = ReporteMesAnio()
     return render(request, 'canchas/reporte_ingresos.html', {'form': form})
