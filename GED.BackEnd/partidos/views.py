@@ -314,6 +314,10 @@ def reporte_partidos_tipos(request):
                 partidos_totales = []
                 partidos_suspendidos = []
                 partidos_noconfirmados = []
+                cant_partidos_jugados = 0
+                cant_partidos_suspendidos = 0
+                cant_partidos_totales = 0
+                cant_partidos_noconfirmados = 0
                 #partidos = Partido.objects.filter(cancha__cancha=c, fecha_hora__year=anio_actual, fecha_hora__month=mes_actual)
                 partidos_j = Partido.objects.filter(tipo_partido=c, confirmado=1, suspendido=0)
                 partidos_t = Partido.objects.filter(tipo_partido=c)
