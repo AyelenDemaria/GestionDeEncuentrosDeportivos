@@ -13,6 +13,7 @@ class VoucherAdmin(admin.ModelAdmin):
         ('jugador', RelatedDropdownFilter),
         ("fecha_canje", DateRangeFilterBuilder(title="Fecha de canje")),
         ("fecha_emision", DateRangeFilterBuilder(title="Fecha de emisión")),
+        ("fecha_canje", admin.EmptyFieldListFilter)
 
     )
 admin.site.register(Voucher, VoucherAdmin)
