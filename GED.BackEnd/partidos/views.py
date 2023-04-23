@@ -319,30 +319,42 @@ def reporte_partidos_tipos(request):
                 partidos_t = Partido.objects.filter(tipo_partido=c)
                 partidos_s = Partido.objects.filter(tipo_partido=c,confirmado=1, suspendido=1 )
                 partidos_nc = Partido.objects.filter(tipo_partido=c, confirmado=0, suspendido=0)
-                for j in partidos_j:
-                    anio = int(j.fecha_hora.strftime('%Y'))
-                    mes = int(j.fecha_hora.strftime('%m'))
-                    if anio == anio_actual and mes == mes_actual:
-                        partidos_jugados.append(j)
-                cant_partidos_jugados = len(partidos_jugados)
-                for t in partidos_t:
-                    anio = int(t.fecha_hora.strftime('%Y'))
-                    mes = int(t.fecha_hora.strftime('%m'))
-                    if anio == anio_actual and mes == mes_actual:
-                        partidos_totales.append(t)
-                cant_partidos_totales = len(partidos_totales)
-                for s in partidos_s:
-                    anio = int(s.fecha_hora.strftime('%Y'))
-                    mes = int(s.fecha_hora.strftime('%m'))
-                    if anio == anio_actual and mes == mes_actual:
-                        partidos_suspendidos.append(s)
-                cant_partidos_suspendidos = len(partidos_suspendidos)
-                for nc in partidos_nc:
-                    anio = int(nc.fecha_hora.strftime('%Y'))
-                    mes = int(nc.fecha_hora.strftime('%m'))
-                    if anio == anio_actual and mes == mes_actual:
-                        partidos_noconfirmados.append(nc)
-                cant_partidos_noconfirmados = len(partidos_noconfirmados)
+                if partidos_j:
+                    for j in partidos_j:
+                        anio = int(j.fecha_hora.strftime('%Y'))
+                        mes = int(j.fecha_hora.strftime('%m'))
+                        if anio == anio_actual and mes == mes_actual:
+                            partidos_jugados.append(j)
+                    cant_partidos_jugados = len(partidos_jugados)
+                else:
+                    cant_partidos_jugados = 0
+                if partidos_t:
+                    for t in partidos_t:
+                        anio = int(t.fecha_hora.strftime('%Y'))
+                        mes = int(t.fecha_hora.strftime('%m'))
+                        if anio == anio_actual and mes == mes_actual:
+                            partidos_totales.append(t)
+                    cant_partidos_totales = len(partidos_totales)
+                else:
+                    cant_partidos_totales = 0
+                if partidos_s:
+                    for s in partidos_s:
+                        anio = int(s.fecha_hora.strftime('%Y'))
+                        mes = int(s.fecha_hora.strftime('%m'))
+                        if anio == anio_actual and mes == mes_actual:
+                            partidos_suspendidos.append(s)
+                    cant_partidos_suspendidos = len(partidos_suspendidos)
+                else:
+                    cant_partidos_suspendidos = 0
+                if partidos_nc:
+                    for nc in partidos_nc:
+                        anio = int(nc.fecha_hora.strftime('%Y'))
+                        mes = int(nc.fecha_hora.strftime('%m'))
+                        if anio == anio_actual and mes == mes_actual:
+                            partidos_noconfirmados.append(nc)
+                    cant_partidos_noconfirmados = len(partidos_noconfirmados)
+                else:
+                    cant_partidos_noconfirmados = 0
                 resultado.append([c, cant_partidos_totales, cant_partidos_jugados, cant_partidos_suspendidos, cant_partidos_noconfirmados])
             resultado.sort(key = lambda resultado: resultado[2], reverse=True)
             return render(request, 'partidos/reporte_partidos_tipos.html', {'form': form, 'resultado': resultado})
