@@ -321,6 +321,7 @@ def reporte_partidos_tipos(request):
                 #partidos = Partido.objects.filter(cancha__cancha=c, fecha_hora__year=anio_actual, fecha_hora__month=mes_actual)
                 partidos_j = Partido.objects.filter(tipo_partido=c, confirmado=1, suspendido=0)
                 partidos_t = Partido.objects.filter(tipo_partido=c)
+                print("------ partidos",partidos_t)
                 partidos_s = Partido.objects.filter(tipo_partido=c,confirmado=1, suspendido=1 )
                 partidos_nc = Partido.objects.filter(tipo_partido=c, confirmado=0, suspendido=0)
                 if partidos_j:
