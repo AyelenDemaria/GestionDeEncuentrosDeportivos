@@ -23,7 +23,7 @@ class CanchaAdmin(admin.ModelAdmin):
 
 
 class CanchaPrecio(models.Model):
-    cancha = models.ForeignKey(Cancha, on_delete=models.CASCADE)
+    cancha = models.ForeignKey(Cancha, on_delete=models.DO_NOTHING)
     valor_uso = models.DecimalField(max_digits = 10, decimal_places = 2, default=1000.00)
     valor_referi = models.DecimalField(max_digits = 10, decimal_places = 2, default=0.00)
     abono_mensual = models.DecimalField(max_digits = 10, decimal_places = 2, default=1500.00)
