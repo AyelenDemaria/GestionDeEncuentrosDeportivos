@@ -25,11 +25,12 @@ class CanchaListApiView(APIView):
         Lista de todas las canchas
         '''
         #canchas = Cancha.objects.all().values()
-        canchas = Cancha.objects.all()
+        #canchas = Cancha.objects.all()
+        fecha_hora_actual = timezone.localtime(timezone.now())
+        fecha_actual = fecha_hora_actual.date()
+        canchas = Cancha.object.filter(fecha_ingreso__lte=fecha_actual,fecha_baja__isnull=True)
         if canchas:
             canchas_rta = []
-            fecha_hora_actual = timezone.localtime(timezone.now())
-            fecha_actual = fecha_hora_actual.date()
             for c in canchas:
                 cancha_precio = CanchaPrecio.objects.filter(cancha = c, fecha__lte=fecha_actual).latest('fecha')
                 canchas_rta.append(cancha_precio)
@@ -49,11 +50,11 @@ class CanchaByDeporteListApiView(APIView):
         print(request.GET.get('deporte_id'))
         #print("body:",request.body)
         pk = int(request.GET.get('deporte_id'))
-        canchas = Cancha.objects.filter(deporte_id=pk)
+        fecha_hora_actual = timezone.localtime(timezone.now())
+        fecha_actual = fecha_hora_actual.date()
+        canchas = Cancha.objects.filter(deporte_id=pk,fecha_ingreso__lte=fecha_actual,fecha_baja__isnull=True)
         if canchas:
             canchas_rta = []
-            fecha_hora_actual = timezone.localtime(timezone.now())
-            fecha_actual = fecha_hora_actual.date()
             for c in canchas:
                 cancha_precio = CanchaPrecio.objects.filter(cancha = c, fecha__lte=fecha_actual).latest('fecha')
                 canchas_rta.append(cancha_precio)
@@ -69,7 +70,19 @@ def reporte_ingresos(request):
             anio_actual = int(form.cleaned_data["anio"])
         canchas = Cancha.objects.all()
         total_abono = 0
-        for c in canchas:
+        canchas_vigentes = []
+        for cancha in canchas:
+            mes_ingreso = int(cancha.fecha_ingreso.strftime('%m'))
+            anio_ingreso = int(cancha.fecha_ingreso.strftime('%Y'))
+            if mes_ingreso <= mes_actual and anio_ingreso <= anio_actual:
+                if cancha.fecha_baja is not None:
+                    mes_baja = int(cancha.fecha_baja.strftime('%m'))
+                    anio_baja = int(cancha.fecha_baja.strftime('%Y'))
+                    if mes_actual < mes_baja and anio_actual <= anio_baja:
+                        canchas_vigentes.append(cancha)
+                else:
+                    canchas_vigentes.append(cancha)
+        for c in canchas_vigentes:
             try:
                 ultimo_abono = CanchaPrecio.objects.filter(cancha=c, fecha__year__lte=anio_actual, fecha__month__lte=mes_actual).latest('fecha')
             except CanchaPrecio.DoesNotExist:
@@ -110,7 +123,7 @@ def reporte_ingresos(request):
             total_voucher_emitidos = 0
             total_vouchers_canjeados = 0
         resultado =  []
-        for i in canchas:
+        for i in canchas_vigentes:
             abono_mensual_i = 0
             try:
                 ultimo_abono_i = CanchaPrecio.objects.filter(cancha=i, fecha__year__lte=anio_actual, fecha__month__lte=mes_actual).latest('fecha')
@@ -155,13 +168,14 @@ def reporte_ingresos(request):
                 total_vouchers_cancha = 0
                 cant_vouchers_canjeados = 0
                 total_vouchers_canj = 0
-            ganancia = total_abono - total_vouchers_canjeados
-            ganancia_posible = total_abono - total_vouchers_emitidos
             resultado.append([i,abono_mensual_i,cant_vouchers,total_vouchers_cancha,cant_vouchers_canjeados,total_vouchers_canj])
+        ganancia = total_abono - total_vouchers_canjeados
+        ganancia_posible = total_abono - total_vouchers_emitidos
         return render(request, 'canchas/reporte_ingresos.html', {'form': form, 'resultado': resultado, 'total_abono': total_abono, 'total_vouchers_emitidos': total_vouchers_emitidos,"total_vouchers_canjeados": total_vouchers_canjeados, 'ganancia' : ganancia,'ganancia_posible': ganancia_posible})
     else:
         form = ReporteMesAnio()
     return render(request, 'canchas/reporte_ingresos.html', {'form': form})
+
 
 def reporte_ganancias(request):
     if request.method == "POST":
@@ -183,7 +197,19 @@ def reporte_ganancias(request):
             fin = 13
         for i in range(1,fin):
             total_abono = 0
-            for c in canchas:
+            canchas_vigentes = []
+            for cancha in canchas:
+                mes_ingreso = int(cancha.fecha_ingreso.strftime('%m'))
+                anio_ingreso = int(cancha.fecha_ingreso.strftime('%Y'))
+                if mes_ingreso <= i and anio_ingreso <= anio_actual:
+                    if cancha.fecha_baja is not None:
+                        mes_baja = int(cancha.fecha_baja.strftime('%m'))
+                        anio_baja = int(cancha.fecha_baja.strftime('%Y'))
+                        if i < mes_baja and anio_actual <= anio_baja:
+                            canchas_vigentes.append(cancha)
+                    else:
+                        canchas_vigentes.append(cancha)
+            for c in canchas_vigentes:
                 try:
                     ultimo_abono = CanchaPrecio.objects.filter(cancha=c, fecha__year__lte=anio_actual, fecha__month__lte=i).latest('fecha')
                 except CanchaPrecio.DoesNotExist:

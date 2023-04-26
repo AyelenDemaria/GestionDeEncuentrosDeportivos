@@ -2,18 +2,25 @@ from django.db import models
 from django.conf import settings
 from deportes.models import Deporte
 from django.contrib import admin
+from datetime import date
 
 # Create your models here.
 class Cancha(models.Model):
     nombre = models.CharField(max_length=100)
     direccion = models.CharField(max_length=100)
     deporte = models.ForeignKey(Deporte, on_delete=models.CASCADE)
+    fecha_ingreso = models.DateField(null=True, default=date.today)
+    fecha_baja = models.DateField(null=True,blank=True)
 
     def __str__(self):
         return self.nombre + ' / ' + self.direccion + ' / Deporte: ' + self.deporte.descripcion
 
+    def delete(self, *args, **kwargs):
+        super().delete(*args, **kwargs)
+
 class CanchaAdmin(admin.ModelAdmin):
     fields =  ['id', 'nombre', 'direccion', 'deporte']
+
 
 class CanchaPrecio(models.Model):
     cancha = models.ForeignKey(Cancha, on_delete=models.CASCADE)

@@ -260,7 +260,19 @@ def reporte_partidos_canchas(request):
             anio_actual = int(form.cleaned_data["anio"])
             canchas = Cancha.objects.all()
             resultado = []
-            for c in canchas:
+            canchas_vigentes = []
+            for cancha in canchas:
+                mes_ingreso = int(cancha.fecha_ingreso.strftime('%m'))
+                anio_ingreso = int(cancha.fecha_ingreso.strftime('%Y'))
+                if mes_ingreso <= mes_actual and anio_ingreso <= anio_actual:
+                    if cancha.fecha_baja is not None:
+                        mes_baja = int(cancha.fecha_baja.strftime('%m'))
+                        anio_baja = int(cancha.fecha_baja.strftime('%Y'))
+                        if mes_actual < mes_baja and anio_actual <= anio_baja:
+                            canchas_vigentes.append(cancha)
+                    else:
+                        canchas_vigentes.append(cancha)
+            for c in canchas_vigentes:
                 partidos_jugados = []
                 partidos_totales = []
                 partidos_suspendidos = []
