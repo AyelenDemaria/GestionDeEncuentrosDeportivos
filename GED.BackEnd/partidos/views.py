@@ -66,11 +66,45 @@ class PartidoListApiView(APIView):
         fecha_hora_actual = timezone.localtime(timezone.now())
         fecha_actual = fecha_hora_actual.date()
         cancha_precio = CanchaPrecio.objects.filter(cancha = cancha_r, fecha__lte=fecha_actual).latest('fecha')
-        partido_existente = Partido.objects.filter(fecha_hora=request.data.get('fecha_hora'),
+        """partido_existente = Partido.objects.filter(fecha_hora=request.data.get('fecha_hora'),
+                                            cancha__cancha=cancha_r,suspendido=False)"""
+        partidos_existentes = Partido.objects.filter(fecha_hora__gte=fecha_hora_actual,
                                             cancha__cancha=cancha_r,suspendido=False)
+        partido_existente = []
+        if partidos_existentes:
+            for p in partidos_existentes:
+                fecha_hora_ingresada = datetime.strptime(request.data.get('fecha_hora'),'%Y-%m-%d %H:%M:%S')
+                fecha_ingresada = fecha_hora_ingresada.date()
+                hora_ingresada = fecha_hora_ingresada.time().strftime("%H:%M:%S")
+                fecha_hora_partido = timezone.localtime(p.fecha_hora)
+                fecha_partido = fecha_hora_partido.date()
+                hora_partido = fecha_hora_partido.time().strftime("%H:%M:%S")
+                if fecha_ingresada == fecha_partido:
+                    diferencia = datetime.strptime(hora_ingresada,"%H:%M:%S") - datetime.strptime(hora_partido,"%H:%M:%S")
+                    dif = abs(diferencia)
+                    if dif.total_seconds()/3600 < 3:
+                        partido_existente.append(p)
+
         if not partido_existente:
-            inscripcion_existente = Inscripcion.objects.filter(partido__fecha_hora=request.data.get('fecha_hora'),
-                                                                fecha_hora_baja__isnull=True, jugador_id=perfil.id, partido__suspendido=False)
+            """inscripciones = Inscripcion.objects.filter(partido__fecha_hora=request.data.get('fecha_hora'),
+                                                            fecha_hora_baja__isnull=True, jugador_id=perfil.id, partido__suspendido=False)"""
+            inscripciones = Inscripcion.objects.filter(partido__fecha_hora__gte=fecha_hora_actual,
+                                                            fecha_hora_baja__isnull=True, jugador_id=perfil.id, partido__suspendido=False)
+            inscripcion_existente = []
+            if inscripciones:
+                for i in inscripciones:
+                    fecha_hora_ingresada = datetime.strptime(request.data.get('fecha_hora'),'%Y-%m-%d %H:%M:%S')
+                    fecha_ingresada = fecha_hora_ingresada.date()
+                    hora_ingresada = fecha_hora_ingresada.time().strftime("%H:%M:%S")
+                    fecha_hora_partido = timezone.localtime(i.partido.fecha_hora)
+                    fecha_partido = fecha_hora_partido.date()
+                    hora_partido = fecha_hora_partido.time().strftime("%H:%M:%S")
+                    if fecha_ingresada == fecha_partido:
+                        diferencia = datetime.strptime(hora_ingresada,"%H:%M:%S") - datetime.strptime(hora_partido,"%H:%M:%S")
+                        dif = abs(diferencia)
+                        if dif.total_seconds()/3600 < 3:
+                            inscripcion_existente.append(i)
+
             if not inscripcion_existente:
                 data = {
                     'fecha_hora': request.data.get('fecha_hora'),
@@ -98,9 +132,9 @@ class PartidoListApiView(APIView):
                     return Response(serializer_partido.data, status=status.HTTP_201_CREATED)
                 return Response(serializer_partido.errors, status=status.HTTP_400_BAD_REQUEST)
             else:
-                raise serializers.ValidationError('Ya estas inscripto a otro partido en esa fecha y hora')
+                raise serializers.ValidationError('Ya estas inscripto a otro partido en ese rango horario')
         else:
-            raise serializers.ValidationError('Ya existe un partido para esa fecha y hora en esa cancha')
+            raise serializers.ValidationError('Ya existe un partido en ese rango horario en esa cancha')
         #else:
         #    raise serializers.ValidationError('La fecha y hora del partido no puede ser menor a la actual')
 

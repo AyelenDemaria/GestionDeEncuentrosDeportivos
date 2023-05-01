@@ -44,12 +44,29 @@ class InscripcionListApiView(APIView):
         partido = get_object_or_404(Partido, pk=pk)
         fecha_hora_partido = partido.fecha_hora
         fecha_partido = partido.fecha_hora.date()
+        fecha_hora_actual = timezone.localtime(timezone.now())
         #busco si ya esta el usuario inscripto a ese partido:
         user_inscripto = Inscripcion.objects.filter(jugador_id=perfil.id, partido_id=pk, fecha_hora_baja__isnull=True)
         if not user_inscripto:
             #busco si ya esta el usuario inscripto a otro partido en esa fecha y hora:
-            partido_inscripto = Inscripcion.objects.filter(partido__fecha_hora=fecha_hora_partido, jugador_id=perfil.id, fecha_hora_baja__isnull=True, partido__suspendido=False)
-            if not partido_inscripto:
+            """partido_inscripto = Inscripcion.objects.filter(partido__fecha_hora=fecha_hora_partido, jugador_id=perfil.id, fecha_hora_baja__isnull=True, partido__suspendido=False)"""
+            inscripciones = Inscripcion.objects.filter(partido__fecha_hora__gte=fecha_hora_actual,
+                                                            fecha_hora_baja__isnull=True, jugador_id=perfil.id, partido__suspendido=False)
+            inscripcion_existente = []
+            if inscripciones:
+                for i in inscripciones:
+                    fecha_deseada = fecha_partido
+                    hora_deseada = fecha_hora_partido.time().strftime("%H:%M:%S")
+                    fecha_hora_part = timezone.localtime(i.partido.fecha_hora)
+                    fecha_part = fecha_hora_part.date()
+                    hora_part = fecha_hora_part.time().strftime("%H:%M:%S")
+                    if fecha_deseada == fecha_part:
+                        diferencia = datetime.strptime(hora_deseada,"%H:%M:%S") - datetime.strptime(hora_part,"%H:%M:%S")
+                        dif = abs(diferencia)
+                        if dif.total_seconds()/3600 < 3:
+                            inscripcion_existente.append(i)
+
+            if not inscripcion_existente:
                 #print(fecha_partido)
                 data = {
                     'jugador': perfil.id,
@@ -67,7 +84,7 @@ class InscripcionListApiView(APIView):
                     return Response(serializer.data, status=status.HTTP_201_CREATED)
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
             else:
-                raise serializers.ValidationError('Ya estas inscripto a otro partido en esa fecha y hora')
+                raise serializers.ValidationError('Ya estas inscripto a otro partido en ese rango horario')
         else:
             raise serializers.ValidationError('Ya estas inscripto al partido')
 

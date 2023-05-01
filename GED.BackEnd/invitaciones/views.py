@@ -81,8 +81,25 @@ class AceptarInvitacionApiView(APIView):
         if not insc_usuario:
             #busco si el usuario está  inscripto a otro partido en esa fecha y hora:
             partido=Partido.objects.get(id=invitacion.partido_id)
-            fecha_hora_partido = partido.fecha_hora
-            partido_inscripto = Inscripcion.objects.filter(partido__fecha_hora=fecha_hora_partido, jugador_id=perfil.id, partido__suspendido=False)
+            fecha_hora_partido = timezone.localtime(partido.fecha_hora)
+            fecha_hora_actual = timezone.localtime(timezone.now())
+            #partido_inscripto = Inscripcion.objects.filter(partido__fecha_hora=fecha_hora_partido, jugador_id=perfil.id, partido__suspendido=False)
+            inscripciones = Inscripcion.objects.filter(partido__fecha_hora__gte=fecha_hora_actual,
+                                                            fecha_hora_baja__isnull=True, jugador_id=perfil.id, partido__suspendido=False)
+            partido_inscripto = []
+            if inscripciones:
+                for i in inscripciones:
+                    fecha_deseada = fecha_hora_partido.date()
+                    hora_deseada = fecha_hora_partido.time().strftime("%H:%M:%S")
+                    fecha_hora_part = timezone.localtime(i.partido.fecha_hora)
+                    fecha_part = fecha_hora_part.date()
+                    hora_part = fecha_hora_part.time().strftime("%H:%M:%S")
+                    if fecha_deseada == fecha_part:
+                        diferencia = datetime.strptime(hora_deseada,"%H:%M:%S") - datetime.strptime(hora_part,"%H:%M:%S")
+                        dif = abs(diferencia)
+                        if dif.total_seconds()/3600 < 3:
+                            partido_inscripto.append(i)
+
             if not partido_inscripto:
                 data_invitacion = {
                     'estado': 'aceptada'
@@ -112,7 +129,7 @@ class AceptarInvitacionApiView(APIView):
                 serializer_invitacion = InvitacionSerializer(instance = invitacion, data=data_invitacion, partial = True)
                 if serializer_invitacion.is_valid():
                     serializer_invitacion.save()
-                    raise serializers.ValidationError('Ya estas inscripto a otro partido en esa fecha y hora. La invitacion es rechazada')
+                    raise serializers.ValidationError('Ya estas inscripto a otro partido en ese rango horario. La invitacion es rechazada')
                     return Response(serializer_invitacion.data, status=status.HTTP_200_OK)
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         else:
