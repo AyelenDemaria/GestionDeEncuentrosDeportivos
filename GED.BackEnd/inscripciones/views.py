@@ -42,7 +42,7 @@ class InscripcionListApiView(APIView):
         #print(request.data)
         #pk = self.kwargs.get('pk')
         partido = get_object_or_404(Partido, pk=pk)
-        fecha_hora_partido = partido.fecha_hora
+        fecha_hora_partido = timezone.localtime(partido.fecha_hora)
         fecha_partido = partido.fecha_hora.date()
         fecha_hora_actual = timezone.localtime(timezone.now())
         #busco si ya esta el usuario inscripto a ese partido:
@@ -56,12 +56,17 @@ class InscripcionListApiView(APIView):
             if inscripciones:
                 for i in inscripciones:
                     fecha_deseada = fecha_partido
+                    print("fecha_deseada",fecha_deseada)
                     hora_deseada = fecha_hora_partido.time().strftime("%H:%M:%S")
+                    print("hora_deseada",hora_deseada)
                     fecha_hora_part = timezone.localtime(i.partido.fecha_hora)
+                    print("fecha_hora_partido:",fecha_hora_part)
                     fecha_part = fecha_hora_part.date()
                     hora_part = fecha_hora_part.time().strftime("%H:%M:%S")
+                    print("hora_partido:",hora_part)
                     if fecha_deseada == fecha_part:
                         diferencia = datetime.strptime(hora_deseada,"%H:%M:%S") - datetime.strptime(hora_part,"%H:%M:%S")
+                        print("diferencia:",diferencia)
                         dif = abs(diferencia)
                         if dif.total_seconds()/3600 < 3:
                             inscripcion_existente.append(i)
