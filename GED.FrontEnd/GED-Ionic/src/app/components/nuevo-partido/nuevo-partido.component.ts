@@ -61,7 +61,7 @@ export class NuevoPartidoComponent  {
   ionViewDidEnter()  {
     this.getDeportes();
     this.getTiposPartidos();
-    this.canchaService.getCanchas().subscribe(res => console.log(res))
+   
     this.partidoService.getPartidos().subscribe(res => console.log(res))
 
   }
@@ -89,12 +89,18 @@ export class NuevoPartidoComponent  {
   }
 
   getListadoCanchas() {
+    if (this.idDeporte )    
     this.canchaService.getCanchasByDeporte(this.idDeporte).subscribe(canchas => {
       this.canchas = canchas;
+      
     })
+    else {
+      
+    }
   }
 
   seleccionarDeporte(event: any) {
+    
     this.idDeporte = Number(event.detail.value)
     this.getListadoCanchas()
   }
@@ -121,6 +127,7 @@ export class NuevoPartidoComponent  {
             this.puntos = res;
           });
         }); 
+        this.cancel()
         this.router.navigateByUrl('/home');
         //console.log(data);
       },
@@ -151,12 +158,14 @@ export class NuevoPartidoComponent  {
 
 
    cancel() {
+    
         this.form.reset({
         deporte: '',
         tipoPart: '',
         cancha: '',
         fecha: '',
         cantJugadores: '',
+               
       });
     
     this.router.navigateByUrl('home')
