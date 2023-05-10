@@ -82,7 +82,7 @@ class PartidoListApiView(APIView):
                 if fecha_ingresada == fecha_partido:
                     diferencia = datetime.strptime(hora_ingresada,"%H:%M:%S") - datetime.strptime(hora_partido,"%H:%M:%S")
                     dif = abs(diferencia)
-                    if dif.total_seconds()/3600 < 3:
+                    if dif.total_seconds()/3600 < 2:
                         partido_existente.append(p)
 
         if not partido_existente:
