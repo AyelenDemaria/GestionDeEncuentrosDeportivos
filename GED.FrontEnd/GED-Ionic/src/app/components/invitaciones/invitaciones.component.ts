@@ -70,6 +70,7 @@ export class InvitacionesComponent {
       (error: HttpErrorResponse) => {
         this.errorMensaje = error.error[0];
         this.mensajeError(this.errorMensaje)
+        this.updateInvitaciones(this.invitaciones.filter(p => p.id !== id));
         //console.log(error.error[0]);
       }
     )
@@ -98,6 +99,7 @@ export class InvitacionesComponent {
       buttons: ['OK'],
     });
     await alert.present();
+    
   }
 
   updateInvitaciones (invitaciones: any[]) {
